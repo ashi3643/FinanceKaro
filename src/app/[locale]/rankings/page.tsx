@@ -29,6 +29,14 @@ export default function RankingsPage() {
   const loadLeaderboard = useCallback(async () => {
     setLoading(true);
     setError(null);
+
+    if (!supabase) {
+      setError(t("loadError"));
+      setLeaderboard([]);
+      setLoading(false);
+      return;
+    }
+
     const { data, error: queryError } = await supabase
       .from("college_leaderboard")
       .select("*")
@@ -82,6 +90,12 @@ export default function RankingsPage() {
 
     if (!currentDeviceId) {
       setFormError(t("deviceError"));
+      setIsSaving(false);
+      return;
+    }
+
+    if (!supabase) {
+      setFormError(t("saveError"));
       setIsSaving(false);
       return;
     }

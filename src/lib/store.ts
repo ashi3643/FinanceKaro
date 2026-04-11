@@ -45,6 +45,8 @@ export const useStore = create<AppState>()(
           const newId = crypto.randomUUID();
           set({ deviceId: newId });
           
+          if (!supabase) return;
+
           // Fire and forget insert to Supabase
           await supabase.from('profiles').insert({
             device_id: newId,
@@ -60,7 +62,7 @@ export const useStore = create<AppState>()(
       addXp: (amount) => {
         set((state) => ({ xp: state.xp + amount }));
         const deviceId = get().deviceId;
-        if (deviceId) {
+        if (deviceId && supabase) {
           supabase.from('profiles').update({ xp: get().xp }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
         }
       },
@@ -83,7 +85,7 @@ export const useStore = create<AppState>()(
         }
         
         set({ streak: newStreak, lastLoginDate: today });
-        if (state.deviceId) {
+        if (state.deviceId && supabase) {
            supabase.from('profiles').update({ 
              streak: newStreak, 
              last_login_date: today 
@@ -94,7 +96,7 @@ export const useStore = create<AppState>()(
       setLanguage: (lang) => {
         set({ language: lang });
         const deviceId = get().deviceId;
-        if (deviceId) {
+        if (deviceId && supabase) {
           supabase.from('profiles').update({ language: lang }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
         }
       },
@@ -102,7 +104,7 @@ export const useStore = create<AppState>()(
       setCollege: (college) => {
         set({ college });
         const deviceId = get().deviceId;
-        if (deviceId) {
+        if (deviceId && supabase) {
           supabase.from('profiles').update({ college }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
         }
       },
@@ -110,7 +112,7 @@ export const useStore = create<AppState>()(
       setStage: (stage) => {
         set({ stage });
         const deviceId = get().deviceId;
-        if (deviceId) {
+        if (deviceId && supabase) {
           supabase.from('profiles').update({ stage: stage }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
         }
       },
@@ -134,7 +136,7 @@ export const useStore = create<AppState>()(
             : state.unlockedLevels
         });
 
-        if (state.deviceId) {
+        if (state.deviceId && supabase) {
            supabase.from('completed_lessons').insert({
               device_id: state.deviceId,
               level_id: levelId,

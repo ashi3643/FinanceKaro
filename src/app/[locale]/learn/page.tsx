@@ -6,6 +6,7 @@ import { Lock, Check, Play } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import curriculumData from "@/data/curriculum.json";
 
 export default function LearnPage() {
   const { stage, unlockedLevels, completedLessons } = useStore();
@@ -36,46 +37,20 @@ export default function LearnPage() {
       shadow: "shadow-sm shadow-accent/15",
       lessons: 7
     },
-    {
-      id: 2,
-      title: "First Salary",
-      sub: "You Got Paid, Now What?",
-      color: "text-accent3",
-      bgColor: "bg-accent3",
-      borderColor: "border-accent3",
-      shadow: "shadow-sm shadow-accent3/15",
-      lessons: 7
-    },
-    {
-      id: 3,
-      title: "Financial Survival",
-      sub: "Protect What You Have",
-      color: "text-accent2",
-      bgColor: "bg-accent2",
-      borderColor: "border-accent2",
-      shadow: "shadow-sm shadow-accent2/15",
-      lessons: 7
-    },
-    {
-      id: 4,
-      title: "System Awareness",
-      sub: "Economics of India",
-      color: "text-warning",
-      bgColor: "bg-warning",
-      borderColor: "border-warning",
-      shadow: "shadow-sm shadow-warning/15",
-      lessons: 7
-    },
-    {
-      id: 5,
-      title: "Wealth Mastery",
-      sub: "Build Generational Wealth",
-      color: "text-accent",
-      bgColor: "bg-accent",
-      borderColor: "border-accent",
-      shadow: "shadow-sm shadow-accent/15",
-      lessons: 7
-    }
+    ...(Object.keys(curriculumData.curriculum).map(levelKey => {
+      const levelData = (curriculumData.curriculum as any)[levelKey];
+      const levelId = parseInt(levelKey.replace('level', ''));
+      return {
+        id: levelId,
+        title: levelData.title,
+        sub: levelData.subtitle,
+        color: levelId === 2 ? "text-accent3" : levelId === 3 ? "text-accent2" : levelId === 4 ? "text-warning" : "text-accent",
+        bgColor: levelId === 2 ? "bg-accent3" : levelId === 3 ? "bg-accent2" : levelId === 4 ? "bg-warning" : "bg-accent",
+        borderColor: levelId === 2 ? "border-accent3" : levelId === 3 ? "border-accent2" : levelId === 4 ? "border-warning" : "border-accent",
+        shadow: `shadow-sm shadow-${levelId === 2 ? "accent3" : levelId === 3 ? "accent2" : levelId === 4 ? "warning" : "accent"}/15`,
+        lessons: levelData.lessons.length
+      };
+    }))
   ];
 
   return (
@@ -135,25 +110,29 @@ export default function LearnPage() {
 
                     {isUnlocked ? (
                       <div className="mt-4 flex gap-2">
-                        {Array.from({ length: level.lessons }).map((_, j) => {
-                          const isLessonCompleted = completedLessons.includes(`level${level.id}-lesson${j + 1}`);
-                          const lessonLocked = !isLessonCompleted && j > levelCompletedLessons;
+                        {(() => {
+                          const levelData = (curriculumData.curriculum as any)[`level${level.id}`];
+                          const lessonIds = levelData ? levelData.lessons.map((l: any) => l.id) : Array.from({ length: level.lessons }, (_, j) => `lesson${j + 1}`);
+                          return lessonIds.map((lessonId: string, j: number) => {
+                            const isLessonCompleted = completedLessons.includes(`level${level.id}-${lessonId}`);
+                            const lessonLocked = !isLessonCompleted && j > levelCompletedLessons;
 
-                          return (
-                            <Link
-                              key={j}
-                              href={lessonLocked ? "#" : `${basePath}/learn/${level.id}/lesson${j + 1}`}
-                              aria-label={lessonLocked ? `Lesson ${j + 1} is locked` : `Open lesson ${j + 1}`}
-                              className={`flex-1 h-2 rounded-full transition-colors ${
-                                isLessonCompleted
-                                  ? level.bgColor
-                                  : lessonLocked
-                                    ? "bg-surface2"
-                                    : "bg-surface2 border border-dashed border-muted"
-                              }`}
-                            />
-                          );
-                        })}
+                            return (
+                              <Link
+                                key={j}
+                                href={lessonLocked ? "#" : `${basePath}/learn/${level.id}/${lessonId}`}
+                                aria-label={lessonLocked ? `Lesson ${j + 1} is locked` : `Open lesson ${j + 1}`}
+                                className={`flex-1 h-2 rounded-full transition-colors ${
+                                  isLessonCompleted
+                                    ? level.bgColor
+                                    : lessonLocked
+                                      ? "bg-surface2"
+                                      : "bg-surface2 border border-dashed border-muted"
+                                }`}
+                              />
+                            );
+                          });
+                        })()}
                       </div>
                     ) : null}
                   </div>
@@ -161,7 +140,12 @@ export default function LearnPage() {
                   {isUnlocked ? (
                     <div className="flex w-full divide-x divide-border/50 border-t border-border/50">
                       <Link
-                        href={`${basePath}/learn/${level.id}/lesson${isCompleted ? 1 : levelCompletedLessons + 1}`}
+                        href={`${basePath}/learn/${level.id}/${(() => {
+                          const levelData = (curriculumData.curriculum as any)[`level${level.id}`];
+                          const lessonIds = levelData ? levelData.lessons.map((l: any) => l.id) : Array.from({ length: level.lessons }, (_, j) => `lesson${j + 1}`);
+                          const nextLessonIndex = isCompleted ? 0 : levelCompletedLessons;
+                          return lessonIds[nextLessonIndex] || lessonIds[0];
+                        })()}`}
                         aria-label={isCompleted ? `Review level ${level.id}` : `Continue level ${level.id}`}
                         className="flex-1 py-3 px-4 flex items-center justify-center text-xs font-bold transition-colors hover:bg-black/5"
                       >

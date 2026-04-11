@@ -1,3 +1,1829 @@
 {
   "curriculum": {
-    "level2":
+    "level2": {
+      "id": "level2",
+      "title": "First Salary",
+      "subtitle": "You got paid. Now what?",
+      "emoji": "💼",
+      "targetAge": "21-24",
+      "xpReward": 700,
+      "lessons": [
+        {
+          "id": "l2-1",
+          "title": "How to Read Your Salary Slip",
+          "emoji": "📄",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "😤 Real Talk",
+              "heading": "Your ₹6 LPA offer letter is lying to you.",
+              "body": "You see ₹50,000/month in your offer. Your bank account gets ₹38,000. Nobody told you what happened to the other ₹12,000. Today you find out.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Concept",
+              "heading": "Your salary slip has 3 sections",
+              "body": "Every salary slip in India has: EARNINGS (what your company pays you), DEDUCTIONS (what gets cut before you see it), and NET PAY (what actually hits your account). Most people only check net pay. That's a mistake.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Basic Salary", "value": "₹25,000", "color": "green" },
+                  { "label": "HRA (House Rent Allowance)", "value": "₹10,000", "color": "green" },
+                  { "label": "Special Allowance", "value": "₹8,000", "color": "green" },
+                  { "label": "PF Deduction", "value": "-₹3,000", "color": "red" },
+                  { "label": "TDS (Tax)", "value": "-₹2,000", "color": "red" },
+                  { "label": "NET PAY", "value": "₹38,000", "color": "cyan" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Key Term",
+              "heading": "CTC vs In-Hand — This is where people get confused",
+              "body": "CTC = Cost To Company. This is what your company spends on you. In-Hand = what you actually receive. CTC includes PF contributions, gratuity, insurance — things you don't directly see. Always ask for in-hand salary during offers, not CTC.",
+              "visual": {
+                "type": "comparison",
+                "left": { "label": "CTC ₹6,00,000/yr", "items": ["Basic + HRA + Allowances", "Employer PF contribution", "Gratuity", "Insurance premium"] },
+                "right": { "label": "In-Hand ~₹38,000/mo", "items": ["After employee PF", "After TDS", "After professional tax", "What you spend"] }
+              }
+            },
+            {
+              "type": "action",
+              "chip": "✅ Action",
+              "heading": "Quiz: Your offer says ₹8.4 LPA. What is your approximate monthly in-hand?",
+              "body": "A) ₹70,000\nB) ₹52,000–₹55,000\nC) ₹60,000\n\nAnswer: B — ₹52,000–₹55,000. After PF, TDS and professional tax, 8.4 LPA typically gives ₹52-55k in hand. Always verify with an in-hand calculator before accepting any offer.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "What does CTC stand for?",
+                "options": ["Cash To Customer", "Cost To Company", "Credit To Cash", "Calculated Tax Component"],
+                "answer": 1,
+                "explanation": "CTC = Cost To Company. It includes everything the company spends on you — including PF, gratuity, and insurance that you don't see directly."
+              },
+              {
+                "q": "HRA in your salary slip stands for?",
+                "options": ["Home Rent Advance", "House Rent Allowance", "Housing Revenue Account", "Home Return Amount"],
+                "answer": 1,
+                "explanation": "HRA = House Rent Allowance. It's given to cover your rent cost. If you live in a rented house, HRA can reduce your tax burden significantly."
+              },
+              {
+                "q": "Your CTC is ₹12 LPA. Your monthly in-hand will be closest to?",
+                "options": ["₹1,00,000", "₹75,000-80,000", "₹90,000", "₹1,10,000"],
+                "answer": 1,
+                "explanation": "After standard deductions (PF, TDS, professional tax), ₹12 LPA typically gives ₹75,000–₹80,000 in-hand per month."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-2",
+          "title": "What is TDS and Why Does It Get Cut?",
+          "emoji": "🏛️",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "😱 Shock",
+              "heading": "The government takes your money before you even see it.",
+              "body": "TDS — Tax Deducted at Source. Your employer is legally forced to cut your tax and send it to the government every month. You don't get a choice. But you can reduce how much they cut — if you know how.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 How TDS Works",
+              "heading": "Your employer is your tax collector",
+              "body": "When you get paid, your company calculates your yearly tax, divides by 12, and cuts that every month. This goes directly to the government under your PAN number. At year end, you file ITR to claim refund if too much was cut — or pay more if too little was cut.",
+              "visual": {
+                "type": "flow",
+                "steps": ["You earn ₹50,000/month", "Company calculates yearly tax", "Cuts TDS every month", "Sends to Govt under your PAN", "You file ITR in July", "Get refund or pay balance"]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Save Tax",
+              "heading": "You can legally reduce your TDS",
+              "body": "Submit investment proofs to your HR by January every year. Section 80C lets you save up to ₹1.5 Lakh in tax. Tools: EPF, PPF, ELSS mutual funds, life insurance premium. If you don't submit proofs, they cut maximum TDS. Most first jobbers lose ₹5,000–₹15,000 per year by not doing this.",
+              "visual": {
+                "type": "savingsTable",
+                "rows": [
+                  { "section": "80C", "instrument": "EPF + PPF + ELSS", "maxSaving": "₹1,50,000" },
+                  { "section": "80D", "instrument": "Health Insurance Premium", "maxSaving": "₹25,000" },
+                  { "section": "HRA", "instrument": "Rent receipts submitted", "maxSaving": "Varies" }
+                ]
+              }
+            },
+            {
+              "type": "action",
+              "chip": "✅ Action",
+              "heading": "Quiz: What is the last date to submit investment proofs to HR?",
+              "body": "A) March 31\nB) December 31\nC) January 31\n\nAnswer: C — Most companies ask for proofs by January 31. But start collecting them from December. Don't wait for HR to remind you — they won't.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "TDS is deducted by?",
+                "options": ["You yourself", "Your employer on your behalf", "The bank", "SEBI"],
+                "answer": 1,
+                "explanation": "Your employer deducts TDS from your salary and deposits it with the government under your PAN number every month."
+              },
+              {
+                "q": "Under Section 80C, maximum tax deduction allowed is?",
+                "options": ["₹50,000", "₹1,00,000", "₹1,50,000", "₹2,00,000"],
+                "answer": 2,
+                "explanation": "Section 80C allows up to ₹1.5 Lakh deduction per year. This can include PF, PPF, ELSS, life insurance and more."
+              },
+              {
+                "q": "If you don't submit investment proofs to HR, what happens?",
+                "options": ["Nothing changes", "You get a bonus", "Maximum TDS is cut from your salary", "Your PAN gets blocked"],
+                "answer": 2,
+                "explanation": "Without proofs, HR assumes no investments and deducts maximum TDS. Submit proofs every January to save thousands."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-3",
+          "title": "Provident Fund — The Money You Don't See But Must Know",
+          "emoji": "🔒",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🤯 Wait",
+              "heading": "12% of your basic salary is going somewhere you can't easily touch.",
+              "body": "Every month, 12% of your basic salary goes into EPF (Employee Provident Fund). Your employer adds another 12%. That's 24% of your basic salary being saved automatically. Most people forget this money exists.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 How EPF Works",
+              "heading": "It's forced savings — and that's actually good",
+              "body": "Your contribution: 12% of Basic Salary. Employer contribution: 12% of Basic Salary (split — 8.33% goes to EPS pension scheme, 3.67% to EPF). Current interest rate: 8.25% per year. This is tax-free. Better than most FDs. And you can't touch it easily — which means you won't spend it.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Your EPF contribution", "value": "12% of Basic", "color": "cyan" },
+                  { "label": "Employer EPF contribution", "value": "3.67% of Basic", "color": "green" },
+                  { "label": "Employer EPS contribution", "value": "8.33% of Basic", "color": "green" },
+                  { "label": "Interest Rate", "value": "8.25% p.a.", "color": "cyan" },
+                  { "label": "Tax on returns", "value": "Zero (tax free)", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "⚠️ Warning",
+              "heading": "Withdrawing PF when switching jobs is a big mistake",
+              "body": "When you switch jobs, you can withdraw PF — but 34% is deducted as tax if you withdraw before 5 years of service. Instead, transfer your PF to your new employer using UAN (Universal Account Number). Let it compound. One person who worked 30 years without withdrawing PF retired with ₹1.2 Crore just from PF.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Do This Now",
+              "heading": "3 things to do in your first week at a job",
+              "body": "1. Activate your UAN on epfindia.gov.in\n2. Link your UAN to your Aadhaar and bank account\n3. Check your PF balance every 6 months on UMANG app\n\nMost people never do this. Then they panic when they need the money.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Employee contribution to EPF is what percentage of Basic Salary?",
+                "options": ["8%", "10%", "12%", "15%"],
+                "answer": 2,
+                "explanation": "Employee contributes 12% of Basic Salary to EPF. Employer also contributes 12%, split between EPF and EPS."
+              },
+              {
+                "q": "What is UAN?",
+                "options": ["Unified Aadhaar Number", "Universal Account Number", "Unique Asset Number", "Union Advance Notice"],
+                "answer": 1,
+                "explanation": "UAN is Universal Account Number — your permanent PF identity number that stays with you across all employers."
+              },
+              {
+                "q": "Withdrawing PF before 5 years of service results in?",
+                "options": ["No penalty", "5% TDS", "34% tax deduction", "PF account closure"],
+                "answer": 2,
+                "explanation": "Early PF withdrawal (before 5 years) attracts approximately 34% tax. Always transfer, never withdraw when switching jobs."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-4",
+          "title": "Old vs New Tax Regime — Which One Should You Pick?",
+          "emoji": "⚖️",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🚨 Decision",
+              "heading": "Every April, you must make a tax decision that affects your entire year.",
+              "body": "Since 2020, India has TWO tax regimes. Your HR will ask you to choose. Most people just say 'new regime' because everyone else does. That could be a ₹20,000–₹40,000 mistake annually. Here's how to actually decide.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Old Regime",
+              "heading": "Old Regime — Pay less tax IF you invest",
+              "body": "Old regime has higher tax rates BUT lets you claim deductions. 80C (₹1.5L), HRA, 80D health insurance, home loan interest, NPS — all reduce your taxable income. Good for you IF your deductions exceed ₹3.75 Lakh per year.",
+              "visual": {
+                "type": "comparison",
+                "left": { "label": "Old Regime ✅", "items": ["Higher slab rates", "80C deduction ₹1.5L", "HRA exemption", "80D health insurance", "Home loan interest", "Good if investments > ₹3.75L"] },
+                "right": { "label": "New Regime 💡", "items": ["Lower slab rates", "No deductions allowed", "Simpler to file", "Standard ₹75,000 deduction", "Good if minimal investments", "Default from FY2024-25"] }
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Rule of Thumb",
+              "heading": "Simple rule: Which regime to pick",
+              "body": "Income below ₹7 Lakh → New Regime (zero tax after rebate). Income ₹7L–₹15L → Calculate both, pick lower. Income above ₹15L with heavy investments → Old Regime often wins. Most fresh graduates earning ₹4–7 LPA → New Regime is better since they don't have enough deductions yet.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Action",
+              "heading": "Quiz: Fresh grad, ₹6 LPA, no home loan, minimal investments — which regime?",
+              "body": "A) Old Regime\nB) New Regime\nC) Doesn't matter\n\nAnswer: B — New Regime. At ₹6 LPA under new regime, after ₹75,000 standard deduction, taxable income is ₹5.25L. Tax ≈ ₹13,000. Under old regime without investments, tax would be higher. New regime wins for most fresh grads.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Under the New Tax Regime, 80C deduction of ₹1.5L is?",
+                "options": ["Allowed fully", "Allowed partially", "Not allowed", "Doubled"],
+                "answer": 2,
+                "explanation": "New Tax Regime does not allow Section 80C or most other deductions. It compensates with lower slab rates."
+              },
+              {
+                "q": "Standard deduction available under New Regime is?",
+                "options": ["₹50,000", "₹75,000", "₹1,00,000", "No standard deduction"],
+                "answer": 1,
+                "explanation": "From FY2024-25, New Regime offers ₹75,000 standard deduction (increased from ₹50,000)."
+              },
+              {
+                "q": "Income up to ₹7 Lakh under New Regime results in tax of?",
+                "options": ["₹25,000", "₹15,000", "₹5,000", "Zero (Rebate u/s 87A)"],
+                "answer": 3,
+                "explanation": "Under New Regime, income up to ₹7 Lakh attracts zero tax due to rebate under Section 87A. This is one of the biggest benefits for fresh graduates."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-5",
+          "title": "Budgeting Your First Salary — The 50-30-20 Reality",
+          "emoji": "📊",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "📉 Reality",
+              "heading": "Month 1: You feel rich. Month 3: You wonder where it all went.",
+              "body": "This is the most common first-salary story in India. No budgeting = spending everything. Then month 4 comes and you need money for something important. You have zero. This ends today.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 The 50-30-20 Rule",
+              "heading": "Split your in-hand salary this way",
+              "body": "50% — Needs: rent, food, transport, utilities, EMIs. 30% — Wants: eating out, subscriptions, shopping, entertainment. 20% — Savings and investments: SIP, emergency fund, goals. This is the foundation. Tweak percentages based on your city. Mumbai/Bangalore needs more on rent — adjust accordingly.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "50% Needs", "value": "₹19,000 (on ₹38k salary)", "color": "cyan" },
+                  { "label": "30% Wants", "value": "₹11,400", "color": "amber" },
+                  { "label": "20% Savings", "value": "₹7,600", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "⚠️ India-Specific",
+              "heading": "Hidden leaks that eat your salary in India",
+              "body": "1. UPI convenience spending — small transactions add up to ₹3,000–₹5,000/month invisibly. 2. OTT subscriptions — most people pay for 3–4 they barely use. 3. 'Treat yourself' culture after payday — first 3 days of the month kill the next 27. 4. Sending money home without planning — noble but needs a fixed amount, not random.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Day 1 Rule",
+              "heading": "The most important salary day habit",
+              "body": "On payday, within 24 hours:\n1. Transfer your 20% savings FIRST to a separate account\n2. Set aside rent + bills\n3. Whatever is left = your spending money\n\nPay yourself first. Not last. This one habit will make you richer than 80% of people with the same salary.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "In the 50-30-20 rule, what does the 20% represent?",
+                "options": ["Food and transport", "Entertainment", "Savings and investments", "Rent"],
+                "answer": 2,
+                "explanation": "20% goes to savings and investments — SIP, emergency fund, goals. This is the wealth-building portion."
+              },
+              {
+                "q": "What is the 'Pay Yourself First' principle?",
+                "options": ["Spend on yourself before paying bills", "Save/invest before spending on anything else", "Buy things you need first", "Pay EMIs before saving"],
+                "answer": 1,
+                "explanation": "Pay Yourself First means saving your 20% immediately on payday, before any spending. What's left is your spending budget."
+              },
+              {
+                "q": "In a high-rent city like Bangalore, how should you adjust 50-30-20?",
+                "options": ["Keep it exactly 50-30-20", "Increase Needs %, reduce Wants %", "Reduce savings to 10%", "Spend everything on rent"],
+                "answer": 1,
+                "explanation": "In expensive cities, Needs may take 60-65%. Reduce Wants first (not savings). Try 60-20-20 or 65-15-20."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-6",
+          "title": "Credit Cards — Trap or Superpower?",
+          "emoji": "💳",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🔥 Real",
+              "heading": "A credit card can either build your wealth or destroy it. Same card. Different behavior.",
+              "body": "Credit cards charge 36–48% annual interest — the highest legal interest rate in India. But used correctly, they give you cashback, reward points, travel miles and build your credit score. The card is not the problem. How you use it is.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 The ONE Rule",
+              "heading": "Never spend what you can't pay in full at month end",
+              "body": "If you can't pay the full bill, the 36–48% interest kicks in on the entire amount from day 1. Minimum payment is a trap. Paying ₹500 minimum on a ₹10,000 bill costs you ₹400 in interest next month — and the debt grows. Only spend on credit what you have in your bank account.",
+              "visual": {
+                "type": "comparison",
+                "left": { "label": "❌ Minimum Payment", "items": ["Bill: ₹10,000", "Pay ₹500 minimum", "Interest: ₹380/month", "Takes 3+ years to clear", "Total paid: ₹24,000+"] },
+                "right": { "label": "✅ Full Payment", "items": ["Bill: ₹10,000", "Pay ₹10,000 by due date", "Interest: ₹0", "Credit score improves", "Cashback earned: ₹200"] }
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Benefits",
+              "heading": "Used right, credit cards are free money",
+              "body": "Best beginner cards for India: HDFC Millennia (5% cashback on online spends), SBI SimplyCLICK (10x rewards on Amazon), Axis ACE (2% on everything via GPay). Keep one card, use for regular spending, pay full amount every month. You earn ₹1,000–₹3,000/year in cashback on normal spending.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Action",
+              "heading": "Quiz: Your credit card bill is ₹8,000. You can only pay ₹2,000. What should you do?",
+              "body": "A) Pay ₹2,000 minimum and move on\nB) Borrow from a friend/family to pay full amount\nC) Skip payment entirely\n\nAnswer: B — Borrow from friend and pay full amount. 36-48% credit card interest is far more expensive than any awkwardness of borrowing from someone you know.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Credit card annual interest rate in India typically ranges from?",
+                "options": ["12-18%", "20-25%", "36-48%", "5-10%"],
+                "answer": 2,
+                "explanation": "Credit cards in India charge 36–48% annual interest — making it the most expensive form of debt. Always pay full outstanding amount."
+              },
+              {
+                "q": "What happens when you pay only the minimum amount due?",
+                "options": ["Interest is waived", "Interest is charged on remaining balance from day 1", "Credit score improves", "Nothing — it resets next month"],
+                "answer": 1,
+                "explanation": "Paying minimum due is a trap. Interest of 3–4% per month is charged on the full unpaid amount, causing debt to spiral quickly."
+              },
+              {
+                "q": "What is the golden rule of credit card usage?",
+                "options": ["Use it for emergencies only", "Never use credit cards", "Only spend what you can pay in full at month end", "Always pay minimum due"],
+                "answer": 2,
+                "explanation": "Only charge what you can pay in full by due date. This way you get all the benefits (cashback, rewards, credit score) with zero interest cost."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-7",
+          "title": "How to File Your First ITR",
+          "emoji": "📋",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "⚠️ Alert",
+              "heading": "Missing the ITR deadline costs you ₹5,000 fine. And worse — you can't get a home loan later.",
+              "body": "ITR — Income Tax Return. Deadline: July 31 every year. Most fresh employees think 'TDS is cut so I don't need to file'. Wrong. Not filing ITR has serious consequences even if your tax is zero.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Why File ITR",
+              "heading": "5 reasons you MUST file ITR even if you paid zero tax",
+              "body": "1. Visa applications — many countries need 3 years of ITR. 2. Home loan — banks require ITR as income proof. 3. Refund — if excess TDS was cut, you can only get it back by filing. 4. Carry forward losses — ITR lets you offset stock market losses against gains. 5. Penalty of ₹5,000 if you miss the deadline.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 How to File",
+              "heading": "Step by step — ITR filing for a salaried person",
+              "body": "Step 1: Get Form 16 from your employer (they send it by June 15). Step 2: Login at incometax.gov.in with your PAN. Step 3: Select ITR-1 (for salaried persons with income below ₹50L). Step 4: Most data is pre-filled from Form 16. Verify and submit. Step 5: E-verify using Aadhaar OTP. Done — takes 20 minutes.",
+              "visual": {
+                "type": "flow",
+                "steps": ["Get Form 16 from employer", "Login incometax.gov.in", "Select ITR-1", "Verify pre-filled data", "Add any other income", "Submit + E-verify via Aadhaar", "Done ✅"]
+              }
+            },
+            {
+              "type": "action",
+              "chip": "✅ Action",
+              "heading": "Quiz: What is the ITR filing deadline for salaried employees?",
+              "body": "A) March 31\nB) July 31\nC) December 31\n\nAnswer: B — July 31 every year for salaried employees. Mark it in your calendar. Miss it and you pay ₹5,000 penalty plus interest on any dues.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "ITR deadline for salaried employees is?",
+                "options": ["March 31", "June 30", "July 31", "December 31"],
+                "answer": 2,
+                "explanation": "July 31 is the ITR filing deadline for salaried individuals each year. Missing it results in ₹5,000 penalty."
+              },
+              {
+                "q": "Which ITR form should a salaried person with income below ₹50L use?",
+                "options": ["ITR-2", "ITR-3", "ITR-1", "ITR-4"],
+                "answer": 2,
+                "explanation": "ITR-1 (also called Sahaj) is for salaried individuals with income below ₹50 Lakh from salary, one house property, and other sources."
+              },
+              {
+                "q": "Form 16 is issued by?",
+                "options": ["Income Tax Department", "Your employer", "Supabase", "RBI"],
+                "answer": 1,
+                "explanation": "Form 16 is the TDS certificate issued by your employer, showing your salary and tax deducted. You need this to file ITR."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "level3": {
+      "id": "level3",
+      "title": "Financial Survival",
+      "subtitle": "Protect what you have",
+      "emoji": "🛡️",
+      "targetAge": "22-26",
+      "xpReward": 700,
+      "lessons": [
+        {
+          "id": "l3-1",
+          "title": "Emergency Fund — The Rule Nobody Follows",
+          "emoji": "🆘",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "😰 Real Story",
+              "heading": "Rohan lost his job in November 2023. He had zero savings. His EMI was due in 15 days.",
+              "body": "This is not a rare story. It's happening across India every month. Job losses, medical emergencies, family crises — all hit without warning. The only difference between panic and peace is 3–6 months of expenses saved somewhere safe.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Concept",
+              "heading": "3–6 months of expenses. In a liquid account. Untouched.",
+              "body": "Emergency fund = 3 to 6 months of your monthly expenses (not salary). Monthly expenses = rent + food + transport + EMIs + utilities. If you spend ₹25,000/month, your emergency fund target = ₹75,000 to ₹1,50,000. Keep it in liquid mutual fund or high-interest savings account — not in stock market.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Monthly Expenses", "value": "₹25,000", "color": "cyan" },
+                  { "label": "Minimum Emergency Fund (3 months)", "value": "₹75,000", "color": "amber" },
+                  { "label": "Ideal Emergency Fund (6 months)", "value": "₹1,50,000", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Where to Keep It",
+              "heading": "Emergency fund location matters",
+              "body": "Wrong place: Stock market (can crash when you need it), FD with lock-in (penalty for early withdrawal), Crypto (too volatile). Right place: High-interest savings account (like IDFC First, AU Small Finance Bank — 7% interest), Liquid mutual fund (instant redemption, 6-7% returns), Sweep-in FD (best of both worlds).",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Build It",
+              "heading": "How to build your emergency fund in 6 months",
+              "body": "Month 1: Open a separate savings account — not your salary account. Month 1-6: Transfer ₹5,000–₹12,500/month (20% of typical salary). Automate it on payday. Label the account 'EMERGENCY ONLY'. Treat it like it doesn't exist. This is not an investment. This is insurance.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Emergency fund should ideally cover how many months of expenses?",
+                "options": ["1 month", "2 months", "3-6 months", "12 months"],
+                "answer": 2,
+                "explanation": "3–6 months of monthly expenses is the recommended emergency fund size. 3 months is minimum, 6 months is ideal especially if self-employed."
+              },
+              {
+                "q": "Where should you NOT keep your emergency fund?",
+                "options": ["Liquid mutual fund", "High-interest savings account", "Stock market", "Sweep-in FD"],
+                "answer": 2,
+                "explanation": "Stock market is wrong for emergency fund — it can be down exactly when you need the money most. Keep emergency funds in liquid, stable instruments."
+              },
+              {
+                "q": "Emergency fund should be based on your?",
+                "options": ["Monthly salary", "Monthly expenses", "Annual income", "Credit card limit"],
+                "answer": 1,
+                "explanation": "Emergency fund = 3-6x monthly EXPENSES (not salary). Your expenses are what you actually need to survive each month."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-2",
+          "title": "Term Insurance — Why You Need It at 24",
+          "emoji": "🛡️",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "💔 Reality",
+              "heading": "If you earn money that your family depends on — you need term insurance. Today.",
+              "body": "Term insurance is the only pure life insurance product. No investment component — just pure protection. A 25-year-old can get ₹1 Crore coverage for ₹600–₹800 per month. The same coverage at 35 costs ₹1,500–₹2,000/month. Every year you wait, it gets more expensive.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Term vs Endowment",
+              "heading": "The biggest financial mistake Indians make with insurance",
+              "body": "Most Indians buy endowment plans, money-back policies, or ULIPs from LIC. These give low coverage (₹10-20L) and low returns (4-5%). Banks and agents push these because they earn high commissions. You need: TERM INSURANCE (high coverage, low premium) + SEPARATE MUTUAL FUND INVESTMENTS. Never mix insurance with investment.",
+              "visual": {
+                "type": "comparison",
+                "left": { "label": "❌ LIC Endowment Policy", "items": ["Premium: ₹15,000/month", "Coverage: ₹20 Lakh", "Returns: 4-5%", "Agent earns high commission", "Poor value for money"] },
+                "right": { "label": "✅ Term + MF Combo", "items": ["Term premium: ₹700/month", "Coverage: ₹1 Crore", "MF: ₹14,300/month", "Returns: 12%+", "Best value, no conflict"] }
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 How Much Cover",
+              "heading": "How much term insurance do you actually need?",
+              "body": "Rule of thumb: 10–15x your annual income. If you earn ₹6 LPA, get ₹60–90 Lakh cover minimum. If you have a home loan, add that amount too. If you have dependents (parents, siblings), increase further. Best companies: HDFC Life Click 2 Protect, ICICI Prudential iProtect Smart, Max Life Smart Secure Plus.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Action",
+              "heading": "Quiz: 25yr old earns ₹8 LPA. What is the minimum recommended term cover?",
+              "body": "A) ₹20 Lakh\nB) ₹50 Lakh\nC) ₹80 Lakh to ₹1.2 Crore\n\nAnswer: C — 10-15x annual income = ₹80L to ₹1.2Cr. This ensures family can invest the claim amount and live on returns without financial stress.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Term insurance premium is lower when you buy it?",
+                "options": ["At age 40", "At age 35", "At age 25", "Age doesn't matter"],
+                "answer": 2,
+                "explanation": "The younger and healthier you are when you buy, the lower the premium. A 25-year-old pays almost half compared to a 35-year-old for the same coverage."
+              },
+              {
+                "q": "Recommended term insurance cover is approximately?",
+                "options": ["2-3x annual income", "5x annual income", "10-15x annual income", "Equal to savings"],
+                "answer": 2,
+                "explanation": "10-15x annual income is the standard recommendation. If you earn ₹6 LPA, get ₹60-90 Lakh minimum cover."
+              },
+              {
+                "q": "What is wrong with LIC endowment/money-back policies?",
+                "options": ["They give too much coverage", "Low coverage + low returns — mix insurance with investment poorly", "They are illegal", "Only available to government employees"],
+                "answer": 1,
+                "explanation": "Endowment plans mix insurance and investment poorly — giving inadequate coverage and below-inflation returns (4-5%). Buy term + invest separately."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-3",
+          "title": "Health Insurance — Don't Skip This",
+          "emoji": "🏥",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "💸 Scary",
+              "heading": "A 3-day hospital stay in a private hospital in India can cost ₹1.5 Lakh.",
+              "body": "Dengue — ₹60,000. Heart attack — ₹5–10 Lakh. Cancer treatment — ₹20–50 Lakh. One medical emergency without insurance can wipe out years of savings. Your company gives group insurance — but it's not enough and ends when you quit.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Company vs Personal",
+              "heading": "Why company health insurance alone is dangerous",
+              "body": "Company group insurance: typically ₹2–5 Lakh cover, only valid while employed, doesn't cover pre-existing conditions immediately, family may not be included, ends the day you resign. You need a personal health insurance policy SEPARATE from your employer — that follows you everywhere.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "💡 What to Buy",
+              "heading": "Health insurance buying guide for young Indians",
+              "body": "Sum insured: Minimum ₹10 Lakh. Tier 1 cities: ₹15–25 Lakh. Best policies for young adults: Niva Bupa Reassure 2.0, HDFC Ergo Optima Restore, Aditya Birla Activ Health. Key features to check: No room rent limit, Restore benefit, No claim bonus, Cashless hospitals near you. Premium for 25yr old: ₹8,000–₹12,000/year for ₹10L cover.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Minimum sum insured (Metro)", "value": "₹15-25 Lakh", "color": "cyan" },
+                  { "label": "Minimum sum insured (Non-metro)", "value": "₹10 Lakh", "color": "cyan" },
+                  { "label": "Annual premium (Age 25)", "value": "₹8,000-12,000", "color": "green" },
+                  { "label": "Tax benefit (80D)", "value": "Up to ₹25,000", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "action",
+              "chip": "✅ Buy Before",
+              "heading": "The best time to buy health insurance is before you get sick",
+              "body": "Pre-existing diseases have 2–4 year waiting periods. Buy young when you are healthy — no waiting periods, lower premium, no rejection. Don't wait for a health scare. The premium for ₹10L cover at 25 is ~₹700/month. That's cheaper than one OTT subscription combo.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Minimum health insurance cover recommended for someone in a metro city is?",
+                "options": ["₹3 Lakh", "₹5 Lakh", "₹15-25 Lakh", "₹1 Lakh"],
+                "answer": 2,
+                "explanation": "In metro cities, hospital costs are high. Minimum ₹15-25 Lakh is recommended to avoid out-of-pocket expenses during serious illness."
+              },
+              {
+                "q": "Health insurance premium qualifies for tax deduction under?",
+                "options": ["Section 80C", "Section 80D", "Section 80G", "Section 24B"],
+                "answer": 1,
+                "explanation": "Section 80D allows deduction of up to ₹25,000 per year for health insurance premium paid for self, spouse, and dependent children."
+              },
+              {
+                "q": "Pre-existing disease waiting period in health insurance typically is?",
+                "options": ["No waiting period", "6 months", "2-4 years", "1 month"],
+                "answer": 2,
+                "explanation": "Most health policies have 2-4 year waiting periods for pre-existing conditions. This is why buying young and healthy matters — fewer conditions to declare."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-4",
+          "title": "Credit Score — Your Financial Passport",
+          "emoji": "🏆",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🚪 Gatekeeper",
+              "heading": "Your credit score decides if you get a home loan, car loan, credit card — and at what interest rate.",
+              "body": "Credit score range: 300–900. Above 750: Banks compete to give you loans at lowest rates. Below 650: Loan rejected or very high interest rate. Most 22-year-olds have zero credit score — which is also a problem. You need to build it proactively.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 What Builds Score",
+              "heading": "5 things that determine your credit score",
+              "body": "1. Payment History (35%) — Pay all EMIs and credit card bills on time. Most important factor. 2. Credit Utilization (30%) — Use less than 30% of your credit limit. 3. Credit Age (15%) — Older accounts help. Don't close old cards. 4. Credit Mix (10%) — Have both secured (home loan) and unsecured (credit card) loans. 5. New Credit (10%) — Don't apply for multiple loans in short time.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Payment History", "value": "35%", "color": "green" },
+                  { "label": "Credit Utilization", "value": "30%", "color": "cyan" },
+                  { "label": "Credit Age", "value": "15%", "color": "amber" },
+                  { "label": "Credit Mix", "value": "10%", "color": "cyan" },
+                  { "label": "New Credit Inquiries", "value": "10%", "color": "amber" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Build From Zero",
+              "heading": "How to build credit score from zero as a fresher",
+              "body": "Step 1: Get a secured credit card (against FD of ₹10,000–₹20,000). HDFC MoneyBack or SBI Advantage Plus. Step 2: Use it for small purchases (groceries, fuel). Step 3: Pay full amount every month WITHOUT FAIL. Step 4: After 6 months, your score will cross 700. Step 5: After 12 months, apply for entry-level regular card.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Check Now",
+              "heading": "Check your credit score today — it's free",
+              "body": "Apps to check for free: CIBIL (one free check per year at cibil.com), Paisabazaar (free unlimited), OneScore (free + monitoring alerts), BankBazaar (free). Check once every 3 months. Set up alerts for any new inquiries or accounts opened in your name — early fraud detection.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "A good credit score in India is considered to be above?",
+                "options": ["500", "600", "750", "850"],
+                "answer": 2,
+                "explanation": "750+ is considered good. Above 750, banks offer best interest rates. Below 650, loans are rejected or offered at very high rates."
+              },
+              {
+                "q": "The most important factor in your credit score is?",
+                "options": ["How many cards you have", "Payment history — paying on time", "Your salary amount", "How long you've been employed"],
+                "answer": 1,
+                "explanation": "Payment history accounts for 35% of your credit score. Paying all bills on time, every time, is the single most impactful action."
+              },
+              {
+                "q": "How can a fresher with no credit history start building credit?",
+                "options": ["Take a large personal loan", "Get a secured credit card against FD", "Borrow from friends and repay", "Wait until age 30"],
+                "answer": 1,
+                "explanation": "Secured credit card against a Fixed Deposit is the easiest way to start. Use it for small purchases and pay full amount monthly."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-5",
+          "title": "Responsible Borrowing — EMI Traps to Avoid",
+          "emoji": "⚠️",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🪤 Trap",
+              "heading": "Buy Now Pay Later, 0% EMI, No-Cost EMI — these phrases are designed to make you spend more.",
+              "body": "There is no such thing as 0% interest. Someone is always paying — and usually it's you, hidden in the product price or processing fees. Easy EMIs have made Indians comfortable with debt they can't afford.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Good Debt vs Bad Debt",
+              "heading": "Not all loans are equal",
+              "body": "Good debt: Home loan (asset appreciates, tax benefit), Education loan (increases earning power), Business loan (generates income). Bad debt: Personal loan for vacation, Credit card for lifestyle, Buy Now Pay Later for phones/clothes, Two-wheeler loan for a bike you can afford to buy outright. Rule: Borrow only for things that appreciate in value or increase your income.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "⚠️ The EMI Limit",
+              "heading": "How much EMI is safe?",
+              "body": "Total EMIs (all loans combined) should never exceed 40% of your in-hand salary. If in-hand = ₹40,000, max total EMIs = ₹16,000. Beyond that, you're in debt trap territory. Banks will lend you 50-60% — don't take what they offer. Take what you can safely repay.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "In-hand Salary", "value": "₹40,000", "color": "cyan" },
+                  { "label": "Safe EMI Limit (40%)", "value": "₹16,000", "color": "green" },
+                  { "label": "Danger Zone (>50%)", "value": "₹20,000+", "color": "red" }
+                ]
+              }
+            },
+            {
+              "type": "action",
+              "chip": "✅ Action",
+              "heading": "Quiz: Is a personal loan to fund a Goa trip good debt or bad debt?",
+              "body": "A) Good debt — experiences matter\nB) Bad debt — doesn't create value or income\nC) Depends on the interest rate\n\nAnswer: B — Personal loan for vacation is bad debt. You'll pay 12-18% interest on an experience that's over in 5 days. Save for experiences. Never borrow for them.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Your total EMIs should not exceed what percentage of in-hand salary?",
+                "options": ["20%", "40%", "60%", "80%"],
+                "answer": 1,
+                "explanation": "40% is the maximum safe EMI-to-income ratio. Beyond this, you risk missing payments during any financial emergency."
+              },
+              {
+                "q": "Which of these is considered GOOD debt?",
+                "options": ["Personal loan for phone", "Credit card for clothing", "Home loan", "BNPL for vacation"],
+                "answer": 2,
+                "explanation": "Home loan is good debt — the asset appreciates over time, you get tax benefits, and you build equity. Other options fund depreciating expenses."
+              },
+              {
+                "q": "No Cost EMI on an expensive phone means?",
+                "options": ["Genuinely free — no extra cost", "Interest is hidden in product price or paid by bank/brand", "Government subsidy", "Only for premium customers"],
+                "answer": 1,
+                "explanation": "No Cost EMI means the bank charges interest but it's either built into the product price, or paid as a merchant discount. There is no truly free loan."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-6",
+          "title": "Building Credit from Zero",
+          "emoji": "📈",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🔑 Key",
+              "heading": "At 22, your credit score is either zero or very low. This is actually your biggest advantage — if you act now.",
+              "body": "Building good credit early means getting better home loan rates in your 30s, premium credit cards with better rewards, and being trusted by banks when you need money most. The habits you build in your first 2 years of earning shape your financial identity.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 12-Month Credit Plan",
+              "heading": "Build 750+ credit score in 12 months — exact steps",
+              "body": "Month 1-2: Open secured credit card (HDFC/SBI against ₹15,000 FD). Month 3-6: Use for groceries/fuel only. Pay 100% balance every month by due date — not just minimum. Month 7: Check score on CIBIL or Paisabazaar (free). Month 9: Apply for entry-level regular card if score > 700. Month 12: Score should be 720-760.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "⚠️ Mistakes",
+              "heading": "Things that will destroy your credit score fast",
+              "body": "1. Missing even ONE payment — score drops 50-100 points immediately. 2. Applying for 5 loans in one month — each inquiry drops score. 3. Maxing out your credit card — high utilization = low score. 4. Closing your oldest credit card — reduces average credit age. 5. Settling a loan for less than full amount — marks as 'settled' not 'closed' on CIBIL.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Free Check",
+              "heading": "Check your credit score today — it's free",
+              "body": "Apps to check for free: CIBIL (one free check per year at cibil.com), Paisabazaar (free unlimited), OneScore (free + monitoring alerts), BankBazaar (free). Check once every 3 months. Set up alerts for any new inquiries or accounts opened in your name — early fraud detection.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "What happens to your credit score if you miss one EMI payment?",
+                "options": ["Nothing for first miss", "Score drops 5-10 points", "Score drops 50-100 points", "Score goes to zero"],
+                "answer": 2,
+                "explanation": "Even one missed payment can drop your score by 50-100 points. It stays on your credit report for 7 years. Payment history is 35% of your score."
+              },
+              {
+                "q": "You can check your CIBIL score for free at?",
+                "options": ["Only through bank branch", "cibil.com once a year free", "RBI website", "Only through paid subscriptions"],
+                "answer": 1,
+                "explanation": "CIBIL offers one free credit report per year at cibil.com. Apps like Paisabazaar and OneScore offer unlimited free checks."
+              },
+              {
+                "q": "What does 'Settled' vs 'Closed' mean on a CIBIL report?",
+                "options": ["Same thing", "Settled means loan paid in full, closed means partial", "Settled means partial payment accepted — negative mark, Closed means fully repaid — positive", "Neither affects score"],
+                "answer": 2,
+                "explanation": "'Settled' (partial amount paid) is a negative mark on CIBIL and hurts future loan applications. Always aim for 'Closed' status by repaying in full."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-7",
+          "title": "Goal-Based Saving — Make Your Money Have a Purpose",
+          "emoji": "🎯",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🎯 Focus",
+              "heading": "Saving without a goal is like driving without a destination. You'll stop at the first interesting distraction.",
+              "body": "People who save for specific goals save 3x more than those who save 'generally'. Give your money a purpose. Make it specific. Make it visual. Track it obsessively.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Goal Framework",
+              "heading": "3 types of financial goals for your 20s",
+              "body": "Short-term (0-2 years): Emergency fund, vacation, new laptop, bike. Use: High-interest savings account, liquid mutual fund. Medium-term (2-5 years): Car down payment, wedding, higher education. Use: Debt mutual funds, recurring deposits, hybrid funds. Long-term (5+ years): Home down payment, retirement. Use: Equity mutual funds, SIP, NPS.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Short Term (0-2 yrs)", "value": "Liquid Fund / High Savings", "color": "cyan" },
+                  { "label": "Medium Term (2-5 yrs)", "value": "Debt MF / RD", "color": "amber" },
+                  { "label": "Long Term (5+ yrs)", "value": "Equity MF / SIP / NPS", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 India Tip",
+              "heading": "The reverse EMI method — works perfectly for Indians",
+              "body": "Instead of buying on EMI and paying bank interest, create a 'reverse EMI'. Set up SIP for your goal. Every month, money accumulates with interest — not debt. When goal amount is reached, buy outright. Example: Want a ₹80,000 phone in 12 months? Save ₹6,500/month in liquid fund. Month 12: Buy the phone from savings, not EMI. You saved ₹8,000 in interest.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Set Goals",
+              "heading": "Quiz: You want ₹3 Lakh for a Europe trip in 2 years. How much to save monthly?",
+              "body": "A) ₹15,000\nB) ₹12,500 in a liquid/debt fund (returns make up the rest)\nC) ₹25,000\n\nAnswer: B — ₹12,500/month in a debt mutual fund at 7% returns will give approximately ₹3.2 Lakh in 24 months. Investing beats simple saving.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "For a goal 3 years away (car down payment), the best instrument is?",
+                "options": ["Crypto", "Savings account", "Debt mutual fund", "Stock market"],
+                "answer": 2,
+                "explanation": "Debt mutual funds are ideal for 2-5 year goals — safer than equity, better returns than savings account, and liquid enough when needed."
+              },
+              {
+                "q": "What is the 'Reverse EMI Method'?",
+                "options": ["Pay EMI backwards", "Save monthly in SIP for goal instead of buying on debt EMI", "Request EMI waiver from bank", "Pay EMI in advance"],
+                "answer": 1,
+                "explanation": "Instead of paying EMI+interest to a bank, you save monthly and earn interest. Buy the item outright when you've accumulated enough — saving thousands in interest."
+              },
+              {
+                "q": "For retirement savings (25+ years away), the recommended instrument is?",
+                "options": ["FD", "Savings account", "Equity mutual fund / SIP", "Gold"],
+                "answer": 2,
+                "explanation": "For 25+ year goals, equity mutual funds via SIP give the best returns (12-15% historically). Over long periods, equity beats every other asset class in India."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "level4": {
+      "id": "level4",
+      "title": "System Awareness",
+      "subtitle": "How India's economy affects your life",
+      "emoji": "🏛️",
+      "targetAge": "Any",
+      "xpReward": 700,
+      "lessons": [
+        {
+          "id": "l4-1",
+          "title": "What RBI Does to Your Life Every Day",
+          "emoji": "🏦",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🎮 Control",
+              "heading": "One building in Mumbai controls how expensive your home loan is, your car loan, your FD rate — every single thing.",
+              "body": "RBI — Reserve Bank of India. The central bank. Most people think it's just a government office. It's actually the most powerful financial institution in India and its decisions affect your wallet every 2 months.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Repo Rate",
+              "heading": "The one number that controls India's interest rates",
+              "body": "Repo Rate = the rate at which RBI lends money to banks. When RBI increases repo rate → banks borrow at higher cost → they charge you higher interest on home loans, car loans, personal loans → your EMI goes up. When RBI decreases repo rate → all loans become cheaper → property market booms. Current repo rate: Check rbi.org.in",
+              "visual": {
+                "type": "flow",
+                "steps": ["RBI increases Repo Rate", "Banks borrow at higher cost", "Banks increase lending rates", "Home loan rates rise", "Your EMI goes up", "Property market slows"]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "📘 What RBI Controls",
+              "heading": "RBI's 5 superpowers that affect you",
+              "body": "1. Repo Rate — controls all loan and FD interest rates. 2. Currency — RBI manages rupee exchange rate vs dollar. 3. Inflation — RBI's primary job is to keep inflation between 2-6%. 4. Bank Regulation — RBI decides which banks can operate in India. 5. UPI/Digital Payments — RBI regulates Paytm, PhonePe, BHIM. Without RBI, UPI wouldn't exist.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Real Life",
+              "heading": "Quiz: RBI cuts repo rate by 0.5%. What happens to your home loan EMI?",
+              "body": "A) EMI increases\nB) EMI stays same\nC) EMI decreases (if on floating rate)\n\nAnswer: C — Floating rate home loans are linked to repo rate. A 0.5% rate cut on a ₹40 Lakh, 20-year loan saves approximately ₹1,200/month in EMI.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "RBI stands for?",
+                "options": ["Regional Bank of India", "Reserve Bank of India", "Regulated Banking Institution", "Revenue Board of India"],
+                "answer": 1,
+                "explanation": "Reserve Bank of India — India's central bank, established in 1935. It manages monetary policy, currency, and regulates the banking system."
+              },
+              {
+                "q": "When RBI increases the Repo Rate, home loan EMIs?",
+                "options": ["Decrease", "Stay same", "Increase", "Get waived"],
+                "answer": 2,
+                "explanation": "Higher repo rate = higher bank borrowing cost = higher lending rates = higher EMIs on floating rate loans."
+              },
+              {
+                "q": "RBI's inflation target range is?",
+                "options": ["0-2%", "2-6%", "6-10%", "10-15%"],
+                "answer": 1,
+                "explanation": "RBI targets CPI inflation between 2-6% (with 4% as the target). It adjusts repo rate to achieve this."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l4-2",
+          "title": "Inflation — The Silent Thief",
+          "emoji": "📉",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "😮 Fact",
+              "heading": "₹1 Lakh kept in a savings account for 10 years becomes ₹72,000 in real value.",
+              "body": "Inflation is 6% per year in India. Savings account gives 3-4%. So every year, your money sitting in savings actually loses purchasing power. The middle class has been losing money for decades without realizing it.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 How Inflation Hits You",
+              "heading": "Inflation affects every part of your life",
+              "body": "Food inflation: Your ₹500 grocery basket in 2020 costs ₹700 in 2024. Education inflation: College fees rise 10-15% per year. Healthcare inflation: Hospital costs rise 14% per year — faster than any other category. Rent inflation: 8-12% rise in Tier 1 cities. Your salary MUST grow faster than inflation every year or you are getting poorer.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Food Inflation", "value": "~6-8% per year", "color": "amber" },
+                  { "label": "Healthcare Inflation", "value": "~14% per year", "color": "red" },
+                  { "label": "Education Inflation", "value": "~10-15% per year", "color": "red" },
+                  { "label": "Rent Inflation (Metro)", "value": "~8-12% per year", "color": "amber" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Beat Inflation",
+              "heading": "How to beat inflation with investments",
+              "body": "To beat 6% inflation: Savings account (3-4%) — LOSES to inflation. FD (6-7%) — BARELY beats inflation, taxable. Debt mutual fund (7-8%) — beats inflation slightly. Equity mutual fund (12-15% long term) — BEATS inflation significantly. Gold (10% historically) — decent inflation hedge. Real estate (varies) — good long term but illiquid. Minimum: Your money must earn above 6% to maintain real value.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Calculate",
+              "heading": "Quiz: You need ₹30 Lakh for your child's education in 15 years. Due to education inflation (10%), what will it actually cost?",
+              "body": "A) ₹30 Lakh (same)\nB) ₹45 Lakh\nC) ₹1.25 Crore\n\nAnswer: C — ₹30 Lakh growing at 10% inflation for 15 years = ₹1.25 Crore. This is why investing in equity for long-term goals is not optional — it's survival.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "India's average CPI inflation target is approximately?",
+                "options": ["2%", "4%", "8%", "12%"],
+                "answer": 1,
+                "explanation": "RBI targets 4% CPI inflation. In reality, it often runs at 5-7%. Healthcare and education inflation run even higher."
+              },
+              {
+                "q": "Which investment best protects against inflation over long periods?",
+                "options": ["Savings account", "Fixed Deposit", "Equity mutual funds", "Cash under mattress"],
+                "answer": 2,
+                "explanation": "Equity mutual funds have historically returned 12-15% over long periods in India — well above the 6% inflation rate."
+              },
+              {
+                "q": "If inflation is 6% and your FD earns 7%, your real return is?",
+                "options": ["7%", "6%", "1% (before tax)", "13%"],
+                "answer": 2,
+                "explanation": "Real return = nominal return minus inflation. 7% FD - 6% inflation = 1% real return. And this 1% is taxable, making real after-tax return near zero or negative."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l4-3",
+          "title": "GST — What You're Really Paying",
+          "emoji": "🧾",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🛒 Everyday",
+              "heading": "Every time you buy something in India, you're paying tax — whether you see it or not.",
+              "body": "GST — Goods and Services Tax. Launched in 2017, it replaced 17 different taxes with one unified system. Every product and service in India has a GST rate from 0% to 28%. When you order Zomato or buy a phone, you're paying GST. Understanding it helps you make smarter spending decisions.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 GST Slabs",
+              "heading": "What you pay GST on — and how much",
+              "body": "0% GST: Essential food items (rice, wheat, vegetables), education, healthcare. 5% GST: Packaged food, economy class flights, electric vehicles. 12% GST: Butter, ghee, fruit juice, business class flights. 18% GST: Most services (restaurants, Swiggy, internet, banking), electronic items. 28% GST: Luxury goods, cars, cigarettes, casinos, AC restaurants.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "0% — Essentials", "value": "Rice, vegetables, healthcare", "color": "green" },
+                  { "label": "5% — Basic", "value": "Packaged food, EVs, economy flights", "color": "cyan" },
+                  { "label": "18% — Standard", "value": "Restaurants, services, electronics", "color": "amber" },
+                  { "label": "28% — Luxury", "value": "Cars, cigarettes, casinos", "color": "red" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Smart Shopping",
+              "heading": "How knowing GST saves you money",
+              "body": "Restaurant in mall (AC) → 18% GST. Non-AC restaurant → 5% GST. Same biryani, same taste, 13% price difference. Buying phone online from GST-registered seller → 18% GST, eligible for input credit if used for business. Buying in grey market → no GST, no warranty, no consumer protection. Always take invoice — it's proof for consumer rights.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Smart",
+              "heading": "Quiz: You order from Swiggy. The GST charged is?",
+              "body": "A) 0% (food is essential)\nB) 5% (food delivery)\nC) 18% (restaurant service)\n\nAnswer: B — Restaurant delivery platforms like Swiggy and Zomato charge 5% GST on food orders. AC restaurants charge 18%. Understanding this helps you see the real cost.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "What GST rate is charged on restaurant bills in an AC restaurant?",
+                "options": ["0%", "5%", "12%", "18%"],
+                "answer": 3,
+                "explanation": "AC restaurants charge 18% GST. Non-AC or standalone restaurants charge 5%. This can significantly impact your dining bill."
+              },
+              {
+                "q": "GST was introduced in India in?",
+                "options": ["2014", "2016", "2017", "2019"],
+                "answer": 2,
+                "explanation": "GST was launched on July 1, 2017, replacing multiple indirect taxes like VAT, service tax, and excise duty."
+              },
+              {
+                "q": "Which of these is taxed at 0% GST?",
+                "options": ["Packaged biscuits", "Movie tickets", "Fresh vegetables", "Gym membership"],
+                "answer": 2,
+                "explanation": "Fresh fruits and vegetables are in the 0% GST category as they are essential food items. Packaged food, entertainment, and services have GST."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l4-4",
+          "title": "Union Budget — What It Means For You",
+          "emoji": "📋",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "📅 Every Feb",
+              "heading": "Every February 1st, one speech changes what your phone costs, your tax bill, your loan rates, and job opportunities.",
+              "body": "Union Budget is the government's annual financial plan. It decides how much tax you pay, where government spends money, which industries grow, and which products become cheaper or costlier. Most people watch it but understand nothing.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Budget Basics",
+              "heading": "Budget has 2 sides — where money comes from and where it goes",
+              "body": "Revenue: Income Tax, GST, Corporate Tax, Customs Duty, Non-Tax Revenue. Expenditure: Infrastructure, Defence, Education, Healthcare, Subsidies, Debt Interest. Fiscal Deficit: When expenditure > revenue. Government borrows the difference. High fiscal deficit = inflation risk + higher interest rates. India's fiscal deficit target: 4.5% of GDP for FY2025.",
+              "visual": {
+                "type": "comparison",
+                "left": { "label": "Revenue (Income)", "items": ["Income Tax", "GST Collection", "Corporate Tax", "Customs Duty", "Non-Tax Revenue"] },
+                "right": { "label": "Expenditure (Spending)", "items": ["Infrastructure projects", "Defence budget", "Education schemes", "Healthcare programs", "Debt interest payment"] }
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Direct Impact",
+              "heading": "How Budget affects YOUR life directly",
+              "body": "Tax slab changes → directly changes your take-home salary. Import duty changes → makes phones, laptops, gold cheaper or costlier. Infrastructure spending → creates jobs in your city. Startup incentives → more job opportunities in new companies. Education budget → scholarship availability. Budget Day is the most important day of the financial year — track it every February.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Track This",
+              "heading": "Quiz: Budget 2024 increased the standard deduction for salaried to?",
+              "body": "A) ₹50,000\nB) ₹75,000\nC) ₹1,00,000\n\nAnswer: B — Budget 2024 increased standard deduction from ₹50,000 to ₹75,000 under the new tax regime. This directly reduced tax for 4 crore salaried employees.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Union Budget is presented on?",
+                "options": ["January 1", "February 1", "March 31", "April 1"],
+                "answer": 1,
+                "explanation": "Since 2017, the Union Budget is presented on February 1 (moved from the last day of February) to allow earlier implementation before the new financial year."
+              },
+              {
+                "q": "Fiscal Deficit means?",
+                "options": ["Government surplus money", "Government spending more than it earns — needs to borrow", "Tax collection exceeds target", "RBI prints more currency"],
+                "answer": 1,
+                "explanation": "Fiscal deficit = total expenditure minus total revenue. The government funds this gap by borrowing, which affects inflation and interest rates."
+              },
+              {
+                "q": "If budget increases import duty on mobile phones, prices will?",
+                "options": ["Decrease", "Stay same", "Increase", "Become free"],
+                "answer": 2,
+                "explanation": "Higher import duty makes imported goods costlier. This is why iPhones and Samsung flagships assembled abroad cost more in India than in USA or Singapore."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l4-5",
+          "title": "Government Schemes You're Missing Out On",
+          "emoji": "🏛️",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "💰 Free Money",
+              "heading": "The government is offering you money, benefits, and services — and most young Indians have no idea.",
+              "body": "Billions of rupees in schemes go unclaimed every year because people don't know about them. Pradhan Mantri schemes, MUDRA loans, scholarship programs, startup grants — these are real benefits you can access right now.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Key Schemes",
+              "heading": "Government schemes you should know about",
+              "body": "1. PM Jan Dhan Yojana — free zero-balance bank account with ₹1L accident insurance and ₹30,000 life insurance. 2. PM MUDRA Yojana — business loan up to ₹10 Lakh without collateral for entrepreneurs. 3. PM Suraksha Bima — ₹2 Lakh accident insurance for just ₹20/year premium. 4. PM Jeevan Jyoti — ₹2 Lakh life insurance for ₹436/year premium. 5. NPS — pension scheme with extra ₹50,000 tax benefit (80CCD(1B)).",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "PM Suraksha Bima", "value": "₹2L accident cover for ₹20/year", "color": "green" },
+                  { "label": "PM Jeevan Jyoti", "value": "₹2L life cover for ₹436/year", "color": "green" },
+                  { "label": "MUDRA Loan", "value": "Business loan up to ₹10L no collateral", "color": "cyan" },
+                  { "label": "NPS 80CCD(1B)", "value": "Extra ₹50,000 tax deduction", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 For Students",
+              "heading": "Schemes specifically for students and young people",
+              "body": "National Scholarship Portal (scholarships.gov.in) — 100+ central and state scholarships, apply before September. Startup India — tax exemption for 3 years for DPIIT-registered startups. PM SVANidhi — ₹10,000 loan for street vendors to start business. Atal Innovation Mission — grants for innovative startups. Many states have additional schemes — check your state government website.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Apply Now",
+              "heading": "Quiz: PM Suraksha Bima gives ₹2 Lakh accident cover for how much annual premium?",
+              "body": "A) ₹500\nB) ₹200\nC) ₹20\n\nAnswer: C — Just ₹20 per year (less than ₹2/month) gives ₹2 Lakh accident insurance. This is auto-debited from your bank account on June 1. Ask your bank to enrol you.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "MUDRA Loan is useful for?",
+                "options": ["Home purchase", "Starting/expanding a business — no collateral needed", "Education abroad", "Buying gold"],
+                "answer": 1,
+                "explanation": "MUDRA (Micro Units Development & Refinance Agency) loans support small businesses. Loans up to ₹10 Lakh without collateral, in 3 categories: Shishu (up to ₹50K), Kishor (₹50K-5L), Tarun (₹5L-10L)."
+              },
+              {
+                "q": "Additional tax deduction under NPS Section 80CCD(1B) is up to?",
+                "options": ["₹25,000", "₹50,000", "₹1,00,000", "₹1,50,000"],
+                "answer": 1,
+                "explanation": "Section 80CCD(1B) allows additional ₹50,000 deduction for NPS contribution over and above the ₹1.5L under 80C. Only available under Old Tax Regime."
+              },
+              {
+                "q": "Where can students find central government scholarships?",
+                "options": ["scholarships.gov.in", "rbi.org.in", "incometax.gov.in", "epfindia.gov.in"],
+                "answer": 0,
+                "explanation": "scholarships.gov.in is the National Scholarship Portal housing 100+ central and state scholarships. Apply before September deadlines."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l4-6",
+          "title": "Why the Rupee Weakens — And Why It Matters to You",
+          "emoji": "💱",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "📊 Global",
+              "heading": "In 2004, ₹1 = $0.023. In 2024, ₹1 = $0.012. The rupee has lost 50% of its dollar value in 20 years.",
+              "body": "Currency depreciation is silent but powerful. It makes imports costlier, foreign education expensive, and international travel painful. But it also makes Indian exports competitive and can boost your career in IT and BPO sectors.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Why Rupee Falls",
+              "heading": "5 reasons the rupee weakens against the dollar",
+              "body": "1. Trade Deficit — India imports more than it exports (oil, electronics, gold). 2. Dollar strengthening — when US Fed increases rates, global money flows to dollar. 3. Foreign Investment outflows — FIIs selling Indian stocks = selling rupee. 4. Inflation differential — India's higher inflation vs USA weakens rupee. 5. Oil prices rising — India imports 80% of its oil, dollar demand increases.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Real Impact",
+              "heading": "How rupee weakness affects YOUR life",
+              "body": "Costlier: iPhone, Samsung (assembled abroad), petrol/diesel (crude oil priced in $), foreign education (fees in $ or £ become more expensive), international travel, imported electronics. Cheaper: Indian IT company revenues (earn in $, report in ₹) → better salaries. Indian manufacturing becomes globally competitive. If you work in IT/exports, rupee weakness = more rupee salary.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Protection",
+              "heading": "Quiz: You plan to study abroad in 2027. Tuition is $30,000. Today ₹84/$. You should?",
+              "body": "A) Wait and hope rupee strengthens\nB) Save in USD via RBI's LRS scheme now to hedge currency risk\nC) It doesn't matter, convert later\n\nAnswer: B — Currency risk is real. Saving in USD or investing in international funds via LRS (₹7 Crore/year limit) protects against further rupee depreciation.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "What is the primary reason India's trade deficit exists?",
+                "options": ["India exports too much", "India imports more than it exports (oil, electronics, gold)", "Government policy", "RBI intervention"],
+                "answer": 1,
+                "explanation": "India is a net importer — especially of crude oil (80% imported), electronics, and gold. This creates demand for dollars, weakening the rupee."
+              },
+              {
+                "q": "When the rupee weakens, which sector benefits most?",
+                "options": ["Import-heavy industries", "IT/Software export companies", "Domestic retail", "Real estate"],
+                "answer": 1,
+                "explanation": "IT companies earn revenue in USD/GBP and convert to rupees. When rupee weakens, same dollar income = more rupees = higher profits and potentially better employee salaries."
+              },
+              {
+                "q": "LRS (Liberalised Remittance Scheme) allows Indians to send abroad up to?",
+                "options": ["$10,000 per year", "$50,000 per year", "$250,000 per year", "Unlimited"],
+                "answer": 2,
+                "explanation": "RBI's LRS scheme allows Indian residents to remit up to $250,000 per financial year for permitted purposes including education, travel, and overseas investments."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l4-7",
+          "title": "How Repo Rate Affects Your EMI",
+          "emoji": "📉",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🔗 Connected",
+              "heading": "Your home loan EMI in Hyderabad is connected to a decision made in a boardroom in Mumbai.",
+              "body": "RBI's Monetary Policy Committee meets every 2 months and decides the repo rate. This single number cascades down to every bank in India within days. Your floating rate home loan EMI moves with it. Understanding this helps you time big financial decisions.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Fixed vs Floating",
+              "heading": "Should your home loan be fixed or floating rate?",
+              "body": "Fixed rate: EMI stays same throughout loan tenure. You're protected from rate increases but miss out on decreases. Currently 0.5-1% higher than floating. Floating rate: EMI changes with repo rate. When RBI cuts rates, your EMI drops. When rates rise, EMI rises. Historically, floating rate saves more money over 20-year tenure. Most recommended: Floating rate for long-term loans.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Timing",
+              "heading": "When to take a home loan — rate cycle matters",
+              "body": "High rate environment (repo rate > 6.5%): Wait if possible, or take fixed rate. Rate cut cycle beginning: Take floating rate — you'll benefit as rates fall. Low rate environment (repo rate < 5%): Best time — lowest EMIs. Current: India is in moderate rate environment. Follow RBI MPC meetings (every 2 months) on rbi.org.in",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Repo Rate 6.5% → Home Loan Rate", "value": "~9.0-9.5%", "color": "red" },
+                  { "label": "Repo Rate 5.5% → Home Loan Rate", "value": "~7.5-8.0%", "color": "amber" },
+                  { "label": "Repo Rate 4.0% → Home Loan Rate", "value": "~6.5-7.0%", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "action",
+              "chip": "✅ Calculate",
+              "heading": "Quiz: ₹50L home loan, 20 years. Rate drops from 9% to 8%. EMI change?",
+              "body": "A) Saves ₹500/month\nB) Saves ₹3,200/month\nC) No change on existing loan\n\nAnswer: B — 1% rate reduction on ₹50L, 20-year loan saves approximately ₹3,200/month in EMI. That's ₹38,400/year — enough for a vacation.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "RBI Monetary Policy Committee meets how often?",
+                "options": ["Monthly", "Every 2 months", "Every 3 months", "Annually"],
+                "answer": 1,
+                "explanation": "RBI MPC meets 6 times a year (every 2 months) to review economic conditions and decide on repo rate changes."
+              },
+              {
+                "q": "For a 20-year home loan, which rate type is generally recommended?",
+                "options": ["Fixed rate always", "Floating rate", "Split fixed-floating", "No preference"],
+                "answer": 1,
+                "explanation": "Floating rate is generally better for long-term loans as interest rate cycles move up and down. Over 20 years, floating rate saves more money historically."
+              },
+              {
+                "q": "Floating rate home loans in India are linked to?",
+                "options": ["Bank's internal rate", "MCLR/Repo Rate", "Stock market", "FD rates"],
+                "answer": 1,
+                "explanation": "Since October 2019, all floating rate retail loans are linked to external benchmarks like Repo Rate (EBLR). Rate changes transmit faster to borrowers."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "level5": {
+      "id": "level5",
+      "title": "Build Wealth",
+      "subtitle": "Make money work for you",
+      "emoji": "📈",
+      "targetAge": "Any",
+      "xpReward": 700,
+      "lessons": [
+        {
+          "id": "l5-1",
+          "title": "SIP — The Middle Class Superpower",
+          "emoji": "🚀",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🔥 Power",
+              "heading": "₹500/month started at age 22 becomes ₹1.76 Crore by age 60. ₹500/month started at 32 becomes ₹49 Lakh. Same amount. 10 year difference. ₹1.27 Crore gap.",
+              "body": "SIP — Systematic Investment Plan. India's most underutilized wealth-building tool. It requires no market timing, no stock picking, no expertise. Just discipline and time.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 How SIP Works",
+              "heading": "SIP is just automatic monthly investment in mutual funds",
+              "body": "Step 1: You choose a mutual fund and SIP amount (minimum ₹500). Step 2: On a fixed date, money auto-debits from your bank. Step 3: Mutual fund buys units at that day's NAV price. Step 4: When market is high, you get fewer units. When market is low, you get more units. Step 5: Over time, average cost smooths out market volatility. This is called Rupee Cost Averaging.",
+              "visual": {
+                "type": "flow",
+                "steps": ["Fix SIP amount (min ₹500)", "Auto-debit on fixed date", "Buy MF units at current NAV", "Market down = more units", "Market up = fewer units", "Average cost reduces over time", "Wealth builds over years"]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Which Fund",
+              "heading": "Best SIP funds for beginners in India",
+              "body": "For beginners (5-10+ year horizon): Index funds (lowest cost, market returns). Nifty 50 Index Fund — tracks top 50 companies. Nifty Next 50 — next 50 companies. For moderate risk (3-5 years): Flexi-cap or large-cap active funds. Tax-saving: ELSS funds (3-year lock-in, 80C benefit). Platforms: Zerodha Coin, Groww, Kuvera (all free, no commission). Start with ₹500-₹1,000 in Nifty 50 index fund.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Start Today",
+              "heading": "Quiz: What is Rupee Cost Averaging in SIP?",
+              "body": "A) Converting rupees to dollars for investment\nB) Buying more units when market is low, fewer when high — averaging purchase cost\nC) Averaging income from multiple SIPs\n\nAnswer: B — When market falls, your fixed SIP amount buys more units. When market rises, fewer. This automatically makes you buy more during dips — without needing to time the market.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Minimum SIP amount in most mutual funds is?",
+                "options": ["₹100", "₹500", "₹1,000", "₹5,000"],
+                "answer": 1,
+                "explanation": "Most mutual funds allow SIP starting at ₹500/month. Some even allow ₹100. This makes wealth-building accessible to everyone."
+              },
+              {
+                "q": "Starting SIP 10 years earlier (age 22 vs 32) results in?",
+                "options": ["Same end wealth", "Slightly more wealth", "Significantly more wealth due to compounding", "Less wealth due to market exposure"],
+                "answer": 2,
+                "explanation": "Starting 10 years earlier can result in 3-4x more wealth due to compounding. Time is the most powerful variable in wealth creation."
+              },
+              {
+                "q": "Which platform allows zero-commission direct mutual fund SIP?",
+                "options": ["Your insurance agent", "Bank relationship manager", "Zerodha Coin / Groww / Kuvera", "Post office only"],
+                "answer": 2,
+                "explanation": "Direct plan SIPs via Zerodha Coin, Groww, or Kuvera have zero commission — saving 0.5-1% per year compared to regular plans through agents. Over 20 years, this difference is massive."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-2",
+          "title": "Mutual Funds — Not As Scary As You Think",
+          "emoji": "📊",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🧩 Simple",
+              "heading": "A mutual fund is just a group of people pooling money to hire a professional to invest it. That's literally it.",
+              "body": "You and 10,000 other investors put money together. A fund manager invests it in stocks, bonds, or both. Returns are shared proportionally. Risk is spread. You don't need ₹10 Lakh to invest in 50 companies — you can do it with ₹500.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Types of Funds",
+              "heading": "Mutual fund types — simplified",
+              "body": "Equity Funds: Invest in stocks. High risk, high return (12-15% long term). For 5+ year goals. Debt Funds: Invest in bonds. Low risk, stable return (6-8%). For 1-3 year goals. Hybrid Funds: Mix of stocks and bonds. Moderate risk and return. For 3-5 year goals. Index Funds: Copy a market index (Nifty 50). Lowest cost. Recommended for most beginners. ELSS: Equity with 3-year lock-in. Tax saving under 80C.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Equity Fund", "value": "12-15% return, High Risk, 5+ yrs", "color": "green" },
+                  { "label": "Debt Fund", "value": "6-8% return, Low Risk, 1-3 yrs", "color": "cyan" },
+                  { "label": "Hybrid Fund", "value": "8-11% return, Medium Risk, 3-5 yrs", "color": "amber" },
+                  { "label": "Index Fund", "value": "Market returns, Lowest Cost", "color": "green" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "⚠️ Key Terms",
+              "heading": "3 mutual fund terms you must know",
+              "body": "NAV (Net Asset Value): Price of one unit of the fund. Like share price of the fund. Lower NAV doesn't mean cheaper — it's just the history. Expense Ratio: Annual fee charged by fund house. Lower is better. Index funds: 0.1-0.2%. Active funds: 0.5-1.5%. Over 20 years, 1% extra expense ratio costs you ₹20-30 Lakh on a ₹50L corpus. XIRR: Your actual annual return accounting for all SIP dates. Use this to measure your performance, not absolute profit.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Decide",
+              "heading": "Quiz: Fund A: Expense Ratio 0.1% (index fund). Fund B: 1.5% (active fund). Both return 12% gross. Which gives you more money?",
+              "body": "A) Same — 12% return is 12%\nB) Fund A — 0.1% ER = net 11.9%. Fund B — 1.5% ER = net 10.5%. 1.4% difference compounded over 20 years is massive.\nC) Fund B — active management justifies cost\n\nAnswer: B — On ₹1 Lakh invested for 20 years: Fund A gives ₹9.2L, Fund B gives ₹7.3L. ₹1.9L difference just from expense ratio.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "NAV (Net Asset Value) of a mutual fund represents?",
+                "options": ["Total profit of the fund", "Price of one unit of the fund", "Fund manager's salary", "Total AUM of the fund"],
+                "answer": 1,
+                "explanation": "NAV is the price per unit of the mutual fund, calculated daily. A fund with NAV ₹200 and another with NAV ₹20 are not necessarily different in quality — what matters is XIRR returns."
+              },
+              {
+                "q": "For a 10-year investment horizon, which type of fund is most suitable?",
+                "options": ["Liquid fund", "Debt fund", "Equity/Index fund", "Overnight fund"],
+                "answer": 2,
+                "explanation": "For 10-year goals, equity or index funds are best. Over long periods, equity smooths out short-term volatility and delivers inflation-beating returns."
+              },
+              {
+                "q": "Lower expense ratio is better because?",
+                "options": ["Fund is managed by fewer people", "Less money deducted from your returns annually", "Government mandates it", "Less risk"],
+                "answer": 1,
+                "explanation": "Expense ratio is deducted from returns annually. 1% less expense ratio compounded over 20 years can mean lakhs of rupees difference in final corpus."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-3",
+          "title": "Index Funds — Why Even Warren Buffett Recommends Them",
+          "emoji": "📈",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🏆 Warren",
+              "heading": "Warren Buffett, the world's greatest investor, told his wife: When I die, put 90% of our money in an S&P 500 index fund.",
+              "body": "Index funds are passive investments that simply copy a market index. No fund manager trying to beat the market. No high fees. In India, Nifty 50 index has returned ~12% CAGR over 20 years. Most active fund managers fail to consistently beat this.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 What is an Index",
+              "heading": "Nifty 50 — India's benchmark index",
+              "body": "Nifty 50 = top 50 companies on NSE by market cap. Includes: Reliance, TCS, HDFC Bank, Infosys, ICICI Bank, Wipro, and 44 others. These are India's biggest and most stable companies. When you invest in Nifty 50 index fund, you own a tiny piece of all 50 companies automatically. If one company falls, the index continues. Composition updates automatically.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Why Index Beats Active",
+              "heading": "Data: Active funds vs Index funds in India",
+              "body": "SPIVA India Report 2023: Over 10 years, 70%+ of large-cap active fund managers underperformed the Nifty 50 index. After expense ratio, most active funds give less return. Exceptions exist — but picking the right active fund consistently is harder than it looks. For most retail investors, low-cost Nifty 50 index fund is the optimal long-term choice.",
+              "visual": {
+                "type": "comparison",
+                "left": { "label": "❌ Active Fund", "items": ["Fund manager picks stocks", "Expense ratio 1-2%", "70% fail to beat index", "Higher turnover = more tax", "Manager risk"] },
+                "right": { "label": "✅ Index Fund", "items": ["Copies Nifty 50 automatically", "Expense ratio 0.1-0.2%", "Guaranteed market returns", "Lower churn = less tax", "No manager risk"] }
+              }
+            },
+            {
+              "type": "action",
+              "chip": "✅ Start Simple",
+              "heading": "The simplest wealth-building portfolio for a 25-year-old",
+              "body": "Just 2 funds:\n1. Nifty 50 Index Fund — 70% of SIP amount\n2. Nifty Next 50 Index Fund — 30% of SIP amount\n\nTotal expense ratio: ~0.15%. Rebalance once a year. Hold for 10-15 years. This beats 70% of all professional fund managers. Platforms: Kuvera or Zerodha Coin for direct plans.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Nifty 50 consists of?",
+                "options": ["Top 50 BSE companies", "Top 50 NSE companies by market cap", "50 government companies", "50 banks"],
+                "answer": 1,
+                "explanation": "Nifty 50 tracks the 50 largest companies on NSE (National Stock Exchange) by market capitalization, rebalanced semi-annually."
+              },
+              {
+                "q": "Expense ratio of a typical Nifty 50 index fund is approximately?",
+                "options": ["1.5-2%", "0.5-1%", "0.1-0.2%", "3-5%"],
+                "answer": 2,
+                "explanation": "Index funds have very low expense ratios of 0.1-0.2% since they just copy the index — no research or active management needed. This is their biggest advantage."
+              },
+              {
+                "q": "According to SPIVA India report, what percentage of large-cap active funds underperform Nifty 50 over 10 years?",
+                "options": ["10%", "30%", "50%", "70%+"],
+                "answer": 3,
+                "explanation": "Over 10 years, 70%+ of large-cap active funds underperform the Nifty 50 index. This data is why index funds are recommended for most investors."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-4",
+          "title": "How Rich Indians Actually Build Wealth",
+          "emoji": "💎",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🔍 Inside",
+              "heading": "The wealthiest Indians don't get rich by saving more. They get rich by owning assets that work while they sleep.",
+              "body": "Salary makes you comfortable. Assets make you wealthy. There's a massive difference between earning ₹5 Crore over 20 years through salary and building ₹5 Crore in assets that generate passive income. Most people only know the first path.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Asset Classes",
+              "heading": "The 4 assets that build wealth in India",
+              "body": "1. Equity (Stocks/MF): Historically 12-15% CAGR. Passive, scalable, liquid. 2. Real Estate: 8-12% appreciation + rental yield (2-3%). Requires large capital, illiquid. 3. Business/Startup: Highest risk, highest reward. 4. Fixed Income: FD, bonds, debt MF — 6-8%, low risk but inflation risk. Rich Indians own ALL four categories — diversified across asset classes.",
+              "visual": {
+                "type": "breakdown",
+                "rows": [
+                  { "label": "Equity (Stocks/MF)", "value": "12-15% CAGR, Liquid", "color": "green" },
+                  { "label": "Real Estate", "value": "8-12% + Rent, Illiquid", "color": "cyan" },
+                  { "label": "Business", "value": "Highest Risk + Reward", "color": "amber" },
+                  { "label": "Fixed Income", "value": "6-8%, Stable, Low Risk", "color": "cyan" }
+                ]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 The Pattern",
+              "heading": "The wealth-building pattern of most successful Indians",
+              "body": "Phase 1 (22-30): Build income (job or business), invest aggressively in equity, build emergency fund, buy adequate insurance. Phase 2 (30-40): Add real estate if possible, increase equity exposure, build side income. Phase 3 (40-50): Diversify across all 4 asset classes, reduce risk as retirement approaches, maximize NPS and PPF. Phase 4 (50+): Income from assets > salary. Financial independence.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Your Path",
+              "heading": "Quiz: At 25, with ₹10,000 to invest, where should the priority be?",
+              "body": "A) Real estate down payment\nB) Gold jewelry\nC) Equity mutual fund SIP — time advantage is most valuable at 25\n\nAnswer: C — At 25, your biggest asset is time. ₹10,000/month in Nifty 50 index fund for 35 years at 12% CAGR = ₹5.2 Crore. Same amount in gold/FD would give far less.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "The key difference between earning and building wealth is?",
+                "options": ["Earning more salary", "Owning assets that generate passive income", "Working harder", "Avoiding all debt"],
+                "answer": 1,
+                "explanation": "Wealth = assets working for you, not just your labour. Dividend income, rental income, business income — these are passive. Salary stops when you stop working."
+              },
+              {
+                "q": "Average rental yield on residential property in Indian metros is approximately?",
+                "options": ["7-10%", "5-6%", "2-3%", "15%"],
+                "answer": 2,
+                "explanation": "Rental yield in Indian metros is typically 2-3% per year on property value. Capital appreciation adds 6-8%. Total real estate return averages 8-11% in good locations."
+              },
+              {
+                "q": "At age 25, the most valuable wealth-building resource is?",
+                "options": ["High salary", "Large inheritance", "Time — for compounding to work", "Government connections"],
+                "answer": 2,
+                "explanation": "Time is the single most valuable factor in wealth creation. Starting SIP at 25 vs 35 makes a 3-4x difference in final corpus with same monthly investment."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-5",
+          "title": "Starting Legal Side Income in India",
+          "emoji": "💼",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🚀 Real",
+              "heading": "Your salary has a ceiling. A side income doesn't.",
+              "body": "The fastest-growing wealth stories in India today involve people with full-time jobs AND side income. Freelancing, content creation, tutoring, consulting — these are real income streams that can equal or exceed a salary within 3-5 years of consistent effort.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Legal Side Incomes",
+              "heading": "10 real side incomes for Indian professionals",
+              "body": "1. Freelancing (upwork.com, toptal, Fiverr) — writing, coding, design. 2. Online tutoring (Vedantu, Unacademy, Superprof). 3. Content creation (YouTube, Instagram — once monetized). 4. Affiliate marketing — promote products, earn commission. 5. Stock market investing — not a side income, but builds wealth. 6. Blogging/Newsletter (Substack). 7. Consulting in your domain. 8. Selling digital products (courses, templates). 9. Dropshipping/e-commerce (Meesho, Amazon). 10. Rent assets (car on Zoomcar, property on Airbnb).",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "⚠️ Tax on Side Income",
+              "heading": "You MUST declare side income. Here's how.",
+              "body": "Any income above ₹2.5 Lakh total (including salary) must be declared in ITR. Side income from freelancing: Pay as 'Income from Business/Profession'. You can deduct expenses (laptop, internet, equipment). If annual freelance income > ₹20 Lakh, GST registration required. If employer has moonlighting policy — read it carefully. Declaration protects you legally. Undeclared income = tax evasion = serious legal risk.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Smart Start",
+              "heading": "Quiz: You earn ₹50,000 from freelancing this year alongside your job. What is the correct tax treatment?",
+              "body": "A) Not needed — small amount\nB) Declare under 'Income from Business/Profession' in ITR, pay tax at applicable slab\nC) Declare only if asked\n\nAnswer: B — All income is taxable. Declare it, deduct legitimate expenses (laptop, software), pay applicable tax. This builds a legitimate income history useful for loans and visas.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Freelance income in India should be declared under which income head in ITR?",
+                "options": ["Income from Salary", "Income from Other Sources", "Income from Business or Profession", "Capital Gains"],
+                "answer": 2,
+                "explanation": "Freelance/consulting income falls under 'Income from Business or Profession'. You can claim expenses like laptop, internet, software as deductions against this income."
+              },
+              {
+                "q": "GST registration is required for freelancers when annual income exceeds?",
+                "options": ["₹5 Lakh", "₹10 Lakh", "₹20 Lakh", "₹50 Lakh"],
+                "answer": 2,
+                "explanation": "Freelancers providing services (not goods) need GST registration when annual turnover exceeds ₹20 Lakh (₹10 Lakh in some states). For export of services, different rules apply."
+              },
+              {
+                "q": "Which platform is best for Indian freelancers to find international clients?",
+                "options": ["Naukri.com", "LinkedIn Jobs", "Upwork / Toptal / Fiverr", "Indeed India"],
+                "answer": 2,
+                "explanation": "Upwork, Toptal, and Fiverr connect Indian freelancers with global clients who pay in USD. This gives currency advantage — earning in dollars while living in rupees."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-6",
+          "title": "Your ₹10 Lakh Roadmap from Zero",
+          "emoji": "🗺️",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🏁 Roadmap",
+              "heading": "Most people dream about building wealth. Few have an actual plan. Here is yours.",
+              "body": "₹10 Lakh is the first meaningful wealth milestone for most young Indians. Once you cross it, compound interest starts doing serious work. Here is the exact roadmap to build your first ₹10 Lakh.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 The Plan",
+              "heading": "₹10 Lakh roadmap — step by step",
+              "body": "Month 1: Emergency fund account opened. Month 1-6: Build 3-month emergency fund (₹60,000-₹75,000). Month 3: Term insurance bought (₹1Cr cover, ₹700/month). Month 3: Health insurance bought (₹10L cover, ₹700/month). Month 6: Start SIP in Nifty 50 index fund (₹5,000/month). Month 12: Check credit score. Start credit card if score > 700. Year 2: Increase SIP by 10% every year (Step-up SIP). Year 4-5: First ₹10 Lakh milestone crossed.",
+              "visual": {
+                "type": "flow",
+                "steps": ["Emergency Fund Built", "Term + Health Insurance", "SIP Started ₹5,000/mo", "Step-up 10% annually", "Credit Score Built", "₹10 Lakh at Year 4-5"]
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Accelerate",
+              "heading": "How to reach ₹10 Lakh faster",
+              "body": "Every ₹1,000 increase in monthly SIP cuts 6-8 months from your timeline. Increase SIP with every salary hike — don't increase lifestyle by the full raise amount. Lifestyle inflation is the biggest wealth killer. Get a side income — even ₹5,000/month extra invested is ₹3.5 Lakh in 3 years at 12%. Avoid EMIs for anything depreciating. Avoid lending money to friends without written agreement.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Commit",
+              "heading": "Quiz: You get a ₹10,000/month salary raise. Best financial move?",
+              "body": "A) Upgrade lifestyle — spend the full ₹10,000 extra\nB) Split: ₹5,000 lifestyle upgrade + ₹5,000 added to SIP\nC) Put entire ₹10,000 in SIP for 5 years, then enjoy\n\nAnswer: B — Balance is sustainable. Option A slows wealth building. Option C may cause burnout. Split approach builds wealth AND lets you enjoy progress.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "What is 'Step-up SIP'?",
+                "options": ["Stopping SIP when market is high", "Increasing SIP amount annually (typically 10%)", "Stepping into new mutual funds", "Withdrawing SIP periodically"],
+                "answer": 1,
+                "explanation": "Step-up SIP increases your monthly investment by a fixed % (usually 10%) every year, aligned with salary growth. This dramatically accelerates wealth creation."
+              },
+              {
+                "q": "Lifestyle inflation means?",
+                "options": ["Rising cost of living due to inflation", "Increasing spending as income rises — often beyond inflation", "Government tax on luxury", "Bank fee increases"],
+                "answer": 1,
+                "explanation": "Lifestyle inflation = upgrading your lifestyle every time income increases. The most dangerous wealth killer because it feels natural but prevents savings from growing."
+              },
+              {
+                "q": "The correct order of financial priorities for a 23-year-old fresh employee is?",
+                "options": ["Invest → Insurance → Emergency Fund", "Emergency Fund → Insurance → Invest", "Invest in real estate first", "None — no priority needed"],
+                "answer": 1,
+                "explanation": "Emergency Fund first (financial safety net) → Insurance second (protection before investing) → Invest third (grow wealth). Skipping steps 1-2 makes investing risky."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-7",
+          "title": "Real Estate vs Mutual Funds — The Indian Debate Settled",
+          "emoji": "🏠",
+          "xp": 100,
+          "cards": [
+            {
+              "type": "hook",
+              "chip": "🥊 Debate",
+              "heading": "Your parents say: Buy property. Your finance Twitter says: Buy mutual funds. Who is right?",
+              "body": "This is the most debated financial question in India. Both are right — in different contexts. Real estate built wealth for the previous generation. Mutual funds may be better for this generation. Here is the complete, unbiased comparison.",
+              "visual": null
+            },
+            {
+              "type": "concept",
+              "chip": "📘 Full Comparison",
+              "heading": "Real estate vs mutual funds — every angle",
+              "body": "Return (last 20 years): Real estate 8-12% CAGR in good locations. Nifty 50: 12-14% CAGR. Liquidity: Real estate — sell takes 3-6 months. Mutual fund — sell in 1-3 days. Starting investment: Real estate — ₹20-50 Lakh (+ loan). Mutual fund — ₹500. Transparency: Real estate — opaque pricing. Mutual fund — daily NAV published. Tax: Real estate — LTCG 20% + indexation. Equity MF — LTCG 12.5% above ₹1.25L.",
+              "visual": {
+                "type": "comparison",
+                "left": { "label": "Real Estate", "items": ["8-12% CAGR (good locations)", "Requires ₹20-50L minimum", "Sell in 3-6 months", "Rental income (2-3%)", "Emotional/family value", "Leveraged (home loan)"] },
+                "right": { "label": "Equity Mutual Fund", "items": ["12-14% CAGR historically", "Start with ₹500", "Sell in 1-3 working days", "No rental income hassle", "Pure financial asset", "No leverage needed"] }
+              }
+            },
+            {
+              "type": "concept",
+              "chip": "💡 Real Answer",
+              "heading": "The real answer: it depends on your situation",
+              "body": "Buy property when: You need a home to live in (emotional + financial), you have 30-40% down payment without straining finances, you plan to stay in same city for 10+ years, rental yield + appreciation makes sense vs EMI. Choose mutual funds when: You don't need to live in the property, you want liquidity, you're early career with limited capital, you want diversification. Ideal: One home to live in + mutual fund portfolio for wealth.",
+              "visual": null
+            },
+            {
+              "type": "action",
+              "chip": "✅ Your Call",
+              "heading": "Quiz: LTCG tax on equity mutual funds (held 1+ year) is?",
+              "body": "A) 30% flat\nB) 12.5% on gains above ₹1.25 Lakh per year\nC) No tax on mutual funds\n\nAnswer: B — From Budget 2024, Long Term Capital Gains on equity mutual funds is 12.5% on gains exceeding ₹1.25 Lakh per year. Below ₹1.25L, no tax. Plan redemptions accordingly.",
+              "visual": null
+            }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "q": "Long Term Capital Gains tax on equity mutual funds (post Budget 2024) is?",
+                "options": ["0% — no tax", "10% on all gains", "12.5% on gains above ₹1.25L/year", "30% flat"],
+                "answer": 2,
+                "explanation": "Budget 2024 changed LTCG on equity MF to 12.5% (from 10%) on gains above ₹1.25 Lakh per year. Gains below ₹1.25L are tax free. Holding period must be 12+ months."
+              },
+              {
+                "q": "One major advantage of mutual funds over real estate is?",
+                "options": ["Higher returns always", "Leverage available", "Liquidity — can be sold in 1-3 days", "No tax ever"],
+                "answer": 2,
+                "explanation": "Mutual funds can be redeemed in 1-3 working days. Real estate sale takes 3-6+ months involving lawyers, registration, and finding buyers."
+              },
+              {
+                "q": "The ideal financial approach for most young Indians is?",
+                "options": ["Only real estate", "Only mutual funds", "One home to live in + mutual fund portfolio for wealth building", "Only gold"],
+                "answer": 2,
+                "explanation": "Owning one home provides housing security and emotional satisfaction. Building a mutual fund portfolio alongside provides liquidity, growth, and diversification."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

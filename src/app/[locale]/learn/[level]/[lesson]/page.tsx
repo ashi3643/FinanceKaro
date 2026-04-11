@@ -3,11 +3,8 @@
 import { useStore } from "@/lib/store";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, TouchEvent } from "react";
+import curriculumData from "@/data/curriculum.json";
 import { level1Lessons } from "@/data/lessons/level1";
-import { level2Lessons } from "@/data/lessons/level2";
-import { level3Lessons } from "@/data/lessons/level3";
-import { level4Lessons } from "@/data/lessons/level4";
-import { level5Lessons } from "@/data/lessons/level5";
 import { ArrowLeft, CheckCircle2, Trophy, XCircle, Menu, Home, BookOpen } from "lucide-react";
 import { useLocale } from "next-intl";
 
@@ -26,6 +23,47 @@ type LessonData = {
 
 type LessonMap = Record<string, LessonData>;
 
+function convertLessonToCards(lesson: any): LessonCard[] {
+  const cards: LessonCard[] = [];
+  
+  // Add the main cards
+  lesson.cards.forEach((card: any) => {
+    if (card.type === 'action' && card.body && (card.body.includes('A)') || card.body.includes('Answer:'))) {
+      // Action card is a quiz
+      const lines = card.body.split('\n').filter((line: string) => line.trim());
+      const options = lines.filter((line: string) => line.startsWith('A)') || line.startsWith('B)') || line.startsWith('C)')).map((line: string) => line.substring(3).trim());
+      const answerLine = lines.find((line: string) => line.startsWith('Answer:'));
+      const answerIndex = answerLine ? (answerLine.includes('A') ? 0 : answerLine.includes('B') ? 1 : 2) : 0;
+      cards.push({
+        type: 'quiz',
+        question: card.heading,
+        options: options,
+        answerIndex: answerIndex
+      });
+    } else {
+      cards.push({
+        type: card.type,
+        text: card.heading,
+        subtext: card.body
+      });
+    }
+  });
+  
+  // Add quiz questions as separate quiz cards
+  if (lesson.quiz) {
+    lesson.quiz.questions.forEach((q: any) => {
+      cards.push({
+        type: 'quiz',
+        question: q.q,
+        options: q.options,
+        answerIndex: q.answer
+      });
+    });
+  }
+  
+  return cards;
+}
+
 export default function LessonPage() {
   const params = useParams();
   const router = useRouter();
@@ -39,22 +77,18 @@ export default function LessonPage() {
   // Lesson data router
   let lesson: LessonData | null = null;
   const levelNum = parseInt(level);
-  switch (levelNum) {
-    case 1:
-      lesson = (level1Lessons as LessonMap)[lessonId];
-      break;
-    case 2:
-      lesson = (level2Lessons as LessonMap)[lessonId];
-      break;
-    case 3:
-      lesson = (level3Lessons as LessonMap)[lessonId];
-      break;
-    case 4:
-      lesson = (level4Lessons as LessonMap)[lessonId];
-      break;
-    case 5:
-      lesson = (level5Lessons as LessonMap)[lessonId];
-      break;
+  if (levelNum === 1) {
+    lesson = (level1Lessons as LessonMap)[lessonId];
+  } else {
+    const levelData = (curriculumData.curriculum as any)[`level${level}`];
+    if (levelData) {
+      const lessonData = levelData.lessons.find((l: any) => l.id === lessonId);
+      if (lessonData) {
+        lesson = {
+          cards: convertLessonToCards(lessonData)
+        };
+      }
+    }
   }
 
   const [currentCard, setCurrentCard] = useState(0);
