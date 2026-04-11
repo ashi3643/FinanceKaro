@@ -12,6 +12,13 @@ const languages = [
   { code: 'te', name: 'TE', displayName: 'Telugu', enabled: true }
 ];
 
+const localeCodes = ['en', 'hi', 'te', 'ta', 'mr', 'bn'];
+
+const stripLocalePrefix = (pathname: string) => {
+  const segments = pathname.split('/').filter(Boolean);
+  return segments.filter((segment) => !localeCodes.includes(segment)).join('/');
+};
+
 export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
@@ -28,14 +35,9 @@ export default function LanguageSwitcher() {
     }
 
     startTransition(() => {
-      setLanguage(newLocale);
-      const pathSegments = pathname.split('/').filter(Boolean);
-      const currentPathWithoutLocale =
-        pathSegments[0] === currentLocale ? `/${pathSegments.slice(1).join('/')}` : pathname;
-      const targetPath =
-        currentPathWithoutLocale === '/' || currentPathWithoutLocale === ''
-          ? `/${newLocale}`
-          : `/${newLocale}${currentPathWithoutLocale}`;
+      setLanguage(newLocale, false);
+      const relativePath = stripLocalePrefix(pathname);
+      const targetPath = relativePath ? `/${newLocale}/${relativePath}` : `/${newLocale}`;
 
       router.push(targetPath);
     });

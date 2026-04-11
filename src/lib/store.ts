@@ -14,7 +14,7 @@ interface AppState {
   completedLessons: string[]; // ["level1-lesson1", etc]
   addXp: (amount: number) => void;
   updateStreak: () => void;
-  setLanguage: (lang: string) => void;
+  setLanguage: (lang: string, persist?: boolean) => void;
   setCollege: (college: string) => void;
   setStage: (stage: 'Student' | 'First-Jobber') => void;
   completeLesson: (levelId: number, lessonId: string) => void;
@@ -25,6 +25,39 @@ type MyPersist = (
   config: StateCreator<AppState, [["zustand/persist", unknown]]>,
   options: PersistOptions<AppState>
 ) => StateCreator<AppState, [], [["zustand/persist", AppState]]>;
+
+let isSupabaseAvailable = !!supabase;
+
+const handleSupabaseError = (error: { code?: string; status?: number; message?: string } | null, operation: string) => {
+  if (!error) return;
+
+  console.warn(`Supabase warning during ${operation}:`, error);
+
+  if (
+    error.code === 'PGRST205' ||
+    error.status === 404 ||
+    error.message?.includes("Could not find the table")
+  ) {
+    isSupabaseAvailable = false;
+    console.warn('Supabase writes are disabled for this session because the backend schema is unavailable.');
+  }
+};
+
+const safeSupabase = (operation: string, callback: () => any) => {
+  if (!supabase || !isSupabaseAvailable) return;
+
+  callback()
+    .then((res: any) => {
+      const result = res as unknown as { error?: { code?: string; status?: number; message?: string } };
+      if (result?.error) {
+        handleSupabaseError(result.error, operation);
+      }
+    })
+    .catch((error: any) => {
+      console.error(`Supabase request failed during ${operation}:`, error);
+      isSupabaseAvailable = false;
+    });
+};
 
 export const useStore = create<AppState>()(
   (persist as MyPersist)(
@@ -44,26 +77,31 @@ export const useStore = create<AppState>()(
         if (!state.deviceId) {
           const newId = crypto.randomUUID();
           set({ deviceId: newId });
-          
-          if (!supabase) return;
 
-          // Fire and forget insert to Supabase
-          await supabase.from('profiles').insert({
-            device_id: newId,
-            xp: state.xp,
-            streak: state.streak,
-            stage: state.stage,
-            language: state.language,
-            college: state.college
-          }).select().single().then(res => res.error && console.error(res.error));
+          if (isSupabaseAvailable) {
+            safeSupabase('create profile', () =>
+              supabase!.from('profiles').insert({
+                device_id: newId,
+                xp: state.xp,
+                streak: state.streak,
+                stage: state.stage,
+                language: state.language,
+                college: state.college
+              }).select().single()
+            );
+          }
         }
       },
 
       addXp: (amount) => {
         set((state) => ({ xp: state.xp + amount }));
+        if (!isSupabaseAvailable) return;
+
         const deviceId = get().deviceId;
-        if (deviceId && supabase) {
-          supabase.from('profiles').update({ xp: get().xp }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
+        if (deviceId) {
+          safeSupabase('update xp', () =>
+            supabase!.from('profiles').update({ xp: get().xp }).eq('device_id', deviceId)
+          );
         }
       },
       
@@ -85,35 +123,51 @@ export const useStore = create<AppState>()(
         }
         
         set({ streak: newStreak, lastLoginDate: today });
-        if (state.deviceId && supabase) {
-           supabase.from('profiles').update({ 
-             streak: newStreak, 
-             last_login_date: today 
-           }).eq('device_id', state.deviceId).then(res => res.error && console.error(res.error));
+        if (!isSupabaseAvailable) return;
+
+        if (state.deviceId) {
+          safeSupabase('update streak', () =>
+            supabase!.from('profiles').update({ 
+              streak: newStreak, 
+              last_login_date: today 
+            }).eq('device_id', state.deviceId)
+          );
         }
       },
 
-      setLanguage: (lang) => {
+      setLanguage: (lang, persist = true) => {
         set({ language: lang });
+        if (!persist || !isSupabaseAvailable) return;
+
         const deviceId = get().deviceId;
-        if (deviceId && supabase) {
-          supabase.from('profiles').update({ language: lang }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
+        if (deviceId) {
+          safeSupabase('update language', () =>
+            supabase!.from('profiles').update({ language: lang }).eq('device_id', deviceId)
+          );
         }
       },
 
       setCollege: (college) => {
         set({ college });
+        if (!isSupabaseAvailable) return;
+
         const deviceId = get().deviceId;
-        if (deviceId && supabase) {
-          supabase.from('profiles').update({ college }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
+        if (deviceId) {
+          safeSupabase('update college', () =>
+            supabase!.from('profiles').update({ college }).eq('device_id', deviceId)
+          );
         }
       },
       
       setStage: (stage) => {
         set({ stage });
+        if (!isSupabaseAvailable) return;
+
         const deviceId = get().deviceId;
-        if (deviceId && supabase) {
-          supabase.from('profiles').update({ stage: stage }).eq('device_id', deviceId).then(res => res.error && console.error(res.error));
+        if (deviceId) {
+          safeSupabase('update stage', () =>
+            supabase!.from('profiles').update({ stage: stage }).eq('device_id', deviceId)
+          );
         }
       },
 
@@ -136,12 +190,16 @@ export const useStore = create<AppState>()(
             : state.unlockedLevels
         });
 
-        if (state.deviceId && supabase) {
-           supabase.from('completed_lessons').insert({
+        if (!isSupabaseAvailable) return;
+
+        if (state.deviceId) {
+          safeSupabase('insert completed lesson', () =>
+            supabase!.from('completed_lessons').insert({
               device_id: state.deviceId,
               level_id: levelId,
               lesson_id: lessonId
-           }).then(res => res.error && console.error(res.error));
+            })
+          );
         }
       }
     }),

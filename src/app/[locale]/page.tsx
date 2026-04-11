@@ -15,6 +15,14 @@ const languages = [
   { code: "bn", label: "Bengali", enabled: false }
 ];
 
+const localeCodes = ["en", "hi", "te", "ta", "mr", "bn"];
+
+const stripLocalePrefix = (pathname: string) => {
+  const segments = pathname.split("/").filter(Boolean);
+  const normalized = segments.filter((segment) => !localeCodes.includes(segment));
+  return normalized.join("/");
+};
+
 export default function Home() {
   const router = useRouter();
   const pathname = usePathname();
@@ -26,7 +34,7 @@ export default function Home() {
 
   useEffect(() => {
     if (language !== locale) {
-      setLanguage(locale);
+      setLanguage(locale, false);
     }
   }, [language, locale, setLanguage]);
 
@@ -46,15 +54,10 @@ export default function Home() {
     }
 
     startLanguageTransition(() => {
-      setLanguage(code);
+      setLanguage(code, false);
 
-      const pathSegments = pathname.split("/").filter(Boolean);
-      const currentPathWithoutLocale =
-        pathSegments[0] === locale ? `/${pathSegments.slice(1).join("/")}` : pathname;
-      const targetPath =
-        currentPathWithoutLocale === "/" || currentPathWithoutLocale === ""
-          ? `/${code}`
-          : `/${code}${currentPathWithoutLocale}`;
+      const relativePath = stripLocalePrefix(pathname);
+      const targetPath = relativePath ? `/${code}/${relativePath}` : `/${code}`;
 
       router.push(targetPath);
     });
