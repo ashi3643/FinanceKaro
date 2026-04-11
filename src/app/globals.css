@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-syne);
+  
+  --color-bg: #0B0F1A;
+  --color-surface: #1a1f2e;
+  --color-surface2: #2a2f3e;
+  --color-border: #3a3f4e;
+  --color-accent: #22C55E;
+  --color-accent2: #EF4444;
+  --color-accent3: #4F46E5;
+  --color-text: #FFFFFF;
+  --color-muted: #D0D0D0;
+  --color-warning: #22D3EE;
+  --color-highlight: #22D3EE;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-dm-sans), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-syne), sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .glass {
+    background: rgba(26, 31, 46, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(58, 63, 78, 0.8);
+  }
+
+  .animate-in {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .animate-in {
+      animation: none !important;
+      animation-fill-mode: both;
+    }
+  }
+  
+  .fade-in {
+    animation-name: fadeIn;
+  }
+  .slide-in-from-bottom-4 {
+    animation-name: slideInFromBottom4;
+  }
+  .slide-in-from-bottom-10 {
+    animation-name: slideInFromBottom10;
+  }
+  .zoom-in {
+    animation-name: zoomIn;
+  }
+  .zoom-in-95 {
+    animation-name: zoomIn95;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInFromBottom4 {
+  from { transform: translateY(1rem); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideInFromBottom10 {
+  from { transform: translateY(2.5rem); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes zoomIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes zoomIn95 {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Hide scrollbar for cleaner mobile look */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}

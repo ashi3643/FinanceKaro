@@ -1,0 +1,22 @@
+{
+  "name": "FinanceKaro",
+  "short_name": "FinanceKaro",
+  "description": "Learn money like life, not like school.",
+  "start_url": "/en",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/next.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/file.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
