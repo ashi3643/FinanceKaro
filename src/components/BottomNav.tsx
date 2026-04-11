@@ -25,7 +25,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full max-w-[420px] bg-surface/90 backdrop-blur-md border-t border-border px-6 py-3 z-50">
+    <nav aria-label="Primary navigation" className="fixed bottom-0 w-full max-w-[420px] bg-surface/90 backdrop-blur-md border-t border-border px-4 py-2 z-50">
       <div className="flex justify-between items-center">
         {navItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/" && pathname?.startsWith(item.href));
@@ -33,7 +33,9 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-1 transition-colors ${
+              aria-label={`Navigate to ${item.name}`}
+              aria-current={isActive ? 'page' : undefined}
+              className={`flex min-w-[56px] min-h-[48px] flex-col justify-center items-center gap-1 transition-colors rounded-lg ${
                 isActive ? "text-accent" : "text-muted hover:text-text"
               }`}
             >

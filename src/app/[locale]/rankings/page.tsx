@@ -117,6 +117,8 @@ export default function RankingsPage() {
           <button
             key={cityOption}
             onClick={() => setCity(cityOption)}
+            aria-label={`Filter by ${cityOption === "All" ? "all cities" : cityOption}`}
+            aria-pressed={city === cityOption}
             className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors ${
               city === cityOption ? "bg-accent text-white" : "bg-surface2 text-muted border border-border"
             }`}
@@ -183,6 +185,7 @@ export default function RankingsPage() {
       <div className="mt-auto pb-4 sticky bottom-0 bg-gradient-to-t from-bg via-bg to-transparent pt-8">
         <button
           onClick={() => setIsModalOpen(true)}
+          aria-label="Add your college to rankings"
           className="w-full bg-surface border border-accent text-accent font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-accent/10 transition-colors"
         >
           <Medal size={20} /> {t("addCollege")}
@@ -198,6 +201,7 @@ export default function RankingsPage() {
               value={collegeInput}
               onChange={(e) => setCollegeInput(e.target.value)}
               placeholder={t("collegePlaceholder")}
+              aria-label="College name and city"
               className="w-full bg-surface2 border border-border rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
             />
             {formError && (
@@ -209,6 +213,7 @@ export default function RankingsPage() {
                   setIsModalOpen(false);
                   setFormError(null);
                 }}
+                aria-label="Cancel adding college"
                 className="flex-1 bg-surface2 border border-border py-2 rounded-lg text-sm font-semibold"
               >
                 {t("cancel")}
@@ -216,6 +221,7 @@ export default function RankingsPage() {
               <button
                 onClick={handleAddCollege}
                 disabled={isSaving}
+                aria-label="Save college"
                 className="flex-1 bg-accent text-black py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 {isSaving ? <LoaderCircle size={16} className="animate-spin" /> : <Plus size={16} />}

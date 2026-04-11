@@ -11,6 +11,21 @@ import { level5Lessons } from "@/data/lessons/level5";
 import { ArrowLeft, CheckCircle2, Trophy, XCircle, Menu, Home, BookOpen } from "lucide-react";
 import { useLocale } from "next-intl";
 
+type LessonCard = {
+  type: string;
+  text?: string;
+  subtext?: string;
+  question?: string;
+  options?: string[];
+  answerIndex?: number;
+};
+
+type LessonData = {
+  cards: LessonCard[];
+};
+
+type LessonMap = Record<string, LessonData>;
+
 export default function LessonPage() {
   const params = useParams();
   const router = useRouter();
@@ -22,23 +37,23 @@ export default function LessonPage() {
   const lessonId = params?.lesson as string;
 
   // Lesson data router
-  let lesson: any = null;
+  let lesson: LessonData | null = null;
   const levelNum = parseInt(level);
   switch (levelNum) {
     case 1:
-      lesson = (level1Lessons as any)[lessonId];
+      lesson = (level1Lessons as LessonMap)[lessonId];
       break;
     case 2:
-      lesson = (level2Lessons as any)[lessonId];
+      lesson = (level2Lessons as LessonMap)[lessonId];
       break;
     case 3:
-      lesson = (level3Lessons as any)[lessonId];
+      lesson = (level3Lessons as LessonMap)[lessonId];
       break;
     case 4:
-      lesson = (level4Lessons as any)[lessonId];
+      lesson = (level4Lessons as LessonMap)[lessonId];
       break;
     case 5:
-      lesson = (level5Lessons as any)[lessonId];
+      lesson = (level5Lessons as LessonMap)[lessonId];
       break;
   }
 
@@ -50,10 +65,6 @@ export default function LessonPage() {
 
   // Swipe detection limits
   const [touchStart, setTouchStart] = useState<number | null>(null);
-
-  if (!lesson) {
-    return <div className="p-4 pt-10 text-center">Lesson not found. <button onClick={() => router.back()} className="text-accent underline">Go back</button></div>;
-  }
 
   const handleTouchStart = (e: TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientY);
@@ -70,13 +81,6 @@ export default function LessonPage() {
     }
   };
 
-  // Close menu when clicking outside
-  const handleClickOutside = (e: React.MouseEvent) => {
-    if (showMenu && !(e.target as Element).closest('.menu-container')) {
-      setShowMenu(false);
-    }
-  };
-
   // Add click outside listener
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -88,6 +92,10 @@ export default function LessonPage() {
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
   }, [showMenu]);
+
+  if (!lesson) {
+    return <div className="p-4 pt-10 text-center">Lesson not found. <button aria-label="Go back" onClick={() => router.back()} className="text-accent underline">Go back</button></div>;
+  }
 
   const nextCard = () => {
     if (lesson.cards[currentCard].type === 'quiz' && !showResult) {
@@ -124,6 +132,8 @@ export default function LessonPage() {
 
   const progress = ((currentCard + 1) / lesson.cards.length) * 100;
   const card = lesson.cards[currentCard];
+  const answerIndex = card.answerIndex ?? -1;
+  const options = card.options ?? [];
 
   if (completed) {
     return (
@@ -137,6 +147,7 @@ export default function LessonPage() {
         </div>
         <button 
           onClick={() => router.push(`${basePath}/learn`)}
+          aria-label="Continue to all lessons"
           className="bg-accent text-white font-bold py-4 px-8 rounded-full w-full hover:scale-105 transition-transform"
         >
           Continue Journey
@@ -184,6 +195,7 @@ export default function LessonPage() {
                     router.push(`${basePath}/learn`);
                     setShowMenu(false);
                   }}
+                  aria-label="Open all lessons"
                   className="w-full flex items-center gap-3 p-3 text-left text-text hover:bg-surface2 rounded-lg transition-colors"
                 >
                   <BookOpen size={18} />
@@ -194,6 +206,7 @@ export default function LessonPage() {
                     router.push(basePath);
                     setShowMenu(false);
                   }}
+                  aria-label="Go to home"
                   className="w-full flex items-center gap-3 p-3 text-left text-text hover:bg-surface2 rounded-lg transition-colors"
                 >
                   <Home size={18} />
@@ -204,6 +217,7 @@ export default function LessonPage() {
                     router.push(`${basePath}/learn/${level}`);
                     setShowMenu(false);
                   }}
+                  aria-label={`Go to level ${level} lessons`}
                   className="w-full flex items-center gap-3 p-3 text-left text-text hover:bg-surface2 rounded-lg transition-colors"
                 >
                   <ArrowLeft size={18} />
@@ -246,10 +260,10 @@ export default function LessonPage() {
                <h2 className="text-2xl font-display font-bold leading-tight mb-8">{card.question}</h2>
                
                <div className="space-y-3">
-                 {card.options.map((opt: string, idx: number) => {
+                 {options.map((opt, idx) => {
                    let stateClass = "bg-surface border-border hover:border-accent/40";
                    if (showResult) {
-                     if (idx === card.answerIndex) stateClass = "bg-accent/20 border-accent text-accent";
+                     if (idx === answerIndex) stateClass = "bg-accent/20 border-accent text-accent";
                      else if (idx === selectedOption) stateClass = "bg-warning/20 border-warning text-warning";
                      else stateClass = "bg-surface/50 border-border opacity-50";
                    }
@@ -259,11 +273,12 @@ export default function LessonPage() {
                        key={idx}
                        onClick={() => handleQuizAnswer(idx)}
                        disabled={showResult}
+                       aria-label={`Choose option ${idx + 1}: ${opt}`}
                        className={`w-full text-left p-4 rounded-xl border-2 transition-all flex justify-between items-center ${stateClass}`}
                      >
                        <span className="font-medium text-[15px]">{opt}</span>
-                       {showResult && idx === card.answerIndex && <CheckCircle2 size={20} className="text-accent"/>}
-                       {showResult && idx === selectedOption && idx !== card.answerIndex && <XCircle size={20} className="text-warning"/>}
+                       {showResult && idx === answerIndex && <CheckCircle2 size={20} className="text-accent"/>}
+                       {showResult && idx === selectedOption && idx !== answerIndex && <XCircle size={20} className="text-warning"/>}
                      </button>
                    );
                  })}
@@ -273,6 +288,7 @@ export default function LessonPage() {
                  <div className="pt-6 animate-in fade-in">
                    <button 
                      onClick={nextCard}
+                     aria-label="Continue to next card"
                      className="w-full bg-accent text-white font-bold py-4 rounded-full flex items-center justify-center gap-2"
                    >
                      Continue

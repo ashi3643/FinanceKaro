@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { locales } from '../../../i18n';
+import { locales, type Locale } from '../../../i18n';
 import TopBar from '@/components/TopBar';
 import BottomNav from '@/components/BottomNav';
 import InstallPWA from '@/components/InstallPWA';
@@ -16,13 +16,13 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   // Ensure that the incoming `locale` is valid
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
 
   // Providing all messages to the client
   // side is the easiest way to get started
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
     <ErrorBoundary>

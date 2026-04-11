@@ -3,16 +3,22 @@
 import { useEffect, useState } from "react";
 import { Download, X } from "lucide-react";
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+}
+
 export default function InstallPWA() {
   const [supportsPWA, setSupportsPWA] = useState(false);
-  const [promptInstall, setPromptInstall] = useState<any>(null);
+  const [promptInstall, setPromptInstall] = useState<BeforeInstallPromptEvent | null>(null);
   const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
-    const handler = (e: any) => {
+    const handler = (e: Event) => {
+      const installEvent = e as BeforeInstallPromptEvent;
       e.preventDefault();
       setSupportsPWA(true);
-      setPromptInstall(e);
+      setPromptInstall(installEvent);
     };
     
     window.addEventListener("beforeinstallprompt", handler);
@@ -23,7 +29,7 @@ export default function InstallPWA() {
     e.preventDefault();
     if (!promptInstall) return;
     promptInstall.prompt();
-    promptInstall.userChoice.then((choiceResult: any) => {
+    promptInstall.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === "accepted") {
         setIsDismissed(true);
       }
@@ -41,10 +47,10 @@ export default function InstallPWA() {
          <div className="font-bold text-sm">Install App</div>
          <div className="text-[11px] text-muted leading-tight">Add to Home Screen for the best experience.</div>
        </div>
-       <button onClick={onClick} className="bg-accent text-white font-bold text-xs px-4 py-2 rounded-lg hover:scale-105 transition-transform">
+       <button aria-label="Install FinanceKaro app" onClick={onClick} className="bg-accent text-white font-bold text-xs px-4 py-2 rounded-lg hover:scale-105 transition-transform">
          Get App
        </button>
-       <button onClick={() => setIsDismissed(true)} className="absolute -top-2 -right-2 bg-surface2 text-muted p-1 border border-border rounded-full hover:text-text">
+       <button aria-label="Dismiss install prompt" onClick={() => setIsDismissed(true)} className="absolute -top-2 -right-2 bg-surface2 text-muted p-1 border border-border rounded-full hover:text-text">
          <X size={12} />
        </button>
     </div>

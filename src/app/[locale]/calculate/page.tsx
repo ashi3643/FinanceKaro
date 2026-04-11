@@ -69,6 +69,7 @@ export default function CalculatePage() {
               step="100"
               value={sipAmount}
               onChange={(e) => setSipAmount(Number(e.target.value))}
+              aria-label="Monthly savings amount"
               className="w-full accent-accent h-1.5 bg-surface2 rounded-lg appearance-none cursor-pointer"
             />
           </div>
@@ -85,6 +86,7 @@ export default function CalculatePage() {
               step="1"
               value={years}
               onChange={(e) => setYears(Number(e.target.value))}
+              aria-label="Investment period in years"
               className="w-full accent-accent h-1.5 bg-surface2 rounded-lg appearance-none cursor-pointer"
             />
           </div>
@@ -101,6 +103,7 @@ export default function CalculatePage() {
               step="0.5"
               value={expectedReturnPercent}
               onChange={(e) => setExpectedReturnPercent(Number(e.target.value))}
+              aria-label="Expected annual return percentage"
               className="w-full accent-accent h-1.5 bg-surface2 rounded-lg appearance-none cursor-pointer"
             />
           </div>

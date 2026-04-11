@@ -3,6 +3,7 @@
 import { useStore } from "@/lib/store";
 import { ShieldAlert, CheckCircle2, XCircle } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const SCAMS = [
   // Task Fraud / Work-from-Home Scams
@@ -385,6 +386,7 @@ const SCAMS = [
 ];
 
 export default function ScamRadarPage() {
+  const t = useTranslations("scamRadar");
   const [current, setCurrent] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -414,7 +416,7 @@ export default function ScamRadarPage() {
       <div className="flex justify-between items-end mb-2">
         <div>
           <span className="text-xs font-bold text-muted uppercase tracking-widest block mb-1">Defense Training</span>
-          <h1 className="text-3xl font-display font-extrabold flex items-center gap-2">Scam Radar <ShieldAlert className="text-warning"/></h1>
+          <h1 className="text-3xl font-display font-extrabold flex items-center gap-2">{t("scamRadar")} <ShieldAlert className="text-warning"/></h1>
         </div>
       </div>
 
@@ -435,6 +437,7 @@ export default function ScamRadarPage() {
             <div className="grid grid-cols-2 gap-4">
               <button 
                 onClick={() => handleGuess(true)}
+                aria-label="Mark this case as fake or scam"
                 className="bg-surface2 border border-border hover:border-warning/50 py-4 rounded-xl flex flex-col items-center gap-2 transition-colors"
               >
                 <XCircle className="text-warning" />
@@ -442,6 +445,7 @@ export default function ScamRadarPage() {
               </button>
               <button 
                 onClick={() => handleGuess(false)}
+                aria-label="Mark this case as real or safe"
                 className="bg-surface2 border border-border hover:border-accent/50 py-4 rounded-xl flex flex-col items-center gap-2 transition-colors"
               >
                 <CheckCircle2 className="text-accent" />
@@ -452,13 +456,14 @@ export default function ScamRadarPage() {
              <div className="animate-in fade-in zoom-in-95">
                <div className={`p-4 rounded-xl mb-6 text-center border ${isCorrect ? 'bg-accent/20 border-accent/50 text-accent' : 'bg-[#ff4d8d]/20 border-[#ff4d8d]/50 text-[#ff4d8d]'}`}>
                  <h4 className="font-display font-bold text-lg mb-1">{isCorrect ? 'Spot On! +20 XP' : 'You Got Trapped!'}</h4>
-                 <p className="text-sm font-medium text-text/90 italic mt-2">"{scam.realTruth}"</p>
+                 <p className="text-sm font-medium text-text/90 italic mt-2"><q>{scam.realTruth}</q></p>
                </div>
                <button 
                  onClick={nextCard}
+                 aria-label="Go to next scam case"
                  className="w-full bg-surface2 border border-border py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-black/5 transition-colors"
                >
-                 Next Case
+                 {t("next")}
                </button>
              </div>
           )}
@@ -466,7 +471,7 @@ export default function ScamRadarPage() {
         </div>
         
         <div className="text-center text-xs text-muted uppercase tracking-widest">
-          If it's too good to be true, it is.
+          If it is too good to be true, it is.
         </div>
       </div>
     </div>

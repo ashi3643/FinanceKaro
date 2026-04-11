@@ -12,7 +12,7 @@
   --color-accent2: #EF4444;
   --color-accent3: #4F46E5;
   --color-text: #FFFFFF;
-  --color-muted: #D0D0D0;
+  --color-muted: #9CA3AF;
   --color-warning: #22D3EE;
   --color-highlight: #22D3EE;
 }
@@ -30,6 +30,11 @@
     font-family: var(--font-dm-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+  }
+
+  html,
+  body {
+    min-height: 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -52,8 +57,21 @@
     animation-fill-mode: both;
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+  }
   
   @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
     .animate-in {
       animation: none !important;
       animation-fill-mode: both;

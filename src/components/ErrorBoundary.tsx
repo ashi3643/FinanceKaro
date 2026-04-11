@@ -49,12 +49,14 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => window.location.reload()}
+                aria-label="Refresh page"
                 className="px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors"
               >
                 Refresh Page
               </button>
               <button
                 onClick={() => window.location.href = '/'}
+                aria-label="Go to home page"
                 className="px-6 py-3 bg-surface2 text-text rounded-lg font-medium hover:bg-surface2/80 transition-colors"
               >
                 Go Home
