@@ -260,7 +260,10 @@ export const useStore = create<AppState>()(
 
           // Update recent predictions (keep last 5)
           set((state) => ({
-            recentPredictions: [predictionResult, ...state.recentPredictions.slice(0, 4)],
+            recentPredictions: [
+              predictionResult,
+              ...(Array.isArray(state.recentPredictions) ? state.recentPredictions.slice(0, 4) : [])
+            ],
             isPredicting: false
           }));
 
@@ -283,7 +286,8 @@ export const useStore = create<AppState>()(
           if (supabase && get().deviceId) {
             // Find the prediction in recent predictions
             const state = get();
-            const prediction = state.recentPredictions.find(p =>
+            const recentPredictions = Array.isArray(state.recentPredictions) ? state.recentPredictions : [];
+            const prediction = recentPredictions.find(p =>
               p.timestamp === predictionId || p.modelVersion === predictionId
             );
             
