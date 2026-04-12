@@ -2,6 +2,14 @@ import { create, StateCreator } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 import { supabase } from './supabase';
 
+interface PredictionResult {
+  prediction: number;
+  confidence: number;
+  recommendation: string;
+  modelVersion: string;
+  timestamp: string;
+}
+
 interface AppState {
   deviceId: string;
   xp: number;
@@ -12,6 +20,9 @@ interface AppState {
   stage: 'Student' | 'First-Jobber' | null;
   unlockedLevels: number[];
   completedLessons: string[]; // ["level1-lesson1", etc]
+  recentPredictions: PredictionResult[];
+  isPredicting: boolean;
+  predictionError: string | null;
   addXp: (amount: number) => void;
   updateStreak: () => void;
   setLanguage: (lang: string, persist?: boolean) => void;
@@ -19,6 +30,17 @@ interface AppState {
   setStage: (stage: 'Student' | 'First-Jobber') => void;
   completeLesson: (levelId: number, lessonId: string) => void;
   initDevice: () => void;
+  predictWealth: (params: {
+    monthlyAmount: number;
+    years: number;
+    annualReturn: number;
+    age?: number;
+    income?: number;
+    riskTolerance?: string;
+    financialGoals?: string[];
+  }) => Promise<PredictionResult>;
+  submitPredictionFeedback: (predictionId: string, feedback: string) => Promise<void>;
+  clearPredictionError: () => void;
 }
 
 type MyPersist = (
@@ -71,6 +93,9 @@ export const useStore = create<AppState>()(
       stage: null,
       unlockedLevels: [1], // Level 1 is always unlocked
       completedLessons: [],
+      recentPredictions: [],
+      isPredicting: false,
+      predictionError: null,
 
       initDevice: async () => {
         const state = get();
@@ -201,6 +226,82 @@ export const useStore = create<AppState>()(
             })
           );
         }
+      },
+
+      predictWealth: async (params) => {
+        set({ isPredicting: true, predictionError: null });
+        
+        try {
+          const response = await fetch('/api/predict', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...params,
+              deviceId: get().deviceId
+            }),
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Prediction failed');
+          }
+
+          const result = await response.json();
+          
+          const predictionResult: PredictionResult = {
+            prediction: result.prediction,
+            confidence: result.confidence,
+            recommendation: result.recommendation,
+            modelVersion: result.modelVersion,
+            timestamp: result.timestamp
+          };
+
+          // Update recent predictions (keep last 5)
+          set((state) => ({
+            recentPredictions: [predictionResult, ...state.recentPredictions.slice(0, 4)],
+            isPredicting: false
+          }));
+
+          return predictionResult;
+        } catch (error) {
+          set({
+            isPredicting: false,
+            predictionError: error instanceof Error ? error.message : 'Unknown error'
+          });
+          throw error;
+        }
+      },
+
+      submitPredictionFeedback: async (predictionId: string, feedback: string) => {
+        try {
+          // In a real implementation, you would send this to your backend
+          // For now, we'll just log it and potentially store in Supabase
+          console.log(`Feedback for prediction ${predictionId}: ${feedback}`);
+          
+          if (supabase && get().deviceId) {
+            // Find the prediction in recent predictions
+            const state = get();
+            const prediction = state.recentPredictions.find(p =>
+              p.timestamp === predictionId || p.modelVersion === predictionId
+            );
+            
+            if (prediction) {
+              // Store feedback in Supabase
+              await supabase.from('model_predictions').update({
+                feedback: feedback
+              }).eq('device_id', state.deviceId)
+                .eq('created_at', prediction.timestamp);
+            }
+          }
+        } catch (error) {
+          console.error('Failed to submit feedback:', error);
+        }
+      },
+
+      clearPredictionError: () => {
+        set({ predictionError: null });
       }
     }),
     {

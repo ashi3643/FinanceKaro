@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { DM_Sans, Syne } from "next/font/google";
+import { Geist, Syne } from "next/font/google";
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const geist = Geist({
   variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["400", "500", "700"],
 });
 
 const syne = Syne({
@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${syne.variable}`}>
+    <html lang="en" className={`${geist.variable} ${syne.variable}`}>
       <head>
         <meta name="application-name" content="FinanceKaro" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

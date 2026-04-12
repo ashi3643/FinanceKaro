@@ -1,9 +1,67 @@
 "use client";
 
 import { useStore } from "@/lib/store";
-import { ShieldAlert, CheckCircle2, XCircle } from "lucide-react";
-import { useState } from "react";
+import { ShieldAlert, CheckCircle2, XCircle, Search, AlertCircle, TrendingUp, Zap, Shield, AlertTriangle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
+
+// XP Animation Component
+const XPAnimation = ({ show }: { show: boolean }) => (
+  <AnimatePresence>
+    {show && (
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0, opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="fixed inset-0 flex items-center justify-center pointer-events-none z-50"
+      >
+        <motion.div
+          initial={{ y: 0 }}
+          animate={{ y: -100 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="bg-gradient-to-r from-accent to-accent/80 text-white px-6 py-3 rounded-full font-bold text-lg shadow-2xl border-2 border-white/20"
+        >
+          <div className="flex items-center gap-2">
+            <Zap className="w-5 h-5" />
+            +20 XP
+          </div>
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
+// Live Ticker Component
+const LiveTicker = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const tickerItems = [
+    "🚨 15 scams detected this hour",
+    "✅ 47 users protected today",
+    "💰 ₹2.3L saved from fraud",
+    "🎯 89% detection accuracy",
+    "🛡️ 1200+ scam patterns learned"
+  ];
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % tickerItems.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-surface2/50 border border-border/50 rounded-full px-4 py-2 text-xs text-muted flex items-center gap-2"
+    >
+      <TrendingUp className="w-3 h-3 text-accent" />
+      <span className="font-medium">{tickerItems[currentIndex]}</span>
+    </motion.div>
+  );
+};
 
 const SCAMS = [
   // Task Fraud / Work-from-Home Scams
@@ -390,13 +448,33 @@ export default function ScamRadarPage() {
   const [current, setCurrent] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [showXPAnimation, setShowXPAnimation] = useState(false);
   const { addXp } = useStore();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearchMode, setShowSearchMode] = useState(false);
+
+  // Filter scams based on search query
+  const filteredScams = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const query = searchQuery.toLowerCase();
+    return SCAMS.filter(
+      scam =>
+        scam.title.toLowerCase().includes(query) ||
+        scam.message.toLowerCase().includes(query) ||
+        scam.realTruth.toLowerCase().includes(query)
+    );
+  }, [searchQuery]);
 
   const handleGuess = (userSaysScam: boolean) => {
     const correct = userSaysScam === SCAMS[current].isScam;
     setIsCorrect(correct);
     setShowResult(true);
-    if (correct) addXp(20);
+    if (correct) {
+      addXp(20);
+      setShowXPAnimation(true);
+      // Hide animation after 1.5 seconds
+      setTimeout(() => setShowXPAnimation(false), 1500);
+    }
   };
 
   const nextCard = () => {
@@ -418,16 +496,114 @@ export default function ScamRadarPage() {
           <span className="text-xs font-bold text-muted uppercase tracking-widest block mb-1">Defense Training</span>
           <h1 className="text-3xl font-display font-extrabold flex items-center gap-2">{t("scamRadar")} <ShieldAlert className="text-warning"/></h1>
         </div>
+        <LiveTicker />
+      </div>
+
+      {/* XP Animation */}
+      <XPAnimation show={showXPAnimation} />
+
+      {/* QUICK SCAN FEATURE */}
+      <div className="bg-surface border border-accent/20 rounded-2xl p-5 space-y-4 animate-in fade-in slide-in-from-top-4">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2 bg-accent/20 rounded-lg text-accent">
+            <Search size={18} />
+          </div>
+          <div>
+            <h3 className="font-bold text-accent">🔍 Quick Scan</h3>
+            <p className="text-xs text-muted">Search for a scam you're suspicious of</p>
+          </div>
+        </div>
+        
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Paste a message, link, or keyword..."
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              if (e.target.value.trim()) setShowSearchMode(true);
+            }}
+            className="w-full px-4 py-3 bg-bg border border-border rounded-xl text-text placeholder-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-all"
+            aria-label="Search for scams"
+          />
+        </div>
+
+        {/* Search Results */}
+        {showSearchMode && searchQuery.trim() ? (
+          <div className="space-y-3 max-h-[300px] overflow-y-auto">
+            {filteredScams.length > 0 ? (
+              <>
+                <div className="text-xs font-bold text-accent uppercase tracking-wider">
+                  Found {filteredScams.length} match{filteredScams.length !== 1 ? 'es' : ''}
+                </div>
+                {filteredScams.map((scam) => (
+                  <div
+                    key={scam.id}
+                    className={`p-3 rounded-lg border-l-4 ${
+                      scam.isScam
+                        ? 'bg-warning/10 border-l-warning text-warning'
+                        : 'bg-accent/10 border-l-accent text-accent'
+                    }`}
+                  >
+                    <div className="flex gap-2 items-start">
+                      {scam.isScam ? (
+                        <XCircle size={16} className="flex-shrink-0 mt-0.5" />
+                      ) : (
+                        <CheckCircle2 size={16} className="flex-shrink-0 mt-0.5" />
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <div className="font-bold text-sm">{scam.title}</div>
+                        <div className="text-xs text-text/70 mt-1 line-clamp-2">
+                          {scam.isScam ? '🚫 SCAM: ' : '✅ SAFE: '} {scam.realTruth}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <div className="text-center py-6">
+                <AlertCircle className="text-muted mx-auto mb-2" size={32} aria-hidden="true" />
+                <p className="text-sm text-muted font-medium">No matches found</p>
+                <p className="text-xs text-muted/80 mt-1">Try different keywords or check our database below</p>
+              </div>
+            )}
+          </div>
+        ) : null}
+
+        {searchQuery.trim() && filteredScams.length === 0 ? (
+          <button
+            onClick={() => {
+              setSearchQuery("");
+              setShowSearchMode(false);
+            }}
+            className="w-full py-2 text-xs font-bold text-muted hover:text-text transition-colors"
+          >
+            ✕ Clear Search
+          </button>
+        ) : null}
       </div>
 
       <div className="flex-1 flex flex-col justify-center">
-        <div className="relative bg-surface border border-border p-6 rounded-3xl shadow-sm shadow-warning/10 mb-8">
-          
-          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-surface2 border border-border px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-muted">
-            Case File {current + 1}
+        {/* GAME SECTION DIVIDER */}
+        {!showSearchMode && (
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-1 h-px bg-border"></div>
+              <span className="text-xs font-bold text-muted uppercase tracking-wider px-2">Or Play the Game</span>
+              <div className="flex-1 h-px bg-border"></div>
+            </div>
           </div>
+        )}
 
-          <h3 className="font-display text-xl font-bold mb-4 text-center mt-2">{scam.title}</h3>
+        {/* GAME SECTION */}
+        {!showSearchMode ? (
+          <div className="relative bg-surface border border-border p-6 rounded-3xl shadow-sm shadow-warning/10 mb-8">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-surface2 border border-border px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-muted">
+              Case File {current + 1}
+            </div>
+
+            <h3 className="font-display text-xl font-bold mb-4 text-center mt-2">{scam.title}</h3>
           
           <div className="bg-bg p-4 rounded-xl font-mono text-sm border-l-4 border-warning/50 mb-6 text-text/80 leading-relaxed italic">
             {scam.message}
@@ -435,44 +611,74 @@ export default function ScamRadarPage() {
 
           {!showResult ? (
             <div className="grid grid-cols-2 gap-4">
-              <button 
+              <motion.button
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => handleGuess(true)}
                 aria-label="Mark this case as fake or scam"
-                className="bg-surface2 border border-border hover:border-warning/50 py-4 rounded-xl flex flex-col items-center gap-2 transition-colors"
+                className="bg-gradient-to-br from-warning/10 to-warning/5 border-2 border-warning/30 hover:border-warning/60 py-5 rounded-2xl flex flex-col items-center gap-3 transition-all duration-200 shadow-lg hover:shadow-warning/20 backdrop-blur-sm"
               >
-                <XCircle className="text-warning" />
-                <span className="font-bold text-sm uppercase tracking-wider">Fake / Scam</span>
-              </button>
-              <button 
+                <div className="p-2 bg-warning/20 rounded-full">
+                  <XCircle className="text-warning w-6 h-6" />
+                </div>
+                <span className="font-bold text-sm uppercase tracking-wider text-warning">Fake / Scam</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => handleGuess(false)}
                 aria-label="Mark this case as real or safe"
-                className="bg-surface2 border border-border hover:border-accent/50 py-4 rounded-xl flex flex-col items-center gap-2 transition-colors"
+                className="bg-gradient-to-br from-accent/10 to-accent/5 border-2 border-accent/30 hover:border-accent/60 py-5 rounded-2xl flex flex-col items-center gap-3 transition-all duration-200 shadow-lg hover:shadow-accent/20 backdrop-blur-sm"
               >
-                <CheckCircle2 className="text-accent" />
-                <span className="font-bold text-sm uppercase tracking-wider">Real / Safe</span>
-              </button>
+                <div className="p-2 bg-accent/20 rounded-full">
+                  <CheckCircle2 className="text-accent w-6 h-6" />
+                </div>
+                <span className="font-bold text-sm uppercase tracking-wider text-accent">Real / Safe</span>
+              </motion.button>
             </div>
           ) : (
-             <div className="animate-in fade-in zoom-in-95">
-               <div className={`p-4 rounded-xl mb-6 text-center border ${isCorrect ? 'bg-accent/20 border-accent/50 text-accent' : 'bg-[#ff4d8d]/20 border-[#ff4d8d]/50 text-[#ff4d8d]'}`}>
-                 <h4 className="font-display font-bold text-lg mb-1">{isCorrect ? 'Spot On! +20 XP' : 'You Got Trapped!'}</h4>
-                 <p className="text-sm font-medium text-text/90 italic mt-2"><q>{scam.realTruth}</q></p>
+             <motion.div
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               transition={{ duration: 0.3, ease: "easeOut" }}
+               className="space-y-4"
+             >
+               <div className={`p-6 rounded-2xl text-center border-2 shadow-lg backdrop-blur-sm ${isCorrect ? 'bg-gradient-to-br from-accent/20 to-accent/10 border-accent/50 text-accent' : 'bg-gradient-to-br from-[#ff4d8d]/20 to-[#ff4d8d]/10 border-[#ff4d8d]/50 text-[#ff4d8d]'}`}>
+                 <div className="flex items-center justify-center gap-2 mb-2">
+                   {isCorrect ? <Shield className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
+                   <h4 className="font-display font-bold text-lg">{isCorrect ? 'Spot On!' : 'You Got Trapped!'}</h4>
+                 </div>
+                 <p className="text-sm font-medium text-text/90 italic leading-relaxed"><q>{scam.realTruth}</q></p>
                </div>
-               <button 
+               <motion.button
+                 whileHover={{ scale: 1.02 }}
+                 whileTap={{ scale: 0.98 }}
                  onClick={nextCard}
                  aria-label="Go to next scam case"
-                 className="w-full bg-surface2 border border-border py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-black/5 transition-colors"
+                 className="w-full bg-gradient-to-r from-surface2 to-surface border-2 border-border hover:border-accent/50 py-4 rounded-2xl font-bold uppercase tracking-wider transition-all duration-200 shadow-lg hover:shadow-accent/10"
                >
                  {t("next")}
-               </button>
-             </div>
+               </motion.button>
+             </motion.div>
           )}
-
-        </div>
+          </div>
+        ) : null}
         
-        <div className="text-center text-xs text-muted uppercase tracking-widest">
-          If it is too good to be true, it is.
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          className="text-center bg-gradient-to-r from-warning/10 via-accent/10 to-warning/10 border border-warning/20 rounded-2xl p-4 mx-4 shadow-lg backdrop-blur-sm"
+        >
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <AlertTriangle className="w-4 h-4 text-warning" />
+            <span className="text-sm font-bold text-warning uppercase tracking-widest">Golden Rule</span>
+            <AlertTriangle className="w-4 h-4 text-warning" />
+          </div>
+          <p className="text-base font-semibold text-text italic">
+            "If it is too good to be true, it is."
+          </p>
+        </motion.div>
       </div>
     </div>
   );

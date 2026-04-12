@@ -5,6 +5,7 @@ import { locales, type Locale } from '../../../i18n';
 import TopBar from '@/components/TopBar';
 import BottomNav from '@/components/BottomNav';
 import InstallPWA from '@/components/InstallPWA';
+import LanguageDetector from '@/components/LanguageDetector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default async function LocaleLayout({
@@ -27,6 +28,7 @@ export default async function LocaleLayout({
   return (
     <ErrorBoundary>
       <NextIntlClientProvider messages={messages}>
+        <LanguageDetector />
         <TopBar />
         <div className="flex-1 w-full h-full p-4 overflow-y-auto">
           {children}

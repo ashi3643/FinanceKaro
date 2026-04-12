@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Trophy, Medal, Building2, LoaderCircle, Plus } from "lucide-react";
+import { Trophy, Medal, Building2, LoaderCircle, Plus, AlertCircle, Search, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
@@ -12,46 +12,205 @@ interface CollegeNode {
   students: number;
 }
 
+const RANKINGS_CACHE_KEY = "financekaro-rankings-cache-v1";
+const RANKINGS_CACHE_TTL = 1000 * 60 * 60 * 4; // 4 hours
+
+// Common Indian colleges for search-ahead
+const INDIAN_COLLEGES = [
+  "IIT Delhi, Delhi",
+  "IIT Bombay, Mumbai",
+  "IIT Madras, Chennai",
+  "IIT Kanpur, Kanpur",
+  "IIT Kharagpur, Kharagpur",
+  "IIT Roorkee, Roorkee",
+  "IIT Guwahati, Guwahati",
+  "IIT Hyderabad, Hyderabad",
+  "IIT Indore, Indore",
+  "IIT Bhubaneswar, Bhubaneswar",
+  "IIT Gandhinagar, Gandhinagar",
+  "IIT Ropar, Rupnagar",
+  "IIT Patna, Patna",
+  "IIT Bhilai, Bhilai",
+  "IIT Goa, Goa",
+  "IIT Jammu, Jammu",
+  "IIT Dharwad, Dharwad",
+  "IIT Tirupati, Tirupati",
+  "IIT Palakkad, Palakkad",
+  "BITS Pilani, Pilani",
+  "BITS Goa, Goa",
+  "BITS Hyderabad, Hyderabad",
+  "NIT Trichy, Tiruchirappalli",
+  "NIT Surathkal, Mangalore",
+  "NIT Warangal, Warangal",
+  "NIT Calicut, Kozhikode",
+  "Delhi University, Delhi",
+  "JNU, Delhi",
+  "Jadavpur University, Kolkata",
+  "Anna University, Chennai",
+  "Osmania University, Hyderabad",
+  "Banaras Hindu University, Varanasi",
+  "Aligarh Muslim University, Aligarh",
+  "Panjab University, Chandigarh",
+  "University of Mumbai, Mumbai",
+  "University of Pune, Pune",
+  "University of Calcutta, Kolkata",
+  "University of Delhi, Delhi",
+  "Jawaharlal Nehru University, Delhi"
+];
+
 export default function RankingsPage() {
   const t = useTranslations("rankings");
   const { deviceId, initDevice, setCollege } = useStore();
   const [city, setCity] = useState("All");
   const [leaderboard, setLeaderboard] = useState<CollegeNode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [cachedAt, setCachedAt] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [failureCount, setFailureCount] = useState(0);
+  const [circuitOpen, setCircuitOpen] = useState(false);
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [notifySuccess, setNotifySuccess] = useState(false);
+  const [notifyError, setNotifyError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [collegeInput, setCollegeInput] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [citySearch, setCitySearch] = useState("");
+
+  const filteredColleges = useMemo(() => {
+    if (!collegeInput.trim()) return [];
+    return INDIAN_COLLEGES.filter(college =>
+      college.toLowerCase().includes(collegeInput.toLowerCase())
+    ).slice(0, 5);
+  }, [collegeInput]);
 
   const getCity = (fullName: string) => fullName.split(", ").pop() || fullName;
 
+  const readCachedLeaderboard = () => {
+    if (typeof window === "undefined") return null;
+    try {
+      const cachedText = window.localStorage.getItem(RANKINGS_CACHE_KEY);
+      if (!cachedText) return null;
+      const parsed = JSON.parse(cachedText) as { items: CollegeNode[]; cachedAt: string };
+      if (!parsed.items || !parsed.cachedAt) return null;
+      const age = Date.now() - new Date(parsed.cachedAt).getTime();
+      if (age > RANKINGS_CACHE_TTL) {
+        window.localStorage.removeItem(RANKINGS_CACHE_KEY);
+        return null;
+      }
+      return parsed;
+    } catch {
+      return null;
+    }
+  };
+
+  const cacheLeaderboard = (items: CollegeNode[]) => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem(
+      RANKINGS_CACHE_KEY,
+      JSON.stringify({ items, cachedAt: new Date().toISOString() })
+    );
+    setCachedAt(new Date().toLocaleString());
+  };
+
+  const openCircuit = () => {
+    setCircuitOpen(true);
+    setTimeout(() => setCircuitOpen(false), 15000);
+  };
+
+  const notifyWhenUp = () => {
+    const trimmed = notifyEmail.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmed)) {
+      setNotifyError(t("validEmailHint"));
+      return;
+    }
+
+    setNotifySuccess(true);
+    setNotifyError(null);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("financekaro-rankings-notify-email", trimmed);
+    }
+  };
+
   const loadLeaderboard = useCallback(async () => {
-    setLoading(true);
+    const cached = readCachedLeaderboard();
+    if (cached) {
+      setLeaderboard(cached.items);
+      setCachedAt(new Date(cached.cachedAt).toLocaleString());
+    }
+
+    if (circuitOpen) {
+      setError(t("serverCoolingDown"));
+      setLoading(false);
+      setIsRefreshing(false);
+      return;
+    }
+
     setError(null);
+    if (!cached) {
+      setLoading(true);
+    } else {
+      setIsRefreshing(true);
+    }
 
     if (!supabase) {
-      setError(t("loadError"));
-      setLeaderboard([]);
+      setError(t("connectionError"));
       setLoading(false);
+      setIsRefreshing(false);
+      if (!cached) setLeaderboard([]);
       return;
     }
 
-    const { data, error: queryError } = await supabase
-      .from("college_leaderboard")
-      .select("*")
-      .order("total_xp", { ascending: false });
+    try {
+      const { data, error: queryError } = await supabase
+        .from("profiles")
+        .select("college, xp")
+        .not("college", "is", null)
+        .neq("college", "");
 
-    if (queryError) {
-      setError(t("loadError"));
-      setLeaderboard([]);
+      if (queryError || !data) {
+        throw queryError || new Error("No data returned");
+      }
+
+      const collegeMap = new Map<string, { total_xp: number; students: number }>();
+      data.forEach((profile) => {
+        const college = profile.college;
+        if (!college) return;
+        if (collegeMap.has(college)) {
+          const existing = collegeMap.get(college)!;
+          existing.total_xp += profile.xp || 0;
+          existing.students += 1;
+        } else {
+          collegeMap.set(college, { total_xp: profile.xp || 0, students: 1 });
+        }
+      });
+
+      const aggregatedData = Array.from(collegeMap.entries())
+        .map(([college, stats]) => ({ college, ...stats }))
+        .sort((a, b) => b.total_xp - a.total_xp);
+
+      setLeaderboard(aggregatedData);
+      cacheLeaderboard(aggregatedData);
+      setError(null);
+      setFailureCount(0);
+    } catch {
+      setFailureCount((current) => {
+        const next = current + 1;
+        if (next >= 2) {
+          openCircuit();
+        }
+        return next;
+      });
+      setError(t(cached ? "connectionWarning" : "connectionError"));
+      if (!cached) setLeaderboard([]);
+    } finally {
       setLoading(false);
-      return;
+      setIsRefreshing(false);
     }
-
-    setLeaderboard(data ?? []);
-    setLoading(false);
-  }, [t]);
+  }, [t, circuitOpen]);
 
   useEffect(() => {
     initDevice();
@@ -69,6 +228,13 @@ export default function RankingsPage() {
     const uniqueCities = Array.from(new Set(leaderboard.map((entry) => getCity(entry.college))));
     return ["All", ...uniqueCities];
   }, [leaderboard]);
+
+  const visibleCityOptions = useMemo(() => {
+    if (!citySearch.trim()) return cityOptions;
+    return cityOptions.filter((cityOption) => cityOption.toLowerCase().includes(citySearch.toLowerCase()));
+  }, [cityOptions, citySearch]);
+
+  const trendingCities = useMemo(() => leaderboard.slice(0, 3).map((entry) => getCity(entry.college)), [leaderboard]);
 
   const filtered = city === "All" ? leaderboard : leaderboard.filter((entry) => getCity(entry.college) === city);
 
@@ -126,8 +292,57 @@ export default function RankingsPage() {
         </div>
       </div>
 
+      <div className="space-y-4">
+        <div className="rounded-2xl border border-border bg-surface2/80 p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="text-xs font-bold uppercase tracking-widest text-accent">{t("milestoneTitle")}</div>
+            <div className="mt-1 text-sm font-semibold text-text">{t("milestoneReward")}</div>
+          </div>
+          {cachedAt ? (
+            <div className="text-xs text-muted">
+              {t("cacheNotice")} • {cachedAt}
+            </div>
+          ) : null}
+        </div>
+
+        <div className="grid gap-3 lg:grid-cols-[1fr_auto]">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={16} />
+            <input
+              value={citySearch}
+              onChange={(e) => setCitySearch(e.target.value)}
+              placeholder={t("searchCities")}
+              aria-label="Search cities"
+              className="w-full rounded-2xl border border-border bg-surface2 py-3 pl-10 pr-4 text-sm text-text outline-none focus:border-accent"
+            />
+          </div>
+
+          <div className="rounded-2xl border border-border bg-surface2 p-4 text-sm text-muted">
+            <div className="font-semibold text-text mb-2">{t("trendingCities")}</div>
+            <div className="flex flex-wrap gap-2">
+              {trendingCities.length > 0 ? (
+                trendingCities.map((cityName) => (
+                  <button
+                    key={cityName}
+                    onClick={() => {
+                      setCity(cityName);
+                      setCitySearch("");
+                    }}
+                    className={`rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${city === cityName ? "bg-accent text-white border-accent" : "bg-surface text-muted border-border"}`}
+                  >
+                    {cityName}
+                  </button>
+                ))
+              ) : (
+                <div className="text-xs text-muted">{t("noTrendingCities")}</div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="flex gap-2 pb-2 overflow-x-auto">
-        {cityOptions.map((cityOption) => (
+        {visibleCityOptions.length > 0 ? visibleCityOptions.map((cityOption) => (
           <button
             key={cityOption}
             onClick={() => setCity(cityOption)}
@@ -139,23 +354,77 @@ export default function RankingsPage() {
           >
             {cityOption === "All" ? t("allCities") : cityOption}
           </button>
-        ))}
+        )) : (
+          <div className="px-4 py-2 rounded-full bg-surface2 text-xs text-muted">{t("noCityMatches")}</div>
+        )}
       </div>
 
-      {loading && (
-        <div className="rounded-2xl border border-border bg-surface p-6 flex items-center gap-3 text-sm text-muted">
-          <LoaderCircle size={18} className="animate-spin" />
-          <span>{t("loadingRankings")}</span>
+      {isRefreshing && leaderboard.length > 0 && (
+        <div className="rounded-2xl border border-accent/20 bg-accent/10 p-4 text-sm text-accent flex items-center gap-2">
+          <LoaderCircle size={16} className="animate-spin" />
+          {t("refreshing")}
         </div>
       )}
 
-      {error && (
-        <div className="rounded-2xl border border-warning/40 bg-warning/10 p-4 text-sm text-warning">
-          {error}
+      {loading && leaderboard.length === 0 && (
+        <div className="space-y-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="h-20 rounded-3xl bg-surface2/80 animate-pulse" />
+          ))}
         </div>
       )}
 
-      {!loading && !error && (
+      {error && leaderboard.length === 0 && (
+        <div className="rounded-3xl border border-warning/40 bg-warning/10 p-6 text-sm space-y-4">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="text-warning mt-1" size={24} />
+            <div>
+              <div className="font-bold text-warning text-lg">{t("connectionError")}</div>
+              <div className="text-muted text-sm mt-1">{t("retryHint")}</div>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-border bg-surface p-4">
+            <div className="text-sm font-semibold text-text mb-2">{t("notifyHeadline")}</div>
+            <p className="text-xs text-muted mb-3">{t("notifySubtext")}</p>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <input
+                type="email"
+                value={notifyEmail}
+                onChange={(e) => {
+                  setNotifyEmail(e.target.value);
+                  setNotifyError(null);
+                  setNotifySuccess(false);
+                }}
+                placeholder={t("notifyPlaceholder")}
+                className="w-full rounded-2xl border border-border bg-surface2 px-4 py-3 text-sm outline-none focus:border-accent"
+              />
+              <button
+                onClick={notifyWhenUp}
+                className="rounded-2xl bg-accent px-4 py-3 text-sm font-bold text-black transition-colors hover:bg-accent/90"
+              >
+                {t("notifyButton")}
+              </button>
+            </div>
+            {notifyError && <div className="text-xs text-warning mt-2">{notifyError}</div>}
+            {notifySuccess && <div className="text-xs text-green-500 mt-2">{t("notifySuccess")}</div>}
+          </div>
+          <button
+            onClick={() => loadLeaderboard()}
+            className="w-full rounded-2xl bg-warning/20 border border-warning/40 py-3 text-sm font-semibold text-warning hover:bg-warning/30 transition-colors"
+          >
+            {t("retry")}
+          </button>
+        </div>
+      )}
+
+      {error && leaderboard.length > 0 && (
+        <div className="rounded-2xl border border-warning/40 bg-warning/10 p-4 text-sm text-warning mb-4">
+          <div className="font-semibold">{t("connectionWarning")}</div>
+          <div className="text-muted text-xs mt-1">{t("retryHint")}</div>
+        </div>
+      )}
+
+      {!loading && (
         <div className="space-y-3 pb-8">
           {filtered.length === 0 && (
             <div className="rounded-2xl border border-border bg-surface2/50 p-6 text-sm text-muted text-center">
@@ -196,11 +465,11 @@ export default function RankingsPage() {
         </div>
       )}
 
-      <div className="mt-auto pb-4 sticky bottom-0 bg-gradient-to-t from-bg via-bg to-transparent pt-8">
+      <div className="mt-8 pb-4">
         <button
           onClick={() => setIsModalOpen(true)}
           aria-label="Add your college to rankings"
-          className="w-full bg-surface border border-accent text-accent font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-accent/10 transition-colors"
+          className="w-full bg-surface2 border border-accent text-accent font-semibold py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-accent/10 transition-colors"
         >
           <Medal size={20} /> {t("addCollege")}
         </button>
@@ -211,21 +480,65 @@ export default function RankingsPage() {
           <div className="w-full max-w-md bg-surface border border-border rounded-2xl p-5 space-y-4">
             <h2 className="text-lg font-display font-bold">{t("yourCollege")}</h2>
             <p className="text-sm text-muted">{t("addCollegeHint")}</p>
-            <input
-              value={collegeInput}
-              onChange={(e) => setCollegeInput(e.target.value)}
-              placeholder={t("collegePlaceholder")}
-              aria-label="College name and city"
-              className="w-full bg-surface2 border border-border rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
-            />
+
+            <div className="relative">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                <input
+                  value={collegeInput}
+                  onChange={(e) => {
+                    setCollegeInput(e.target.value);
+                    setShowSuggestions(true);
+                    setFormError(null);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  placeholder={t("collegePlaceholder")}
+                  aria-label="College name and city"
+                  className="w-full bg-surface2 border border-border rounded-lg pl-10 pr-8 py-2 text-sm outline-none focus:border-accent"
+                />
+                {collegeInput && (
+                  <button
+                    onClick={() => {
+                      setCollegeInput("");
+                      setShowSuggestions(false);
+                    }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-text"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+              </div>
+
+              {showSuggestions && filteredColleges.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-surface border border-border rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                  {filteredColleges.map((college, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setCollegeInput(college);
+                        setShowSuggestions(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-accent/10 first:rounded-t-lg last:rounded-b-lg"
+                    >
+                      <div className="font-medium">{college.split(",")[0]}</div>
+                      <div className="text-xs text-muted">{college.split(",")[1]}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {formError && (
               <div className="text-xs text-warning">{formError}</div>
             )}
+
             <div className="flex gap-2">
               <button
                 onClick={() => {
                   setIsModalOpen(false);
                   setFormError(null);
+                  setCollegeInput("");
+                  setShowSuggestions(false);
                 }}
                 aria-label="Cancel adding college"
                 className="flex-1 bg-surface2 border border-border py-2 rounded-lg text-sm font-semibold"
@@ -234,7 +547,7 @@ export default function RankingsPage() {
               </button>
               <button
                 onClick={handleAddCollege}
-                disabled={isSaving}
+                disabled={isSaving || collegeInput.trim().length < 3}
                 aria-label="Save college"
                 className="flex-1 bg-accent text-black py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-60"
               >
