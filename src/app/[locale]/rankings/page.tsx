@@ -15,8 +15,9 @@ interface CollegeNode {
 const RANKINGS_CACHE_KEY = "financekaro-rankings-cache-v1";
 const RANKINGS_CACHE_TTL = 1000 * 60 * 60 * 4; // 4 hours
 
-// Common Indian colleges for search-ahead
+// Common Indian colleges for search-ahead - Tier 1, 2, 3 colleges across India
 const INDIAN_COLLEGES = [
+  // IITs (Tier 1)
   "IIT Delhi, Delhi",
   "IIT Bombay, Mumbai",
   "IIT Madras, Chennai",
@@ -36,26 +37,206 @@ const INDIAN_COLLEGES = [
   "IIT Dharwad, Dharwad",
   "IIT Tirupati, Tirupati",
   "IIT Palakkad, Palakkad",
+  "IIT Mandi, Mandi",
+  "IIT Jodhpur, Jodhpur",
+  "IIT Dhanbad, Dhanbad",
+  "IIT Roorkee, Roorkee",
+  "IIT BHU, Varanasi",
+  
+  // BITS (Tier 1)
   "BITS Pilani, Pilani",
   "BITS Goa, Goa",
   "BITS Hyderabad, Hyderabad",
+  
+  // NITs (Tier 1/2)
   "NIT Trichy, Tiruchirappalli",
   "NIT Surathkal, Mangalore",
   "NIT Warangal, Warangal",
   "NIT Calicut, Kozhikode",
+  "NIT Kurukshetra, Kurukshetra",
+  "NIT Allahabad, Prayagraj",
+  "NIT Jamshedpur, Jamshedpur",
+  "NIT Durgapur, Durgapur",
+  "NIT Silchar, Silchar",
+  "NIT Srinagar, Srinagar",
+  "NIT Nagpur, Nagpur",
+  "NIT Rourkela, Rourkela",
+  "NIT Jaipur, Jaipur",
+  "NIT Allahabad, Prayagraj",
+  "NIT Hamirpur, Hamirpur",
+  "NIT Jalandhar, Jalandhar",
+  "NIT Patna, Patna",
+  "NIT Raipur, Raipur",
+  "NIT Agartala, Agartala",
+  "NIT Delhi, Delhi",
+  "NIT Puducherry, Puducherry",
+  "NIT Goa, Goa",
+  "NIT Meghalaya, Shillong",
+  "NIT Manipur, Imphal",
+  "NIT Mizoram, Aizawl",
+  "NIT Nagaland, Dimapur",
+  "NIT Sikkim, Ravangla",
+  "NIT Andhra Pradesh, Tadepalligudem",
+  "NIT Uttarakhand, Srinagar",
+  "NIT Arunachal Pradesh, Jote",
+  "NIT Karnataka, Surathkal",
+  "NIT Hamirpur, Hamirpur",
+  "NIT Jalandhar, Jalandhar",
+  "NIT Patna, Patna",
+  "NIT Raipur, Raipur",
+  "NIT Agartala, Agartala",
+  "NIT Delhi, Delhi",
+  "NIT Puducherry, Puducherry",
+  "NIT Goa, Goa",
+  "NIT Meghalaya, Shillong",
+  "NIT Manipur, Imphal",
+  "NIT Mizoram, Aizawl",
+  "NIT Nagaland, Dimapur",
+  "NIT Sikkim, Ravangla",
+  "NIT Andhra Pradesh, Tadepalligudem",
+  "NIT Uttarakhand, Srinagar",
+  "NIT Arunachal Pradesh, Jote",
+  
+  // IIITs (Tier 1/2)
+  "IIIT Hyderabad, Hyderabad",
+  "IIIT Bangalore, Bangalore",
+  "IIIT Delhi, Delhi",
+  "IIIT Allahabad, Prayagraj",
+  "IIIT Kottayam, Kottayam",
+  "IIIT Sri City, Sri City",
+  "IIIT Gwalior, Gwalior",
+  "IIIT Jabalpur, Jabalpur",
+  "IIITDM Kancheepuram, Kancheepuram",
+  "IIITDM Jabalpur, Jabalpur",
+  "IIIT Bhopal, Bhopal",
+  "IIIT Pune, Pune",
+  "IIIT Ranchi, Ranchi",
+  "IIIT Vadodara, Vadodara",
+  "IIIT Dharwad, Dharwad",
+  "IIIT Bhagalpur, Bhagalpur",
+  "IIIT Lucknow, Lucknow",
+  "IIIT Kalyani, Kalyani",
+  "IIIT Agartala, Agartala",
+  "IIIT Una, Una",
+  "IIIT Surat, Surat",
+  "IIIT Bhubaneswar, Bhubaneswar",
+  "IIIT Guwahati, Guwahati",
+  "IIIT Sri City, Sri City",
+  "IIIT Kottayam, Kottayam",
+  
+  // Central Universities (Tier 1/2)
   "Delhi University, Delhi",
   "JNU, Delhi",
-  "Jadavpur University, Kolkata",
-  "Anna University, Chennai",
-  "Osmania University, Hyderabad",
   "Banaras Hindu University, Varanasi",
   "Aligarh Muslim University, Aligarh",
   "Panjab University, Chandigarh",
+  "University of Hyderabad, Hyderabad",
+  "Jadavpur University, Kolkata",
+  "University of Calcutta, Kolkata",
   "University of Mumbai, Mumbai",
   "University of Pune, Pune",
+  "Savitribai Phule Pune University, Pune",
+  "Anna University, Chennai",
+  "Osmania University, Hyderabad",
+  "University of Madras, Chennai",
+  "University of Mysore, Mysore",
+  "University of Kerala, Thiruvananthapuram",
+  "University of Bangalore, Bangalore",
+  "University of Gujarat, Ahmedabad",
+  "University of Rajasthan, Jaipur",
+  "University of Lucknow, Lucknow",
+  "University of Patna, Patna",
+  "University of Allahabad, Prayagraj",
+  "University of Kashmir, Srinagar",
+  "University of Jammu, Jammu",
+  "University of Himachal Pradesh, Shimla",
+  "University of Uttarakhand, Dehradun",
+  "University of North Bengal, Siliguri",
+  "University of Burdwan, Burdwan",
+  "University of Kalyani, Kalyani",
+  "Vidyasagar University, Midnapore",
+  "University of North Bengal, Siliguri",
+  "Tezpur University, Tezpur",
+  "Assam University, Silchar",
+  "Dibrugarh University, Dibrugarh",
+  "Gauhati University, Guwahati",
+  "Manipur University, Imphal",
+  "Mizoram University, Aizawl",
+  "Nagaland University, Lumami",
+  "Tripura University, Agartala",
+  "Sikkim University, Gangtok",
+  "Rajasthan University, Jaipur",
+  "Mohammad Ali Jauhar University, Aligarh",
+  "Shivaji University, Kolhapur",
+  "University of Mumbai, Mumbai",
   "University of Calcutta, Kolkata",
   "University of Delhi, Delhi",
-  "Jawaharlal Nehru University, Delhi"
+  "Jawaharlal Nehru University, Delhi",
+  
+  // State Universities (Tier 2/3) - Major ones
+  "Andhra University, Visakhapatnam",
+  "Acharya Nagarjuna University, Guntur",
+  "Sri Venkateswara University, Tirupati",
+  "Kakatiya University, Warangal",
+  "Osmania University, Hyderabad",
+  "University of Hyderabad, Hyderabad",
+  "Telangana University, Nizamabad",
+  "Mahatma Gandhi University, Kottayam",
+  "Cochin University of Science and Technology, Kochi",
+  "University of Calicut, Kozhikode",
+  "Kannur University, Kannur",
+  "University of Kerala, Thiruvananthapuram",
+  "Mahatma Gandhi University, Kottayam",
+  "Sree Sankaracharya University of Sanskrit, Kalady",
+  
+  // Deemed Universities (Tier 1/2/3)
+  "SRM University, Chennai",
+  "VIT University, Vellore",
+  "Amrita Vishwa Vidyapeetham, Coimbatore",
+  "Manipal University, Manipal",
+  "SASTRA University, Thanjavur",
+  "Bharath University, Chennai",
+  "Sathyabama Institute of Science and Technology, Chennai",
+  "Vellore Institute of Technology, Vellore",
+  "SRM Institute of Science and Technology, Chennai",
+  "Amrita School of Engineering, Coimbatore",
+  "Manipal Institute of Technology, Manipal",
+  
+  // Medical Colleges (Tier 1/2)
+  "AIIMS Delhi, Delhi",
+  "AIIMS Mumbai, Mumbai",
+  "AIIMS Chennai, Chennai",
+  "AIIMS Kolkata, Kolkata",
+  "AIIMS Bhubaneswar, Bhubaneswar",
+  "AIIMS Jodhpur, Jodhpur",
+  "AIIMS Bhopal, Bhopal",
+  "AIIMS Rishikesh, Rishikesh",
+  "AIIMS Patna, Patna",
+  "AIIMS Raipur, Raipur",
+  "AIIMS Rourkela, Rourkela",
+  "JIPMER, Puducherry",
+  "PGIMER, Chandigarh",
+  "CMC Vellore, Vellore",
+  "AFMC Pune, Pune",
+  "Christian Medical College, Vellore",
+  "St. John's Medical College, Bangalore",
+  "Kasturba Medical College, Manipal",
+  "Madras Medical College, Chennai",
+  "Grant Medical College, Mumbai",
+  "King George's Medical University, Lucknow",
+  "Government Medical College, Thiruvananthapuram",
+  
+  // Law Colleges (Tier 1/2)
+  "National Law School of India University, Bangalore",
+  "NALSAR University of Law, Hyderabad",
+  "National Law University, Delhi",
+  "WB National University of Juridical Sciences, Kolkata",
+  "National Law Institute University, Bhopal",
+  "Gujarat National Law University, Gandhinagar",
+  "Dr. Ram Manohar Lohiya National Law University, Lucknow",
+  "Rajiv Gandhi National University of Law, Patiala",
+  "National Law University, Jodhpur",
+  "Chanakya National Law University, Patna"
 ];
 
 export default function RankingsPage() {
@@ -261,21 +442,26 @@ export default function RankingsPage() {
     }
 
     if (!supabase) {
-      setFormError(t("saveError"));
+      console.error("Supabase client is not initialized");
+      setFormError("Database connection error. Please try again.");
       setIsSaving(false);
       return;
     }
+
+    console.log("Attempting to save college:", { deviceId: currentDeviceId, college: trimmed });
 
     const { error: updateError } = await supabase
       .from("profiles")
       .upsert({ device_id: currentDeviceId, college: trimmed }, { onConflict: "device_id" });
 
     if (updateError) {
-      setFormError(t("saveError"));
+      console.error("Supabase upsert error:", updateError);
+      setFormError(`Failed to save: ${updateError.message}`);
       setIsSaving(false);
       return;
     }
 
+    console.log("College saved successfully");
     setCollege(trimmed);
     setIsSaving(false);
     setIsModalOpen(false);
