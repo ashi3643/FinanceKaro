@@ -171,7 +171,7 @@ export default function RankingsPage() {
         .not("college", "is", null)
         .neq("college", "");
 
-      if (queryError || !data) {
+      if (queryError || !data || !Array.isArray(data)) {
         throw queryError || new Error("No data returned");
       }
 

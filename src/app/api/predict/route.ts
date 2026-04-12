@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
 // Backend ML service URL (could be environment variable)
-const ML_BACKEND_URL = process.env.ML_BACKEND_URL || 'http://localhost:8000';
+const ML_BACKEND_URL = process.env.ML_BACKEND_URL;
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,57 +30,63 @@ export async function POST(request: NextRequest) {
       financial_goals: financialGoals || ['retirement']
     };
     
-    // Call ML backend
-    const response = await fetch(`${ML_BACKEND_URL}/predict`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(mlRequest),
-    });
-    
-    if (!response.ok) {
-      // Fallback to local calculation if ML backend is unavailable
-      console.warn('ML backend unavailable, using fallback calculation');
-      return handleFallbackPrediction(mlRequest);
-    }
-    
-    const predictionResult = await response.json();
-    
-    // Store prediction in Supabase if deviceId is provided
-    if (deviceId && supabase) {
+    // Call ML backend only if URL is configured
+    if (ML_BACKEND_URL) {
       try {
-        // Get latest model version
-        const { data: modelVersions } = await supabase
-          .from('model_versions')
-          .select('id')
-          .order('created_at', { ascending: false })
-          .limit(1);
-        
-        const modelVersionId = modelVersions?.[0]?.id || null;
-        
-        // Store prediction
-        await supabase.from('model_predictions').insert({
-          device_id: deviceId,
-          model_version_id: modelVersionId,
-          input_features: mlRequest,
-          prediction: predictionResult.predicted_wealth.toString(),
-          created_at: new Date().toISOString()
+        const response = await fetch(`${ML_BACKEND_URL}/predict`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(mlRequest),
         });
-      } catch (dbError) {
-        console.error('Failed to store prediction:', dbError);
-        // Continue even if DB storage fails
+        
+        if (response.ok) {
+          const predictionResult = await response.json();
+          
+          // Store prediction in Supabase if deviceId is provided
+          if (deviceId && supabase) {
+            try {
+              // Get latest model version
+              const { data: modelVersions } = await supabase
+                .from('model_versions')
+                .select('id')
+                .order('created_at', { ascending: false })
+                .limit(1);
+              
+              const modelVersionId = modelVersions?.[0]?.id || null;
+              
+              // Store prediction
+              await supabase.from('model_predictions').insert({
+                device_id: deviceId,
+                model_version_id: modelVersionId,
+                input_features: mlRequest,
+                prediction: predictionResult.predicted_wealth.toString(),
+                created_at: new Date().toISOString()
+              });
+            } catch (dbError) {
+              console.error('Failed to store prediction:', dbError);
+              // Continue even if DB storage fails
+            }
+          }
+          
+          return NextResponse.json({
+            success: true,
+            prediction: predictionResult.predicted_wealth,
+            confidence: predictionResult.confidence,
+            recommendation: predictionResult.recommendation,
+            modelVersion: predictionResult.model_version,
+            timestamp: predictionResult.timestamp
+          });
+        }
+      } catch (fetchError) {
+        console.warn('ML backend fetch failed, using fallback calculation:', fetchError);
       }
     }
     
-    return NextResponse.json({
-      success: true,
-      prediction: predictionResult.predicted_wealth,
-      confidence: predictionResult.confidence,
-      recommendation: predictionResult.recommendation,
-      modelVersion: predictionResult.model_version,
-      timestamp: predictionResult.timestamp
-    });
+    // Fallback to local calculation if ML backend is unavailable or not configured
+    console.warn('Using fallback calculation');
+    return handleFallbackPrediction(mlRequest);
     
   } catch (error) {
     console.error('Prediction API error:', error);

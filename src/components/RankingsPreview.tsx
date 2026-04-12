@@ -51,7 +51,7 @@ export default function RankingsPreview() {
         .not('college', 'is', null)
         .neq('college', '');
 
-      if (!error && data) {
+      if (!error && data && Array.isArray(data)) {
         // Aggregate data by college
         const collegeMap = new Map<string, { total_xp: number; students: number }>();
         
