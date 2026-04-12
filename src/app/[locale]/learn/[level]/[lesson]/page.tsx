@@ -27,30 +27,32 @@ function convertLessonToCards(lesson: any): LessonCard[] {
   const cards: LessonCard[] = [];
   
   // Add the main cards
-  lesson.cards.forEach((card: any) => {
-    if (card.type === 'action' && card.body && (card.body.includes('A)') || card.body.includes('Answer:'))) {
-      // Action card is a quiz
-      const lines = card.body.split('\n').filter((line: string) => line.trim());
-      const options = lines.filter((line: string) => line.startsWith('A)') || line.startsWith('B)') || line.startsWith('C)')).map((line: string) => line.substring(3).trim());
-      const answerLine = lines.find((line: string) => line.startsWith('Answer:'));
-      const answerIndex = answerLine ? (answerLine.includes('A') ? 0 : answerLine.includes('B') ? 1 : 2) : 0;
-      cards.push({
-        type: 'quiz',
-        question: card.heading,
-        options: options,
-        answerIndex: answerIndex
-      });
-    } else {
-      cards.push({
-        type: card.type,
-        text: card.heading,
-        subtext: card.body
-      });
-    }
-  });
+  if (lesson.cards && Array.isArray(lesson.cards)) {
+    lesson.cards.forEach((card: any) => {
+      if (card.type === 'action' && card.body && (card.body.includes('A)') || card.body.includes('Answer:'))) {
+        // Action card is a quiz
+        const lines = card.body.split('\n').filter((line: string) => line.trim());
+        const options = lines.filter((line: string) => line.startsWith('A)') || line.startsWith('B)') || line.startsWith('C)')).map((line: string) => line.substring(3).trim());
+        const answerLine = lines.find((line: string) => line.startsWith('Answer:'));
+        const answerIndex = answerLine ? (answerLine.includes('A') ? 0 : answerLine.includes('B') ? 1 : 2) : 0;
+        cards.push({
+          type: 'quiz',
+          question: card.heading,
+          options: options,
+          answerIndex: answerIndex
+        });
+      } else {
+        cards.push({
+          type: card.type,
+          text: card.heading,
+          subtext: card.body
+        });
+      }
+    });
+  }
   
   // Add quiz questions as separate quiz cards
-  if (lesson.quiz) {
+  if (lesson.quiz && lesson.quiz.questions && Array.isArray(lesson.quiz.questions)) {
     lesson.quiz.questions.forEach((q: any) => {
       cards.push({
         type: 'quiz',
