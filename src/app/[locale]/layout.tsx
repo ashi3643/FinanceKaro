@@ -10,6 +10,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Footer from '@/components/Footer';
 import PersonaSelection from '@/components/PersonaSelection';
 import ParentalConsent from '@/components/ParentalConsent';
+import ConsentManager from '@/components/ConsentManager';
 
 export default async function LocaleLayout({
   children,
@@ -43,6 +44,7 @@ export default async function LocaleLayout({
         <InstallPWA />
         <PersonaSelection />
         <ParentalConsent />
+        <ConsentManager />
       </NextIntlClientProvider>
     </ErrorBoundary>
   );
