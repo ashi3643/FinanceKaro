@@ -5,6 +5,7 @@ import { Trophy, Medal, Building2, LoaderCircle, Plus, AlertCircle, Search, X } 
 import { supabase } from "@/lib/supabase";
 import { useStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
+import { div } from "framer-motion/client";
 
 interface CollegeNode {
   college: string;
@@ -309,7 +310,7 @@ export default function RankingsPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full py-4 space-y-6">
+    <><div className="flex flex-col min-h-full py-4 space-y-6">
       <div className="flex justify-between items-end mb-2">
         <div>
           <div className="text-xs font-bold uppercase tracking-widest text-accent">{t("stateLevel")}</div>
@@ -330,61 +331,56 @@ export default function RankingsPage() {
       </div>
 
       <div className="grid gap-3 lg:grid-cols-[1fr_auto]">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={16} />
-            <input
-              value={citySearch}
-              onChange={(e) => setCitySearch(e.target.value)}
-              placeholder={t("searchCities")}
-              aria-label="Search cities"
-              className="w-full rounded-2xl border border-border bg-surface2 py-3 pl-10 pr-4 text-sm text-text outline-none focus:border-accent"
-            />
-          </div>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={16} />
+          <input
+            value={citySearch}
+            onChange={(e) => setCitySearch(e.target.value)}
+            placeholder={t("searchCities")}
+            aria-label="Search cities"
+            className="w-full rounded-2xl border border-border bg-surface2 py-3 pl-10 pr-4 text-sm text-text outline-none focus:border-accent" />
+        </div>
 
-          <div className="rounded-2xl border border-border bg-surface2 p-4 text-sm text-muted">
-            <div className="font-semibold text-text mb-2">{t("trendingCities")}</div>
-            <div className="flex flex-wrap gap-2">
-              {trendingCities.length > 0 ? (
-                trendingCities.map((cityName) => (
-                  <button
-                    key={cityName}
-                    onClick={() => {
-                      setCity(cityName);
-                      setCitySearch("");
-                    }}
-                    className={`rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${city === cityName ? "bg-accent text-white border-accent" : "bg-surface text-muted border-border"}`}
-                  >
-                    {cityName}
-                  </button>
-                ))
-              ) : (
-                <div className="text-xs text-muted">{t("noTrendingCities")}</div>
-              )}
-            </div>
+        <div className="rounded-2xl border border-border bg-surface2 p-4 text-sm text-muted">
+          <div className="font-semibold text-text mb-2">{t("trendingCities")}</div>
+          <div className="flex flex-wrap gap-2">
+            {trendingCities.length > 0 ? (
+              trendingCities.map((cityName) => (
+                <button
+                  key={cityName}
+                  onClick={() => {
+                    setCity(cityName);
+                    setCitySearch("");
+                  } }
+                  className={`rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${city === cityName ? "bg-accent text-white border-accent" : "bg-surface text-muted border-border"}`}
+                >
+                  {cityName}
+                </button>
+              ))
+            ) : (
+              <div className="text-xs text-muted">{t("noTrendingCities")}</div>
+            )}
           </div>
         </div>
       </div>
-
-      <div className="flex gap-2 pb-2 overflow-x-auto">
+    </div><div className="flex gap-2 pb-2 overflow-x-auto">
         {visibleCityOptions.length > 0 ? visibleCityOptions.map((cityOption) => (
           <button
             key={cityOption}
             onClick={() => setCity(cityOption)}
             aria-label={`Filter by ${cityOption === "All" ? "all cities" : cityOption}`}
             aria-pressed={city === cityOption}
-            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors ${
-              city === cityOption ? "bg-accent text-white" : "bg-surface2 text-muted border border-border"
-            }`}
+            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors ${city === cityOption ? "bg-accent text-white" : "bg-surface2 text-muted border border-border"}`}
           >
             {cityOption === "All" ? t("allCities") : cityOption}
           </button>
         )) : (
           <div className="px-4 py-2 rounded-full bg-surface2 text-xs text-muted">{t("noCityMatches")}</div>
         )}
-      </div>
+      </div></>
 
       {isRefreshing && leaderboard.length > 0 && (
-        <div className="rounded-2xl border border-accent/20 bg-accent/10 p-4 text-sm text-accent flex items-center gap-2">
+          <div className="rounded-2xl border border-accent/20 bg-accent/10 p-4 text-sm text-accent flex items-center gap-2">
           <LoaderCircle size={16} className="animate-spin" />
           {t("refreshing")}
         </div>
