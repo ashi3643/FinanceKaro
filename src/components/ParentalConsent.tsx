@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Shield, Check, X } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
+import { consentTokenService } from "@/lib/parentalConsentToken";
 
 export default function ParentalConsent() {
   const t = useTranslations("parentalConsent");
@@ -16,12 +17,14 @@ export default function ParentalConsent() {
   useEffect(() => {
     // Only show for junior persona (6-15 years)
     if (persona === 'junior') {
-      const storedConsent = localStorage.getItem('parental-consent');
-      if (!storedConsent) {
+      const hasValidConsent = consentTokenService.hasValidConsent(parentEmail);
+      if (!hasValidConsent) {
         setIsOpen(true);
+      } else {
+        setConsentGiven(true);
       }
     }
-  }, [persona]);
+  }, [persona, parentEmail]);
 
   const handleConsent = () => {
     if (!parentName.trim() || !parentEmail.trim()) {
@@ -29,20 +32,20 @@ export default function ParentalConsent() {
       return;
     }
 
-    // Store consent in localStorage and Supabase
-    const consentData = {
-      parentName: parentName.trim(),
-      parentEmail: parentEmail.trim(),
-      consentDate: new Date().toISOString(),
-      deviceId: useStore.getState().deviceId
-    };
+    const deviceId = useStore.getState().deviceId;
+    if (!deviceId) {
+      alert("Device ID not available. Please try again.");
+      return;
+    }
 
-    localStorage.setItem('parental-consent', JSON.stringify(consentData));
+    // Generate and store consent token
+    const token = consentTokenService.generateToken(deviceId, parentEmail);
+    consentTokenService.storeToken(token);
+    
     setConsentGiven(true);
     setIsOpen(false);
 
-    // TODO: Send to Supabase for compliance tracking
-    console.log("Parental consent recorded:", consentData);
+    console.log("Parental consent recorded with encrypted token");
   };
 
   const handleDecline = () => {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { modelObservability } from '@/lib/modelObservability';
 
 // Backend ML service URL (could be environment variable)
 const ML_BACKEND_URL = process.env.ML_BACKEND_URL;
@@ -43,6 +44,18 @@ export async function POST(request: NextRequest) {
         
         if (response.ok) {
           const predictionResult = await response.json();
+          
+          // Log prediction to model observability
+          if (deviceId) {
+            modelObservability.logPrediction({
+              deviceId,
+              modelVersion: predictionResult.model_version || 'unknown',
+              inputFeatures: mlRequest,
+              prediction: predictionResult.predicted_wealth,
+              confidence: predictionResult.confidence || 0.5,
+              timestamp: new Date().toISOString()
+            });
+          }
           
           // Store prediction in Supabase if deviceId is provided
           if (deviceId && supabase) {

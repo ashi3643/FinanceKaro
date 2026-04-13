@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Trophy, Medal, Building2, LoaderCircle, Plus, AlertCircle, Search, X } from "lucide-react";
-import { supabase } from "@/lib/supabase";
 import { useStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
+import { rankingsService } from "@/services/rankingsService";
+import { userService } from "@/services/userService";
 
 interface CollegeNode {
   college: string;
@@ -52,54 +53,17 @@ export default function RankingsPage() {
   };
 
   const loadCollegeSuggestions = useCallback(async () => {
-    if (!supabase) {
-      console.warn("Supabase not available for college suggestions");
-      return;
-    }
-
     try {
-      const { data, error } = await supabase
-        .from("college_suggestions")
-        .select("name")
-        .order("count", { ascending: false })
-        .limit(100);
-
-      if (error) {
-        console.error("Error loading college suggestions:", error);
-        return;
-      }
-
-      if (data && Array.isArray(data)) {
-        setCollegeSuggestions(data.map((item: any) => item.name));
-      }
+      const suggestions = await rankingsService.getCollegeSuggestions();
+      setCollegeSuggestions(suggestions);
     } catch (error) {
       console.error("Error loading college suggestions:", error);
     }
   }, []);
 
   const addCollegeToSuggestions = async (collegeName: string) => {
-    if (!supabase) return;
-
     try {
-      // Check if college already exists
-      const { data: existing } = await supabase
-        .from("college_suggestions")
-        .select("id, count")
-        .eq("name", collegeName)
-        .single();
-
-      if (existing) {
-        // Increment count
-        await supabase
-          .from("college_suggestions")
-          .update({ count: existing.count + 1 })
-          .eq("id", existing.id);
-      } else {
-        // Add new college
-        await supabase
-          .from("college_suggestions")
-          .insert({ name: collegeName, count: 1 });
-      }
+      await rankingsService.addCollegeToSuggestions(collegeName);
     } catch (error) {
       console.error("Error adding college to suggestions:", error);
     }
@@ -173,46 +137,18 @@ export default function RankingsPage() {
       setIsRefreshing(true);
     }
 
-    if (!supabase) {
-      setError(t("connectionError"));
-      setLoading(false);
-      setIsRefreshing(false);
-      if (!cached) setLeaderboard([]);
-      return;
-    }
-
     try {
-      const { data, error: queryError } = await supabase
-        .from("profiles")
-        .select("college, xp")
-        .not("college", "is", null)
-        .neq("college", "");
-
-      if (queryError || !data || !Array.isArray(data)) {
-        throw queryError || new Error("No data returned");
+      const leaderboard = await rankingsService.getLeaderboard();
+      
+      if (leaderboard.length === 0 && !cached) {
+        setError(t("connectionError"));
+        setLeaderboard([]);
+      } else {
+        setLeaderboard(leaderboard);
+        cacheLeaderboard(leaderboard);
+        setError(null);
+        setFailureCount(0);
       }
-
-      const collegeMap = new Map<string, { total_xp: number; students: number }>();
-      data.forEach((profile) => {
-        const college = profile.college;
-        if (!college) return;
-        if (collegeMap.has(college)) {
-          const existing = collegeMap.get(college)!;
-          existing.total_xp += profile.xp || 0;
-          existing.students += 1;
-        } else {
-          collegeMap.set(college, { total_xp: profile.xp || 0, students: 1 });
-        }
-      });
-
-      const aggregatedData = Array.from(collegeMap.entries())
-        .map(([college, stats]) => ({ college, ...stats }))
-        .sort((a, b) => b.total_xp - a.total_xp);
-
-      setLeaderboard(aggregatedData);
-      cacheLeaderboard(aggregatedData);
-      setError(null);
-      setFailureCount(0);
     } catch {
       setFailureCount((current) => {
         const next = current + 1;
@@ -302,22 +238,13 @@ export default function RankingsPage() {
       return;
     }
 
-    if (!supabase) {
-      console.error("Supabase client is not initialized");
-      setFormError("Database connection error. Please try again.");
-      setIsSaving(false);
-      return;
-    }
-
     console.log("Attempting to save college:", { deviceId: currentDeviceId, college: trimmed });
 
-    const { error: updateError } = await supabase
-      .from("profiles")
-      .upsert({ device_id: currentDeviceId, college: trimmed }, { onConflict: "device_id" });
+    const success = await userService.updateProfile(currentDeviceId, { college: trimmed });
 
-    if (updateError) {
-      console.error("Supabase upsert error:", updateError);
-      setFormError(`Failed to save: ${updateError.message}`);
+    if (!success) {
+      console.error("Profile update failed");
+      setFormError("Failed to save college. Please try again.");
       setIsSaving(false);
       return;
     }
