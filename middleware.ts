@@ -16,6 +16,11 @@ export default function middleware(request: NextRequest) {
   // Clone the response to add security headers
   const response = intlResponse || NextResponse.next();
   
+  // Add Edge-optimized caching headers for locale detection
+  // Cache locale preference for 1 hour, vary by Accept-Language header
+  response.headers.set('Vary', 'Accept-Language');
+  response.headers.set('Cache-Control', 'public, max-age=3600');
+  
   // Security headers
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'DENY');

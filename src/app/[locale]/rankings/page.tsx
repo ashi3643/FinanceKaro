@@ -500,17 +500,25 @@ export default function RankingsPage() {
             const isTop3 = idx < 3;
 
             return (
-              <div
+              <motion.div
                 key={college.college}
-                className={`flex items-center gap-4 p-4 rounded-2xl border transition-all ${
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: idx * 0.05 }}
+                whileHover={{ scale: 1.02, x: 5 }}
+                className={`flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${
                   isTop3 ? "bg-surface glass border-accent/20" : "bg-surface2/50 border-border"
                 }`}
               >
-                <div className={`w-8 font-display font-extrabold text-xl text-center ${
-                  idx === 0 ? "text-warning" : idx === 1 ? "text-muted" : idx === 2 ? "text-accent2" : "text-muted/50"
-                }`}>
+                <motion.div 
+                  className={`w-8 font-display font-extrabold text-xl text-center ${
+                    idx === 0 ? "text-warning" : idx === 1 ? "text-muted" : idx === 2 ? "text-accent2" : "text-muted/50"
+                  }`}
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
                   #{idx + 1}
-                </div>
+                </motion.div>
 
                 <div className="flex-1">
                   <div className="font-bold font-display text-text">{college.college.split(",")[0]}</div>
@@ -519,11 +527,15 @@ export default function RankingsPage() {
                   </div>
                 </div>
 
-                <div className="text-right">
+                <motion.div 
+                  className="text-right"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: 'spring', stiffness: 400 }}
+                >
                   <div className="font-mono font-bold text-accent">{college.total_xp.toLocaleString()}</div>
                   <div className="text-[10px] text-muted uppercase tracking-wider">{t("totalXP")}</div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             );
           })}
         </div>
