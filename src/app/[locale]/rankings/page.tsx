@@ -5,7 +5,6 @@ import { Trophy, Medal, Building2, LoaderCircle, Plus, AlertCircle, Search, X } 
 import { supabase } from "@/lib/supabase";
 import { useStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
-import { div } from "framer-motion/client";
 
 interface CollegeNode {
   college: string;
@@ -310,7 +309,7 @@ export default function RankingsPage() {
   };
 
   return (
-    <><div className="flex flex-col min-h-full py-4 space-y-6">
+    <div className="flex flex-col min-h-full py-4 space-y-6">
       <div className="flex justify-between items-end mb-2">
         <div>
           <div className="text-xs font-bold uppercase tracking-widest text-accent">{t("stateLevel")}</div>
@@ -363,7 +362,8 @@ export default function RankingsPage() {
           </div>
         </div>
       </div>
-    </div><div className="flex gap-2 pb-2 overflow-x-auto">
+
+      <div className="flex gap-2 pb-2 overflow-x-auto">
         {visibleCityOptions.length > 0 ? visibleCityOptions.map((cityOption) => (
           <button
             key={cityOption}
@@ -377,7 +377,7 @@ export default function RankingsPage() {
         )) : (
           <div className="px-4 py-2 rounded-full bg-surface2 text-xs text-muted">{t("noCityMatches")}</div>
         )}
-      </div></>
+      </div>
 
       {isRefreshing && leaderboard.length > 0 && (
           <div className="rounded-2xl border border-accent/20 bg-accent/10 p-4 text-sm text-accent flex items-center gap-2">
