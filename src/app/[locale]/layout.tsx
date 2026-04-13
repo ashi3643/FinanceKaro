@@ -33,7 +33,7 @@ export default async function LocaleLayout({
       <NextIntlClientProvider messages={messages}>
         <LanguageDetector />
         <TopBar />
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full pt-16 pb-16">
           <div className="flex-1 p-4 overflow-y-auto">
             {children}
           </div>

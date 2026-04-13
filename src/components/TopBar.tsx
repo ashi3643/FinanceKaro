@@ -14,7 +14,7 @@ export default function TopBar() {
   }, [initDevice, updateStreak]);
 
   return (
-    <div className="fixed top-0 w-full max-w-[420px] bg-bg/80 backdrop-blur-md z-50 px-4 py-3 flex justify-between items-center border-b border-border">
+    <div className="fixed top-0 left-0 right-0 bg-bg/95 backdrop-blur-md z-50 px-4 py-3 flex justify-between items-center border-b border-border safe-area-top">
       <div className="font-display font-bold text-lg tracking-tight">
         Finance<span className="text-accent">Karo</span>
       </div>

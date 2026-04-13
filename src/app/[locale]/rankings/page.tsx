@@ -312,25 +312,24 @@ export default function RankingsPage() {
     <div className="flex flex-col min-h-full py-4 space-y-6">
       <div className="flex justify-between items-end mb-2">
         <div>
-          <span className="text-xs font-bold text-accent uppercase tracking-widest block mb-1">{t("stateLevel")}</span>
+          <div className="text-xs font-bold uppercase tracking-widest text-accent">{t("stateLevel")}</div>
           <h1 className="text-3xl font-display font-extrabold flex items-center gap-2">{t("collegeRankings")} <Trophy className="text-accent" size={24} /></h1>
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="rounded-2xl border border-border bg-surface2/80 p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div className="text-xs font-bold uppercase tracking-widest text-accent">{t("milestoneTitle")}</div>
-            <div className="mt-1 text-sm font-semibold text-text">{t("milestoneReward")}</div>
-          </div>
-          {cachedAt ? (
-            <div className="text-xs text-muted">
-              {t("cacheNotice")} • {cachedAt}
-            </div>
-          ) : null}
+      <div className="rounded-2xl border border-border bg-surface2/80 p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div className="text-xs font-bold uppercase tracking-widest text-accent">{t("milestoneTitle")}</div>
+          <div className="mt-1 text-sm font-semibold text-text">{t("milestoneReward")}</div>
         </div>
+        {cachedAt ? (
+          <div className="text-xs text-muted">
+            {t("cacheNotice")} • {cachedAt}
+          </div>
+        ) : null}
+      </div>
 
-        <div className="grid gap-3 lg:grid-cols-[1fr_auto]">
+      <div className="grid gap-3 lg:grid-cols-[1fr_auto]">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={16} />
             <input
