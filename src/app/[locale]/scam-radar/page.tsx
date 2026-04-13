@@ -3,8 +3,10 @@
 import { useStore } from "@/lib/store";
 import { ShieldAlert, CheckCircle2, XCircle, Search, AlertCircle, TrendingUp, Zap, Shield, AlertTriangle, Upload, Share, Phone, FileText, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { scamCache } from "@/lib/scamCache";
+import { supabase } from "@/lib/supabase";
 
 // XP Animation Component
 const XPAnimation = ({ show }: { show: boolean }) => (
@@ -462,6 +464,28 @@ export default function ScamRadarPage() {
     pattern: string;
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Initialize scam cache on component mount
+  useEffect(() => {
+    // Initialize cache with local SCAMS data if cache is empty
+    if (!scamCache.isValid()) {
+      scamCache.set(SCAMS);
+    }
+
+    // Sync with Supabase periodically (every 5 minutes)
+    const syncInterval = setInterval(async () => {
+      if (supabase) {
+        await scamCache.syncWithSupabase(supabase);
+      }
+    }, 5 * 60 * 1000);
+
+    // Initial sync
+    if (supabase) {
+      scamCache.syncWithSupabase(supabase);
+    }
+
+    return () => clearInterval(syncInterval);
+  }, []);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

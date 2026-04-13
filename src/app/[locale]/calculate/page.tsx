@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Calculator } from "lucide-react";
 import { useTranslations } from "next-intl";
+import RegulatoryDisclaimer from "@/components/RegulatoryDisclaimer";
 
 
 export default function CalculatePage() {
@@ -85,6 +86,8 @@ export default function CalculatePage() {
 
   return (
     <div className="flex flex-col min-h-full py-6 space-y-8 animate-in fade-in slide-in-from-bottom-4">
+      <RegulatoryDisclaimer type="investment" position="top" />
+      
       {/* Section: Header */}
       <header className="mb-2">
         <span className="text-xs font-bold text-muted uppercase tracking-widest block mb-1">{t("realityCheck")}</span>

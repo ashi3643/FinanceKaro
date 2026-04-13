@@ -12,6 +12,7 @@ import NotifyModal from "@/components/NotifyModal";
 import FinancialIQBadge from "@/components/FinancialIQBadge";
 import StreakMilestone from "@/components/StreakMilestone";
 import AccountAggregator from "@/components/AccountAggregator";
+import FinancialDiagnosticQuiz from "@/components/FinancialDiagnosticQuiz";
 
 const languages = [
   { code: "en", label: "English", enabled: true },
@@ -39,6 +40,7 @@ export default function Home() {
   const [isStartPending, startLearningTransition] = useTransition();
   const [isLanguagePending, startLanguageTransition] = useTransition();
   const [notifyLanguage, setNotifyLanguage] = useState<string | null>(null);
+  const [showDiagnostic, setShowDiagnostic] = useState(false);
 
   useEffect(() => {
     if (language !== locale) {
@@ -197,6 +199,31 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* FINANCIAL LITERACY DIAGNOSTIC QUIZ */}
+      {showDiagnostic && (
+        <section className="space-y-4 z-10 relative border-t border-border/30 pt-6">
+          <FinancialDiagnosticQuiz
+            onComplete={(score, categoryScores) => {
+              console.log('Diagnostic completed:', { score, categoryScores });
+              setShowDiagnostic(false);
+            }}
+            onCancel={() => setShowDiagnostic(false)}
+          />
+        </section>
+      )}
+
+      {!showDiagnostic && stage && (
+        <section className="space-y-4 z-10 relative">
+          <button
+            onClick={() => setShowDiagnostic(true)}
+            className="w-full py-3 rounded-lg sm:rounded-xl border border-accent/30 bg-accent/5 text-accent font-semibold text-sm flex items-center justify-center gap-2 hover:bg-accent/10 transition-colors"
+          >
+            <Zap size={16} />
+            Take Financial Literacy Diagnostic (Optional)
+          </button>
+        </section>
+      )}
 
       {/* LANGUAGE PREFERENCE (Optional, Secondary) */}
       <section className="space-y-3 z-10 relative border-t border-border/30 pt-6">
