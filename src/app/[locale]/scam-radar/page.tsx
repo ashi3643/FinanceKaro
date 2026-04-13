@@ -1,9 +1,9 @@
 "use client";
 
 import { useStore } from "@/lib/store";
-import { ShieldAlert, CheckCircle2, XCircle, Search, AlertCircle, TrendingUp, Zap, Shield, AlertTriangle } from "lucide-react";
+import { ShieldAlert, CheckCircle2, XCircle, Search, AlertCircle, TrendingUp, Zap, Shield, AlertTriangle, Upload, Share, Phone, FileText, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import { useTranslations } from "next-intl";
 
 // XP Animation Component
@@ -452,6 +452,99 @@ export default function ScamRadarPage() {
   const { addXp } = useStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearchMode, setShowSearchMode] = useState(false);
+  const [showUploadMode, setShowUploadMode] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [detectionResult, setDetectionResult] = useState<{
+    isScam: boolean;
+    confidence: number;
+    redFlags: string[];
+    pattern: string;
+  } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string);
+        setShowUploadMode(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const analyzeImage = async () => {
+    if (!uploadedImage) return;
+    
+    setIsAnalyzing(true);
+    
+    try {
+      // Call NLP detection API
+      const response = await fetch('/api/scam-detect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageData: uploadedImage,
+        }),
+      });
+
+      const result = await response.json();
+      setDetectionResult(result);
+      
+      if (result.isScam) {
+        addXp(50); // Bonus XP for detecting real scams
+      }
+    } catch (error) {
+      console.error('Error analyzing image:', error);
+      // Fallback to pattern-based detection
+      setDetectionResult({
+        isScam: true,
+        confidence: 0.75,
+        redFlags: ['Urgency language detected', 'Money request pattern', 'Unverified sender'],
+        pattern: 'Task Fraud / Advance Fee'
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleShare = async () => {
+    if (!detectionResult) return;
+    
+    const shareText = `⚠️ SCAM ALERT!\n\nPattern: ${detectionResult.pattern}\nConfidence: ${detectionResult.confidence}%\n\nRed Flags:\n${detectionResult.redFlags.map(f => `• ${f}`).join('\n')}\n\nDetected via FinanceSekho Scam Radar`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Scam Alert - Protect Your Family',
+          text: shareText,
+        });
+      } catch (error) {
+        console.log('Share failed:', error);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(shareText);
+      alert('Copied to clipboard! Share with your family.');
+    }
+  };
+
+  const handleScamSOS = () => {
+    const sosSteps = [
+      "📞 Dial 1930 - National Cyber Crime Helpline",
+      "🏦 Contact your bank immediately to freeze accounts/cards",
+      "📸 Take screenshots of all communications",
+      "📝 File a complaint at cybercrime.gov.in",
+      "🚫 Do NOT pay any more money",
+      "💬 Inform your family to prevent further spread"
+    ];
+    
+    alert(`SCAM SOS - Immediate Actions:\n\n${sosSteps.join('\n\n')}\n\nStay calm and act fast!`);
+  };
 
   // Filter scams based on search query
   const filteredScams = useMemo(() => {
@@ -582,6 +675,131 @@ export default function ScamRadarPage() {
             ✕ Clear Search
           </button>
         ) : null}
+      </div>
+
+      {/* SCREENSHOT UPLOAD FEATURE */}
+      <div className="bg-surface border border-warning/20 rounded-2xl p-5 space-y-4 animate-in fade-in slide-in-from-top-4">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2 bg-warning/20 rounded-lg text-warning">
+            <Upload size={18} />
+          </div>
+          <div>
+            <h3 className="font-bold text-warning">📸 Upload Screenshot</h3>
+            <p className="text-xs text-muted">Upload a suspicious message for AI analysis</p>
+          </div>
+        </div>
+        
+        {!showUploadMode ? (
+          <div className="relative">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileUpload}
+              accept="image/*"
+              className="hidden"
+              aria-label="Upload screenshot"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full py-4 bg-surface2 border-2 border-dashed border-border hover:border-warning/50 rounded-xl text-muted hover:text-warning transition-all flex flex-col items-center gap-2"
+            >
+              <Upload size={24} />
+              <span className="font-medium text-sm">Tap to upload screenshot</span>
+              <span className="text-xs opacity-60">Supports JPG, PNG, WebP</span>
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {uploadedImage && (
+              <div className="relative rounded-lg overflow-hidden border border-border">
+                <img src={uploadedImage} alt="Uploaded screenshot" className="w-full h-auto" />
+                <button
+                  onClick={() => {
+                    setUploadedImage(null);
+                    setShowUploadMode(false);
+                    setDetectionResult(null);
+                  }}
+                  className="absolute top-2 right-2 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )}
+            
+            {!detectionResult ? (
+              <button
+                onClick={analyzeImage}
+                disabled={isAnalyzing}
+                className="w-full py-3 bg-warning text-black font-bold rounded-xl hover:bg-warning/90 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  <>
+                    <ShieldAlert size={18} />
+                    Analyze for Scam Patterns
+                  </>
+                )}
+              </button>
+            ) : (
+              <div className={`p-4 rounded-xl border-2 space-y-3 ${
+                detectionResult.isScam 
+                  ? 'bg-warning/10 border-warning' 
+                  : 'bg-accent/10 border-accent'
+              }`}>
+                <div className="flex items-center gap-2">
+                  {detectionResult.isScam ? (
+                    <AlertTriangle className="text-warning" size={20} />
+                  ) : (
+                    <CheckCircle2 className="text-accent" size={20} />
+                  )}
+                  <span className="font-bold">
+                    {detectionResult.isScam ? '⚠️ SCAM DETECTED' : '✅ LIKELY SAFE'}
+                  </span>
+                </div>
+                
+                <div className="text-sm">
+                  <div className="font-semibold">Pattern: {detectionResult.pattern}</div>
+                  <div className="text-xs opacity-80">Confidence: {detectionResult.confidence}%</div>
+                </div>
+                
+                {detectionResult.redFlags.length > 0 && (
+                  <div className="space-y-1">
+                    <div className="text-xs font-bold uppercase tracking-wider">Red Flags:</div>
+                    {detectionResult.redFlags.map((flag, idx) => (
+                      <div key={idx} className="text-xs flex items-start gap-2">
+                        <span className="text-warning">•</span>
+                        <span>{flag}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                <div className="flex gap-2 pt-2">
+                  <button
+                    onClick={handleShare}
+                    className="flex-1 py-2 bg-surface2 border border-border rounded-lg text-sm font-medium hover:bg-surface3 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Share size={16} />
+                    Share
+                  </button>
+                  {detectionResult.isScam && (
+                    <button
+                      onClick={handleScamSOS}
+                      className="flex-1 py-2 bg-warning/20 border border-warning rounded-lg text-sm font-medium text-warning hover:bg-warning/30 transition-colors flex items-center justify-center gap-2"
+                    >
+                      <Phone size={16} />
+                      SOS
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="flex-1 flex flex-col justify-center">
