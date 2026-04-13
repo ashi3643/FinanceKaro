@@ -10,6 +10,8 @@ interface PredictionResult {
   timestamp: string;
 }
 
+type Persona = 'junior' | 'youth' | 'legacy' | null;
+
 interface AppState {
   deviceId: string;
   xp: number;
@@ -18,6 +20,7 @@ interface AppState {
   language: string;
   college: string | null;
   stage: 'Student' | 'First-Jobber' | null;
+  persona: Persona;
   unlockedLevels: number[];
   completedLessons: string[]; // ["level1-lesson1", etc]
   recentPredictions: PredictionResult[];
@@ -28,6 +31,7 @@ interface AppState {
   setLanguage: (lang: string, persist?: boolean) => void;
   setCollege: (college: string) => void;
   setStage: (stage: 'Student' | 'First-Jobber') => void;
+  setPersona: (persona: Persona) => void;
   completeLesson: (levelId: number, lessonId: string) => void;
   initDevice: () => void;
   predictWealth: (params: {
@@ -91,6 +95,7 @@ export const useStore = create<AppState>()(
       language: 'en',
       college: null,
       stage: null,
+      persona: null,
       unlockedLevels: [1], // Level 1 is always unlocked
       completedLessons: [],
       recentPredictions: [],
@@ -191,7 +196,19 @@ export const useStore = create<AppState>()(
         const deviceId = get().deviceId;
         if (deviceId) {
           safeSupabase('update stage', () =>
-            supabase!.from('profiles').update({ stage: stage }).eq('device_id', deviceId)
+            supabase!.from('profiles').update({ stage }).eq('device_id', deviceId)
+          );
+        }
+      },
+
+      setPersona: (persona) => {
+        set({ persona });
+        if (!isSupabaseAvailable) return;
+
+        const deviceId = get().deviceId;
+        if (deviceId) {
+          safeSupabase('update persona', () =>
+            supabase!.from('profiles').update({ persona }).eq('device_id', deviceId)
           );
         }
       },

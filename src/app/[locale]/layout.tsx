@@ -7,6 +7,8 @@ import BottomNav from '@/components/BottomNav';
 import InstallPWA from '@/components/InstallPWA';
 import LanguageDetector from '@/components/LanguageDetector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import Footer from '@/components/Footer';
+import PersonaSelection from '@/components/PersonaSelection';
 
 export default async function LocaleLayout({
   children,
@@ -30,11 +32,15 @@ export default async function LocaleLayout({
       <NextIntlClientProvider messages={messages}>
         <LanguageDetector />
         <TopBar />
-        <div className="flex-1 w-full h-full p-4 overflow-y-auto">
-          {children}
+        <div className="flex flex-col w-full h-full">
+          <div className="flex-1 p-4 overflow-y-auto">
+            {children}
+          </div>
+          <Footer />
         </div>
         <BottomNav />
         <InstallPWA />
+        <PersonaSelection />
       </NextIntlClientProvider>
     </ErrorBoundary>
   );

@@ -150,5 +150,36 @@
     "cancel": "Cancel",
     "yes": "Yes",
     "no": "No"
+  },
+  "footer": {
+    "trustCenter": "Trust Center",
+    "disclaimerTitle": "Disclaimer: Educational Purpose Only",
+    "disclaimerText": "This website is for educational purposes only. We are not SEBI registered investment advisers. All information provided is for learning purposes and should not be considered as financial advice. Investing in the stock market involves risk, including the loss of principal. Please consult with a qualified financial advisor before making any investment decisions.",
+    "dataLagNotice": "For regulatory compliance, all market data and financial calculations shown in this app are based on historical data (30+ days old) and do not represent real-time market conditions.",
+    "aboutText": "An educational project to improve financial literacy in India. Not financial advice.",
+    "copyright": "© 2026 FinanceSekho. Built for India's financial future."
+  },
+  "persona": {
+    "title": "Choose Your Journey",
+    "subtitle": "Select your stage in life to get personalized financial education",
+    "junior": {
+      "title": "Junior Explorer",
+      "subtitle": "Learn money through games and adventures",
+      "ageRange": "6-15 years",
+      "focus": "Pocket money & saving habits"
+    },
+    "youth": {
+      "title": "Youth Hustler",
+      "subtitle": "Master your first salary and career",
+      "ageRange": "16-24 years",
+      "focus": "First job, taxes, wealth building"
+    },
+    "legacy": {
+      "title": "Legacy Builder",
+      "subtitle": "Build wealth for your family's future",
+      "ageRange": "25-35 years",
+      "focus": "Family, home loans, investments"
+    },
+    "note": "You can change this later in settings"
   }
 }
