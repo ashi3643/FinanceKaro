@@ -185,13 +185,16 @@ export default function InteractiveWealthCalculator() {
           className="w-full py-3 rounded-lg bg-accent text-black font-bold text-base flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-accent/30 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <TrendingUp size={18} />
-          Unlock Advanced Calculator
+          Open Full Calculator
           <ArrowRight size={18} />
         </button>
 
         {/* Trust message */}
         <p className="text-center text-xs text-muted mt-4">
           ✓ No login needed • ✓ Real compound math • ✓ See your power instantly
+        </p>
+        <p className="text-center text-xs text-muted mt-1">
+          Advanced calculator includes AI-powered predictions and detailed analysis
         </p>
       </div>
     </motion.div>

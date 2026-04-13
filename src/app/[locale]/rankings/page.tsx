@@ -475,8 +475,24 @@ export default function RankingsPage() {
       {!loading && (
         <div className="space-y-3 pb-8">
           {filtered.length === 0 && (
-            <div className="rounded-2xl border border-border bg-surface2/50 p-6 text-sm text-muted text-center">
-              {t("emptyState")}
+            <div className="rounded-2xl border border-border bg-surface2/50 p-8 text-center space-y-4">
+              <div className="w-20 h-20 mx-auto bg-accent/10 rounded-full flex items-center justify-center">
+                <Trophy className="text-accent" size={40} />
+              </div>
+              <div>
+                <h3 className="text-lg font-display font-bold text-text mb-2">Be the first college!</h3>
+                <p className="text-sm text-muted">
+                  No colleges from {city === "All" ? "India" : city} are on the leaderboard yet.
+                  Add your college to start the competition!
+                </p>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="mx-auto px-6 py-3 bg-accent text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-accent/90 transition-colors"
+              >
+                <Medal size={20} />
+                Add Your College
+              </button>
             </div>
           )}
 
