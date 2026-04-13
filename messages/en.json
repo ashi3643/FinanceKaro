@@ -181,5 +181,19 @@
       "focus": "Family, home loans, investments"
     },
     "note": "You can change this later in settings"
+  },
+  "parentalConsent": {
+    "title": "Parental Consent Required",
+    "subtitle": "For users under 18 years of age",
+    "explanation": "Under the Digital Personal Data Protection (DPDP) Act of India, we require parental consent before collecting any data from users under 18. Your parent or guardian must authorize your use of this educational app.",
+    "parentNameLabel": "Parent/Guardian Name",
+    "parentNamePlaceholder": "Enter parent's full name",
+    "parentEmailLabel": "Parent/Guardian Email",
+    "parentEmailPlaceholder": "Enter parent's email address",
+    "privacyNote": "Your parent will receive a confirmation email. We do not collect behavioral data from children for advertising purposes.",
+    "consent": "I Consent",
+    "decline": "Cancel",
+    "validationError": "Please fill in all fields",
+    "declineMessage": "You cannot use the app without parental consent. Ask your parent or guardian to help you."
   }
 }

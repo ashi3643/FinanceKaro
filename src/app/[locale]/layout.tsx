@@ -9,6 +9,7 @@ import LanguageDetector from '@/components/LanguageDetector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Footer from '@/components/Footer';
 import PersonaSelection from '@/components/PersonaSelection';
+import ParentalConsent from '@/components/ParentalConsent';
 
 export default async function LocaleLayout({
   children,
@@ -41,6 +42,7 @@ export default async function LocaleLayout({
         <BottomNav />
         <InstallPWA />
         <PersonaSelection />
+        <ParentalConsent />
       </NextIntlClientProvider>
     </ErrorBoundary>
   );
