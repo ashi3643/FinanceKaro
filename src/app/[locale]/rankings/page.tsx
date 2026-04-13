@@ -44,7 +44,11 @@ export default function RankingsPage() {
     ).slice(0, 5);
   }, [collegeInput, collegeSuggestions]);
 
-  const getCity = (fullName: string) => fullName.split(", ").pop() || fullName;
+  const getCity = (fullName: string) => {
+    if (!fullName || typeof fullName !== 'string') return 'Unknown';
+    const parts = fullName.split(", ");
+    return parts.pop() || fullName;
+  };
 
   const loadCollegeSuggestions = useCallback(async () => {
     if (!supabase) {
@@ -238,18 +242,42 @@ export default function RankingsPage() {
   }, [loadLeaderboard, loadCollegeSuggestions]);
 
   const cityOptions = useMemo(() => {
-    const uniqueCities = Array.from(new Set(leaderboard.map((entry) => getCity(entry.college))));
-    return ["All", ...uniqueCities];
+    try {
+      const uniqueCities = Array.from(new Set(leaderboard.map((entry) => getCity(entry.college))));
+      return ["All", ...uniqueCities];
+    } catch (error) {
+      console.error('Error calculating city options:', error);
+      return ["All"];
+    }
   }, [leaderboard]);
 
   const visibleCityOptions = useMemo(() => {
-    if (!citySearch.trim()) return cityOptions;
-    return cityOptions.filter((cityOption) => cityOption.toLowerCase().includes(citySearch.toLowerCase()));
+    try {
+      if (!citySearch.trim()) return cityOptions;
+      return cityOptions.filter((cityOption) => cityOption.toLowerCase().includes(citySearch.toLowerCase()));
+    } catch (error) {
+      console.error('Error filtering city options:', error);
+      return cityOptions;
+    }
   }, [cityOptions, citySearch]);
 
-  const trendingCities = useMemo(() => leaderboard.slice(0, 3).map((entry) => getCity(entry.college)), [leaderboard]);
+  const trendingCities = useMemo(() => {
+    try {
+      return leaderboard.slice(0, 3).map((entry) => getCity(entry.college));
+    } catch (error) {
+      console.error('Error calculating trending cities:', error);
+      return [];
+    }
+  }, [leaderboard]);
 
-  const filtered = city === "All" ? leaderboard : leaderboard.filter((entry) => getCity(entry.college) === city);
+  const filtered = useMemo(() => {
+    try {
+      return city === "All" ? leaderboard : leaderboard.filter((entry) => getCity(entry.college) === city);
+    } catch (error) {
+      console.error('Error filtering leaderboard:', error);
+      return leaderboard;
+    }
+  }, [city, leaderboard]);
 
   const handleAddCollege = async () => {
     const trimmed = collegeInput.trim();
