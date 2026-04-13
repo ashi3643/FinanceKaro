@@ -28,23 +28,30 @@ export default function StreakMilestone() {
   const [unlockedMilestones, setUnlockedMilestones] = useState<StreakMilestone[]>([]);
 
   useEffect(() => {
-    // Calculate unlocked milestones
-    const unlocked = STREAK_MILESTONES.filter(m => streak >= m.days);
-    setUnlockedMilestones(unlocked);
+    try {
+      // Calculate unlocked milestones
+      const unlocked = STREAK_MILESTONES.filter(m => streak >= m.days);
+      setUnlockedMilestones(unlocked);
 
-    // Find next milestone
-    const next = STREAK_MILESTONES.find(m => streak < m.days);
-    setNextMilestone(next || null);
+      // Find next milestone
+      const next = STREAK_MILESTONES.find(m => streak < m.days);
+      setNextMilestone(next || null);
 
-    // Calculate progress to next milestone
-    if (next) {
-      const previousMilestone = STREAK_MILESTONES.find(m => m.days < next.days);
-      const previousDays = previousMilestone ? previousMilestone.days : 0;
-      const range = next.days - previousDays;
-      const current = streak - previousDays;
-      setProgress(Math.min(100, Math.max(0, (current / range) * 100)));
-    } else {
-      setProgress(100);
+      // Calculate progress to next milestone
+      if (next) {
+        const previousMilestone = STREAK_MILESTONES.find(m => m.days < next.days);
+        const previousDays = previousMilestone ? previousMilestone.days : 0;
+        const range = next.days - previousDays;
+        const current = streak - previousDays;
+        setProgress(Math.min(100, Math.max(0, (current / range) * 100)));
+      } else {
+        setProgress(100);
+      }
+    } catch (error) {
+      console.error('Error calculating streak milestones:', error);
+      setProgress(0);
+      setNextMilestone(null);
+      setUnlockedMilestones([]);
     }
   }, [streak]);
 

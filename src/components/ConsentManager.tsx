@@ -14,14 +14,20 @@ export default function ConsentManager() {
 
   useEffect(() => {
     const checkConsent = async () => {
-      if (deviceId) {
-        const consent = await dataService.checkConsent(deviceId);
-        setHasConsent(consent);
-        
-        // Show consent modal if no consent exists
-        if (!consent) {
-          setShowConsentModal(true);
+      try {
+        if (deviceId) {
+          const consent = await dataService.checkConsent(deviceId);
+          setHasConsent(consent);
+          
+          // Show consent modal if no consent exists
+          if (!consent) {
+            setShowConsentModal(true);
+          }
         }
+      } catch (error) {
+        console.error('Error checking consent:', error);
+        // Don't show modal if there's an error
+        setShowConsentModal(false);
       }
     };
 
@@ -29,41 +35,61 @@ export default function ConsentManager() {
   }, [deviceId, dataService]);
 
   const handleGiveConsent = async () => {
-    if (deviceId) {
-      await dataService.storeConsent(deviceId, true);
-      setHasConsent(true);
-      setShowConsentModal(false);
+    try {
+      if (deviceId) {
+        await dataService.storeConsent(deviceId, true);
+        setHasConsent(true);
+        setShowConsentModal(false);
+      }
+    } catch (error) {
+      console.error('Error giving consent:', error);
+      alert('Failed to save consent. Please try again.');
     }
   };
 
   const handleRevokeConsent = async () => {
-    if (deviceId) {
-      await dataService.storeConsent(deviceId, false);
-      setHasConsent(false);
+    try {
+      if (deviceId) {
+        await dataService.storeConsent(deviceId, false);
+        setHasConsent(false);
+      }
+    } catch (error) {
+      console.error('Error revoking consent:', error);
+      alert('Failed to revoke consent. Please try again.');
     }
   };
 
   const handleDeleteData = async () => {
-    if (deviceId && confirm('Are you sure you want to delete all your data? This action cannot be undone.')) {
-      const deleted = await dataService.deleteUserData(deviceId);
-      if (deleted) {
-        alert('Your data has been deleted successfully.');
-      } else {
-        alert('Failed to delete data. Please try again.');
+    try {
+      if (deviceId && confirm('Are you sure you want to delete all your data? This action cannot be undone.')) {
+        const deleted = await dataService.deleteUserData(deviceId);
+        if (deleted) {
+          alert('Your data has been deleted successfully.');
+        } else {
+          alert('Failed to delete data. Please try again.');
+        }
       }
+    } catch (error) {
+      console.error('Error deleting data:', error);
+      alert('Failed to delete data. Please try again.');
     }
   };
 
   const handleExportData = async () => {
-    if (deviceId) {
-      const data = await dataService.exportUserData(deviceId);
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `financesekho-data-${deviceId}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+    try {
+      if (deviceId) {
+        const data = await dataService.exportUserData(deviceId);
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `financesekho-data-${deviceId}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      console.error('Error exporting data:', error);
+      alert('Failed to export data. Please try again.');
     }
   };
 

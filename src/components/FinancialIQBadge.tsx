@@ -18,29 +18,36 @@ export default function FinancialIQBadge({ showDetails = false }: FinancialIQPro
   useEffect(() => {
     // Calculate Financial IQ based on multiple factors
     const calculateFinancialIQ = () => {
-      const progress = dktModel.getOverallProgress();
-      
-      // Base score from knowledge mastery (0-40 points)
-      const knowledgeScore = progress.averageMastery * 40;
-      
-      // XP contribution (0-30 points, capped at 10000 XP)
-      const xpScore = Math.min(30, (xp / 10000) * 30);
-      
-      // Streak contribution (0-20 points, max 30 day streak)
-      const streakScore = Math.min(20, (streak / 30) * 20);
-      
-      // Lesson completion contribution (0-10 points, max 50 lessons)
-      const lessonScore = Math.min(10, (completedLessons.length / 50) * 10);
-      
-      // Total IQ score (0-100)
-      const iq = Math.round(knowledgeScore + xpScore + streakScore + lessonScore);
-      
-      // Calculate financial age (1-100 years equivalent)
-      // Financial age = IQ * 0.8 (roughly correlates)
-      const age = Math.min(100, Math.max(1, Math.round(iq * 0.8)));
-      
-      setFinancialIQ(iq);
-      setFinancialAge(age);
+      try {
+        const progress = dktModel.getOverallProgress();
+        
+        // Base score from knowledge mastery (0-40 points)
+        const knowledgeScore = (progress?.averageMastery || 0) * 40;
+        
+        // XP contribution (0-30 points, capped at 10000 XP)
+        const xpScore = Math.min(30, (xp / 10000) * 30);
+        
+        // Streak contribution (0-20 points, max 30 day streak)
+        const streakScore = Math.min(20, (streak / 30) * 20);
+        
+        // Lesson completion contribution (0-10 points, max 50 lessons)
+        const lessonScore = Math.min(10, ((completedLessons?.length || 0) / 50) * 10);
+        
+        // Total IQ score (0-100)
+        const iq = Math.round(knowledgeScore + xpScore + streakScore + lessonScore);
+        
+        // Calculate financial age (1-100 years equivalent)
+        // Financial age = IQ * 0.8 (roughly correlates)
+        const age = Math.min(100, Math.max(1, Math.round(iq * 0.8)));
+        
+        setFinancialIQ(iq);
+        setFinancialAge(age);
+      } catch (error) {
+        console.error('Error calculating Financial IQ:', error);
+        // Set default values if calculation fails
+        setFinancialIQ(0);
+        setFinancialAge(0);
+      }
     };
 
     calculateFinancialIQ();
@@ -132,7 +139,7 @@ export default function FinancialIQBadge({ showDetails = false }: FinancialIQPro
             <div className="text-[10px] text-muted uppercase tracking-wider">Lessons</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-purple-500">{dktModel.getOverallProgress().conceptsLearned}</div>
+            <div className="text-lg font-bold text-purple-500">{dktModel?.getOverallProgress()?.conceptsLearned || 0}</div>
             <div className="text-[10px] text-muted uppercase tracking-wider">Mastered</div>
           </div>
         </div>

@@ -26,24 +26,30 @@ export default function AccountAggregator() {
   };
 
   const handleConnect = async () => {
-    if (selectedBanks.length === 0) {
-      alert("Please select at least one bank to connect.");
-      return;
-    }
+    try {
+      if (selectedBanks.length === 0) {
+        alert("Please select at least one bank to connect.");
+        return;
+      }
 
-    setIsConnecting(true);
+      setIsConnecting(true);
 
-    // Simulate Account Aggregator connection
-    // In production, this would:
-    // 1. Redirect to Account Aggregator (Finvu, PhonePe, etc.)
-    // 2. User approves consent on AA app
-    // 3. Receive encrypted data via AA
-    // 4. Decrypt and process data locally
+      // Simulate Account Aggregator connection
+      // In production, this would:
+      // 1. Redirect to Account Aggregator (Finvu, PhonePe, etc.)
+      // 2. User approves consent on AA app
+      // 3. Receive encrypted data via AA
+      // 4. Decrypt and process data locally
 
-    setTimeout(() => {
-      setIsConnected(true);
+      setTimeout(() => {
+        setIsConnected(true);
+        setIsConnecting(false);
+      }, 3000);
+    } catch (error) {
+      console.error('Error connecting to Account Aggregator:', error);
       setIsConnecting(false);
-    }, 3000);
+      alert('Failed to connect to Account Aggregator. Please try again.');
+    }
   };
 
   const handleDisconnect = () => {
