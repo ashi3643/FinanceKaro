@@ -10,6 +10,7 @@ import QuickTip from "@/components/QuickTip";
 import RankingsPreview from "@/components/RankingsPreview";
 import NotifyModal from "@/components/NotifyModal";
 import FinancialIQBadge from "@/components/FinancialIQBadge";
+import StreakMilestone from "@/components/StreakMilestone";
 
 const languages = [
   { code: "en", label: "English", enabled: true },
@@ -130,6 +131,9 @@ export default function Home() {
 
       {/* FINANCIAL IQ BADGE */}
       <FinancialIQBadge showDetails={true} />
+
+      {/* STREAK MILESTONES */}
+      <StreakMilestone />
 
       {/* OPTIONAL PERSONA SELECTION - Allow skipping and explore first */}
       <section className="space-y-4 z-10 relative border-t border-border/30 pt-6">
