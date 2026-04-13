@@ -9,6 +9,7 @@ import InteractiveWealthCalculator from "@/components/InteractiveWealthCalculato
 import QuickTip from "@/components/QuickTip";
 import RankingsPreview from "@/components/RankingsPreview";
 import NotifyModal from "@/components/NotifyModal";
+import FinancialIQBadge from "@/components/FinancialIQBadge";
 
 const languages = [
   { code: "en", label: "English", enabled: true },
@@ -126,6 +127,9 @@ export default function Home() {
 
       {/* SOCIAL PROOF: Rankings Preview */}
       <RankingsPreview />
+
+      {/* FINANCIAL IQ BADGE */}
+      <FinancialIQBadge showDetails={true} />
 
       {/* OPTIONAL PERSONA SELECTION - Allow skipping and explore first */}
       <section className="space-y-4 z-10 relative border-t border-border/30 pt-6">
