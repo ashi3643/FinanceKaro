@@ -11,6 +11,7 @@ import RankingsPreview from "@/components/RankingsPreview";
 import NotifyModal from "@/components/NotifyModal";
 import FinancialIQBadge from "@/components/FinancialIQBadge";
 import StreakMilestone from "@/components/StreakMilestone";
+import AccountAggregator from "@/components/AccountAggregator";
 
 const languages = [
   { code: "en", label: "English", enabled: true },
@@ -134,6 +135,9 @@ export default function Home() {
 
       {/* STREAK MILESTONES */}
       <StreakMilestone />
+
+      {/* ACCOUNT AGGREGATOR */}
+      <AccountAggregator />
 
       {/* OPTIONAL PERSONA SELECTION - Allow skipping and explore first */}
       <section className="space-y-4 z-10 relative border-t border-border/30 pt-6">
