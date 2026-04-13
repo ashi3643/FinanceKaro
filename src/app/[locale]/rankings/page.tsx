@@ -5,6 +5,7 @@ import { Trophy, Medal, Building2, LoaderCircle, Plus, AlertCircle, Search, X } 
 import { supabase } from "@/lib/supabase";
 import { useStore } from "@/lib/store";
 import { useTranslations } from "next-intl";
+import { motion } from "framer-motion";
 
 interface CollegeNode {
   college: string;

@@ -1,0 +1,62 @@
+{
+  "budgets": [
+    {
+      "path": "/*.{js,css,html}",
+      "min": "1KB",
+      "max": "500KB"
+    },
+    {
+      "path": "images/*",
+      "min": "1KB",
+      "max": "200KB"
+    },
+    {
+      "path": "*.js",
+      "resourceSizes": [
+        {
+          "resourceType": "script",
+          "budget": 300
+        }
+      ],
+      "resourceCounts": [
+        {
+          "resourceType": "script",
+          "budget": 10
+        }
+      ]
+    },
+    {
+      "path": "*.css",
+      "resourceSizes": [
+        {
+          "resourceType": "stylesheet",
+          "budget": 50
+        }
+      ]
+    },
+    {
+      "timings": [
+        {
+          "metric": "first-contentful-paint",
+          "budget": 2000
+        },
+        {
+          "metric": "interactive",
+          "budget": 5000
+        },
+        {
+          "metric": "first-meaningful-paint",
+          "budget": 2000
+        },
+        {
+          "metric": "speed-index",
+          "budget": 3400
+        },
+        {
+          "metric": "total-blocking-time",
+          "budget": 600
+        }
+      ]
+    }
+  ]
+}

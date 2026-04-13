@@ -1,0 +1,288 @@
+openapi: 3.0.0
+info:
+  title: FinanceKaro API
+  description: API for FinanceKaro financial education platform
+  version: 1.0.0
+  contact:
+    name: FinanceKaro Team
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+  - url: https://finance-karo-c0nd3umnn-ashi3643s-projects.vercel.app/api
+    description: Production server
+
+paths:
+  /:
+    get:
+      summary: Get API information
+      description: Returns API status and available endpoints
+      responses:
+        '200':
+          description: API information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+                  endpoints:
+                    type: object
+    post:
+      summary: Method not allowed
+      responses:
+        '405':
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /predict:
+    get:
+      summary: Get prediction API information
+      description: Returns prediction API status and ML backend configuration
+      responses:
+        '200':
+          description: Prediction API information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+                  endpoints:
+                    type: object
+                  ml_backend:
+                    type: string
+
+    post:
+      summary: Make a wealth prediction
+      description: Predicts future wealth based on investment parameters using ML backend or fallback calculation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - monthlyAmount
+                - years
+                - annualReturn
+              properties:
+                monthlyAmount:
+                  type: number
+                  description: Monthly investment amount
+                  example: 5000
+                years:
+                  type: number
+                  description: Investment duration in years
+                  example: 20
+                annualReturn:
+                  type: number
+                  description: Expected annual return percentage
+                  example: 12
+                deviceId:
+                  type: string
+                  description: Device identifier for tracking
+                  example: "device-123"
+                age:
+                  type: number
+                  description: User age
+                  example: 25
+                income:
+                  type: number
+                  description: Annual income
+                  example: 600000
+                riskTolerance:
+                  type: string
+                  enum: [low, medium, high]
+                  description: Risk tolerance level
+                  example: medium
+                financialGoals:
+                  type: array
+                  items:
+                    type: string
+                  description: Financial goals
+                  example: ["retirement", "home"]
+      responses:
+        '200':
+          description: Prediction successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  prediction:
+                    type: number
+                  confidence:
+                    type: number
+                  recommendation:
+                    type: string
+                  modelVersion:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+                  note:
+                    type: string
+        '400':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  details:
+                    type: string
+
+  /dkt/update:
+    post:
+      summary: Update DKT knowledge state
+      description: Updates user's knowledge state based on lesson interaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - deviceId
+                - conceptId
+              properties:
+                deviceId:
+                  type: string
+                  description: Device identifier
+                conceptId:
+                  type: string
+                  description: Concept identifier
+                isCorrect:
+                  type: boolean
+                  description: Whether the answer was correct
+                timeTaken:
+                  type: number
+                  description: Time taken to answer in seconds
+                difficulty:
+                  type: number
+                  description: Question difficulty (0-1)
+      responses:
+        '200':
+          description: Knowledge state updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  details:
+                    type: string
+
+  /scam-detect:
+    post:
+      summary: Detect scam patterns
+      description: Analyzes text or image data for scam patterns using pattern matching and ML
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageData:
+                  type: string
+                  format: base64
+                  description: Base64 encoded image data
+                text:
+                  type: string
+                  description: Text to analyze
+      responses:
+        '200':
+          description: Scam detection result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isScam:
+                    type: boolean
+                  confidence:
+                    type: number
+                  pattern:
+                    type: string
+                  redFlags:
+                    type: array
+                    items:
+                      type: string
+                  analysis:
+                    type: object
+                    properties:
+                      patternsFound:
+                        type: number
+                      totalWeight:
+                        type: number
+                      textLength:
+                        type: number
+        '500':
+          description: Detection failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  details:
+                    type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
